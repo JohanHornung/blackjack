@@ -50,19 +50,34 @@
 
     2.1 - [ ] Gathering statistics
 
-        2.1.1 - [ ] Decounting/protocolling of cards (dealer and player(s))
+        2.1.1 - [ ] Calculate percentages of 1.3 numbers
 
-            2.1.1.1 - [ ] How much numbers/pictures out of the n number of cards ?
-            2.1.1.2 - [ ] Which colors & figures out of these n pictures ?
 
-        2.1.2 - [ ] Protocolling number of n won/lost games
+    2.2 - [ ] Decounting/protocolling of cards (dealer and player(s))
 
-            2.1.2.1 - [ ] How much games lost/won out of n total games ? (dealer and player(s))
-            2.1.2.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
+        2.2.1. - [ ] How much numbers/pictures out of the n number of cards ?
+        2.2.1. - [ ] Which colors & figures out of these n pictures ?
+
+
+    2.3 - [ ] Protocolling number of n won/lost games
+
+            2.3.1 - [ ] How much games lost/won out of n total games ? (dealer and player(s))
+            2.3.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
 
 <br>
 
 ## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority)
+
+    3.1 - [ ] Store data in (multiple?) CSV files
+
+        3.1.1 - [ ] Define header-rows (gameId, won, reason, cards, dealer_cards...)
+        3.1.2 - [ ] Delimiter
+        3.1.3 - [ ] Writing to CSV: (https://www.programiz.com/python-programming/writing-csv-files)
+            3.1.3.1 - [ ] Choose which data structure to use
+
+    3.2 - [ ] Exporting to a seperate file and prepare results for SQL
+
+        3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
 
 <br>
 
@@ -127,3 +142,16 @@
 <br>
 
 ## 6 - [ ] Visualizing results (low priority)
+
+    6.1 - [ ] Charts
+
+        6.1.1 - [ ] Bar charts
+        6.1.2 - [ ] Pie charts
+        6.1.3 - [ ] Pictograms
+
+    6.2 - [ ] Graphs
+
+        6.2.1 - [ ] Line Graphs
+        6.2.2 - [ ] Spider Graphs
+
+    6.3 - [ ] Evolutions
