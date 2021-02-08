@@ -17,9 +17,9 @@
 
             1.2.1.1 - [ ] StartingScreen Class (selecting overlay w/ different options)
 
-            1.2.1.2 - [ ] Cards Class (+ tracking the decks/cards, hit/pass method...)
+            1.2.1.2 - [ ] Deck Class (+ tracking the decks/cards, hit/double method...)
 
-            1.2.1.2 - [ ] Game Class (split method, double method)
+            1.2.1.2 - [ ] Game Class
 
         1.2.2 - [ ] Remanage gameflow
 
