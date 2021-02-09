@@ -1,0 +1,7 @@
+- Goto for classes: 
+    1. What function has it?
+    2. What args in constructor?
+    3. What will be tracked? How?
+    4. Any constants?
+    5. Define structure (methods, vars, conditions, loops)
+    6. What will be outputted? --> what structure? which data? to which target?
