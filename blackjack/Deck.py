@@ -1,6 +1,6 @@
 import random
-from .config import *
-from .tools import *
+from config import *
+from tools import *
 
 """
 - This folder will contain the Deck class, a deck with 52 distinct cards. The cards/decks
@@ -9,6 +9,7 @@ will be tracked over the time of playing as well as those which have been given.
     - hit(self)
     - split(self)
     - double(self)
+    - suiteSize(self)
     - hand of the player (__str__)
 - Deck will be initiated with a constructur which takes in the player/dealer hand.
 - player_hand / dealer_hand will be an array of sets
@@ -58,8 +59,12 @@ class Deck:
 
     # method which lets the player hit a card (random)
     def hit(self, person):
-        # Checking if one suit groups out of the deck is missing
-        self.condition = (self.deck["spades"]) and (self.deck["hearts"]) and (self.deck["diamonds"]) and (self.deck["clubs"])
+        # Checking if the len() from one suit set is 0 
+        self.condition = True
+        self.suits_size = self.suitSize(self)
+        for value in self.suits_size.values():
+            if value == 0:
+                self.condition = False
         
         if self.condition:
             # unique card is beeing randomly choosen
@@ -97,7 +102,7 @@ class Deck:
             else:
                 self.dealer_hand.append(self.card_id)
             
-            return self.card_id
+            return self.card_id, self.deck, self.suits
         
         else: # if one of the suits are not there anymore
             pass # only thing which has to be done
@@ -122,4 +127,6 @@ class Deck:
         return str("Player´s hand: " + self.player_hand, "Dealer´s hand: " + self.dealer_hand)
 
 x = Deck([], [])
-x.hit("player")
+cards = x.hit("player")
+# print(cards)
+print(x)
