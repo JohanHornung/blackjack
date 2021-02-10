@@ -49,6 +49,10 @@ class Deck:
 
     # method which lets the player hit a card (randomly)
     def hit(self, person):
+        # handling the low prob case when the whole deck is empty
+        if len(self.deck) == 0:
+            pass
+        
         # unique card is beeing randomly choosen
         self.suit = random.choice(self.suits)
         self.card = random.choice(self.cards)
@@ -96,21 +100,30 @@ class Deck:
     # def track(self):
     #     pass
     
-    # method which lets the player double a card
+    # methods which splits his deck
+    def split(self, player_hand:list, bet:int):
+        """
+        Even if the condition should always be true, an error handling
+        procedure has been done anyways.
+        """
+        # make sure that the player has 2 cards (only 2!)
+        self.condition = len(player_hand) == 2
+        if not self.condition:
+            raise ValueError("Joeur a besoin de 2 cartes!") 
+        
+    
+    # method which lets the player double his deck
     def double(self):
         pass
     
-    # methods which splits the cards
-    def split(self):
-        pass
+        
 
 
     # print method which prints the current deck/hand
     def displayHands(self):
         return "Player´s Hand: ",self.player_hand, "Dealer´s Hand: ", self.dealer_hand
 
-
+# Deck instance
 game = Deck([], [])
-data = game.hit("player")
-# for info in data:
-#     print(info)
+
+condition = game.split([1]) 
