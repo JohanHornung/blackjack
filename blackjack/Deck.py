@@ -47,15 +47,6 @@ class Deck:
     # def shuffle(self):
     #     pass
 
-    def suitSize(self):
-        self.suits_size = {
-                "spades": len(self.deck["spades"]),
-                "hearts": len(self.deck["hearts"]),
-                "diamonds": len(self.deck["diamonds"]),
-                "clubs": len(self.deck["clubs"])
-        }
-        return self.suits_size
-
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # unique card is beeing randomly choosen
@@ -76,7 +67,12 @@ class Deck:
         }
         
         # tracking the set with the number of cards for each suit
-        self.suits_size = self.suitSize()
+        self.suits_size = {
+                "spades": len(self.deck["spades"]),
+                "hearts": len(self.deck["hearts"]),
+                "diamonds": len(self.deck["diamonds"]),
+                "clubs":  len(self.deck["clubs"])
+        }
         """
         If theres just the color key left we delete it as no real 
         cards are there anymore.
@@ -86,7 +82,7 @@ class Deck:
         for suit, size in self.items:
             if size == 1:
                 self.suits.remove(suit) # suit beeing removed from list selection
-                self.deck.pop(str(suit)) # suit set beeing removed from deck set
+                self.deck.pop(suit) # suit set beeing removed from deck set
         
         # The chosen card is beeing added to the hand of player/dealer
         if person == "player":
@@ -96,9 +92,6 @@ class Deck:
         
         return self.card_id, self.deck, self.suits
         
-        
-
-    
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
@@ -118,4 +111,6 @@ class Deck:
 
 
 game = Deck([], [])
-game.hit("player")
+data = game.hit("player")
+# for info in data:
+#     print(info)
