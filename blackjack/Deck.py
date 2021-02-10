@@ -61,7 +61,7 @@ class Deck:
     def hit(self, person):
         # Checking if the len() from one suit set is 0 
         self.condition = True
-        self.suits_size = self.suitSize(self)
+        self.suits_size = self.suitSize()
         for value in self.suits_size.values():
             if value == 0:
                 self.condition = False
@@ -85,7 +85,7 @@ class Deck:
             }
             
             # keeping track of the suits set length
-            self.suits_size = self.suitSize(self)
+            self.suits_size = self.suitSize()
             """
             If theres just the color left we delete the color as no real 
             cards are there anymore
@@ -108,7 +108,6 @@ class Deck:
             pass # only thing which has to be done
 
     
-    
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
@@ -122,11 +121,14 @@ class Deck:
         pass
 
 
-    # print constructor which prints the current deck/hand
-    def __str__(self):
-        return str("Player´s hand: " + self.player_hand, "Dealer´s hand: " + self.dealer_hand)
+    # print method which prints the current deck/hand
+    def displayHands(self):
+        return "Player´s Hand: ",self.player_hand, "Dealer´s Hand: ", self.dealer_hand
 
-x = Deck([], [])
-cards = x.hit("player")
-# print(cards)
-print(x)
+
+game = Deck([], [])
+game.hit("player")
+# print(game.player_hand[0])
+# print(game.deck)
+
+# print(game.displayHands())
