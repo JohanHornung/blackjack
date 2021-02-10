@@ -6,7 +6,7 @@
 
 <br>
 
-## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority)
+## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority) on codebase branch
 
     1.1 - [ ] Remanaging file connection(s)
 
@@ -46,34 +46,51 @@
 
 <br>
 
-## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority)
+## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
 
     2.1 - [ ] Gathering statistics
 
         2.1.1 - [ ] Calculate percentages of 1.3 numbers
 
 
-    2.2 - [ ] Decounting/protocolling of cards (dealer and player(s))
+    2.2 - [ ] Collect all formulas and mathematical tools
 
-        2.2.1. - [ ] How much numbers/pictures out of the n number of cards ?
-        2.2.1. - [ ] Which colors & figures out of these n pictures ?
+        2.2.1 - [ ] Write them down in functions or Classes in formula.py
+        2.2.2 - [ ] Note for each case/operation which one to use
+
+    2.3 - [ ] Decounting/protocolling of cards (dealer and player(s))
+
+        2.3.1. - [ ] How much numbers/pictures out of the n number of cards ? (goto 2.4)
+        2.3.1. - [ ] Which colors & figures out of these n pictures ? (goto 2.4)
 
 
-    2.3 - [ ] Protocolling number of n won/lost games
+    2.4 - [ ] Protocolling number of n won/lost games
 
-            2.3.1 - [ ] How much games lost/won out of n total games ? (dealer and player(s))
-            2.3.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
+            2.4.1 - [ ] How much games lost/won out of n total games ? (dealer and player(s))
+
+            2.4.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
+
+                2.4.2.1 - [ ] Use a BT for representing it
+
+
+    2.5 - [ ] Do the pascale triangle (maybe recursively) for decounting n type of a card out ouf p cards
+
+        2.5.1 - [ ] Choose data structure (probably 2d matrix)
+        2.5.2 - [ ] Solve it recursively or iterative with 0(n^2) time max
+
+
+    2.6 - [ ] Choose data structure from output (BT for 2.4.2, set, arrays...)
 
 <br>
 
-## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority)
+## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority) on data branch
 
     3.1 - [ ] Store data in (multiple?) CSV files
 
         3.1.1 - [ ] Define header-rows (gameId, won, reason, cards, dealer_cards...)
         3.1.2 - [ ] Delimiter
         3.1.3 - [ ] Writing to CSV: (https://www.programiz.com/python-programming/writing-csv-files)
-            3.1.3.1 - [ ] Choose which data structure to use
+            3.1.3.1 - [ ] Choose which data structure to use (will be already decided in 2.6)
 
     3.2 - [ ] Exporting to a seperate file and prepare results for SQL
 
@@ -81,7 +98,7 @@
 
 <br>
 
-## 4 - [ ] Implement CSV results in a SQL Database (MySQL probably) (third hardest part) (medium-priority)
+## 4 - [ ] Implement CSV results in a SQL Database (MySQL probably) (third hardest part) (medium-priority) on db branch
 
     4.1 - [ ] Define/Create DB Diagramm in MySQL Workbench
 
@@ -97,7 +114,7 @@
 
     4.3 - [ ] Connect to DB
 
-## 5 - [ ] Load & preprocess data for neural network w/ TensorFlow (hardest part) (high-priority)
+## 5 - [ ] Load & preprocess data for neural network w/ TensorFlow (hardest part) (high-priority) on neural network branch
 
     5.1 - [ ] Install (locally) all libraries & modules w/ pip
 
@@ -141,7 +158,7 @@
 
 <br>
 
-## 6 - [ ] Visualizing results (low priority)
+## 6 - [ ] Visualizing results (low priority) on math or data branch, maybe create a new one
 
     6.1 - [ ] Charts
 
