@@ -26,7 +26,6 @@ will be tracked over the time of playing as well as those which have been given.
 """
 
 class Deck:
-    # constructor with some instance var´s in it
     def __init__(self, player_hand:list, dealer_hand:list):
         # For the player
         self.player_hand = player_hand
@@ -57,55 +56,47 @@ class Deck:
         }
         return self.suits_size
 
-    # method which lets the player hit a card (random)
+    # method which lets the player hit a card (randomly)
     def hit(self, person):
-        # Checking if the len() from one suit set is 0 
-        self.condition = True
+        # unique card is beeing randomly choosen
+        self.suit = random.choice(self.suits)
+        self.card = random.choice(self.cards)
+        
+        """
+        The unique card hitted is a set with some
+        attributes. It will be removed from the
+        deck and added to the hand of the player/dealer.        
+        """
+        self.card_id = {
+            "suit": self.suit,
+            "color": self.deck[self.suit]["color"],
+            "card": self.card,
+            # as the hitted card is automaticly removed we use .pop()
+            "value": self.deck[self.suit].pop(self.card)
+        }
+        
+        # tracking the set with the number of cards for each suit
         self.suits_size = self.suitSize()
-        for value in self.suits_size.values():
-            if value == 0:
-                self.condition = False
+        """
+        If theres just the color key left we delete it as no real 
+        cards are there anymore.
+        """
+        # process of spotting and remvoing the possible empty suit set
+        self.items = self.suits_size.items()
+        for suit, size in self.items:
+            if size == 1:
+                self.suits.remove(suit) # suit beeing removed from list selection
+                self.deck.pop(str(suit)) # suit set beeing removed from deck set
         
-        if self.condition:
-            # unique card is beeing randomly choosen
-            self.suit = random.choice(self.suits)
-            self.card = random.choice(self.cards)
-            
-            """
-            The unique card hitted is a set with her
-            attributes. It will be removed from the
-            deck and added to the hand of the player/dealer.        
-            """
-            self.card_id = {
-                "suit": self.suit,
-                "color": self.deck[self.suit]["color"],
-                "card": self.card,
-                # as the hitted card is removed from the deck we use .pop()
-                "value": self.deck[self.suit].pop(self.card)
-            }
-            
-            # keeping track of the suits set length
-            self.suits_size = self.suitSize()
-            """
-            If theres just the color left we delete the color as no real 
-            cards are there anymore
-            """
-            self.items = self.suits_size.items()
-            for suit, size in self.items:
-                if size == 1:
-                    self.suits.remove(suit)
-                    self.deck[suit].pop("color")
-            
-            # The chosen card is beeing added to the hand of player/dealer
-            if person == "player":
-                self.player_hand.append(self.card_id)
-            else:
-                self.dealer_hand.append(self.card_id)
-            
-            return self.card_id, self.deck, self.suits
+        # The chosen card is beeing added to the hand of player/dealer
+        if person == "player":
+            self.player_hand.append(self.card_id)
+        else:
+            self.dealer_hand.append(self.card_id)
         
-        else: # if one of the suits are not there anymore
-            pass # only thing which has to be done
+        return self.card_id, self.deck, self.suits
+        
+        
 
     
     # method for tracking cards which have been hit/taken
@@ -128,7 +119,3 @@ class Deck:
 
 game = Deck([], [])
 game.hit("player")
-# print(game.player_hand[0])
-# print(game.deck)
-
-# print(game.displayHands())

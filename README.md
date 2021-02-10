@@ -15,7 +15,7 @@
 
         1.2.1 - [ ] Start replacing functions by classes
 
-            1.2.1.1 - [ ] StartingScreen Class (selecting overlay w/ different options)
+            1.2.1.1 - [x] Create config/tools file
 
             1.2.1.2 - [ ] Deck Class (+ tracking the decks/cards, hit/double method...)
 
@@ -81,7 +81,7 @@
 
 <br>
 
-## 4 - [ ] Implement CSV results in a SQL Database (MySQL probably) (third hardest part) (high-priority)
+## 4 - [ ] Implement CSV results in a SQL Database (MySQL probably) (third hardest part) (medium-priority)
 
     4.1 - [ ] Define/Create DB Diagramm in MySQL Workbench
 
