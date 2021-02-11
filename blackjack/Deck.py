@@ -105,8 +105,9 @@ class Deck:
     #     pass
 
     def blackjack(self, player_hand): # optional arg
-        
-
+        # if the sum of the cards is 21 the method returns true
+        return True if (player_hand[0]["value"] + player_hand[1]["value"] == 21) else False
+    
     # print method which prints the current deck/hand
     def displayHands(self):
         return "Player´s Hand: ",self.player_hand, "Dealer´s Hand: ", self.dealer_hand
