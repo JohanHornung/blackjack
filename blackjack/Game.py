@@ -45,5 +45,5 @@ class Game:
         one gets played if the first one is overbought or when he passed.          
         """
 
-x = Game(50)
-x.split([4, 4])
+# x = Game(50)
+# x.split([4, 4])

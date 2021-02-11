@@ -47,9 +47,6 @@ class Deck:
     # def shuffle(self):
     #     pass
 
-    # method which deals the first for cards out
-    def deal(self):
-        pass
 
     # method which lets the player hit a card (randomly)
     def hit(self, person):
@@ -100,18 +97,40 @@ class Deck:
         
         return self.card_id, self.deck, self.suits
         
+    
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
 
-    def blackjack(self, player_hand): # optional arg
+    def blackjack(self, player): # optional arg
         # if the sum of the cards is 21 the method returns true
-        return True if (player_hand[0]["value"] + player_hand[1]["value"] == 21) else False
+        return True if (player[0]["value"] + player[1]["value"] == 21) else False
+    
+    # method which deals the first for cards out
+    def deal(self): # args optional
+        for _ in range(2):
+            self.hit("dealer")
+            self.hit("player")
+        
+        # check for player blackjack
+        self.player_blackjack = self.blackjack(self.player_hand)
+        # check for dealer blackjack
+        self.dealer_blackjack = self.blackjack(self.dealer_hand)
+        # conditional treatement of the bj outcomes will be handled in Game.py
     
     # print method which prints the current deck/hand
     def displayHands(self):
-        return "Player´s Hand: ",self.player_hand, "Dealer´s Hand: ", self.dealer_hand
+        self.player_cards = [cards["card"] for cards in self.player_hand]
+        self.dealer_cards = [cards["card"] for cards in self.dealer_hand]
+        # print(self.player_cards)
+    
+        print("Player´s Hand: {}\nDealer´s Hand: {}\nPlayer Blackjack: {}\nDealer Blackjack: {}"
+        .format(self.player_cards, self.dealer_cards, self.player_blackjack, self.dealer_blackjack)) 
+
+
+
 
 # Deck instance
-# game = Deck([], [])
-
+game = Deck([], [])
+game.deal()
+game.displayHands()
