@@ -8,8 +8,9 @@
 
 ## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority) on codebase branch
 
-    1.1 - [ ] Remanaging file connection(s)
-
+    1.1 - [x] Remanaging file connection(s)
+        1.1.1 - [x] Imports
+        1.1.2 - [ ] Avoid "vise versa" calls
 
     1.2 - [ ] Restructure Algorithm
 
@@ -23,7 +24,7 @@
 
             1.2.1.4 - [ ] Game Class (split method, double method)
 
-        1.2.2 - [ ] Remanage gameflow
+        1.2.2 - [ ] Remanage gameflow (medium-priority)
 
             1.2.2.1 - [ ] Relook the precise rules
 
