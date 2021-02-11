@@ -9,6 +9,7 @@
 ## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority) on codebase branch
 
     1.1 - [x] Remanaging file connection(s)
+
         1.1.1 - [x] Imports
         1.1.2 - [ ] Avoid "vise versa" calls
 
