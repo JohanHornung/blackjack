@@ -47,6 +47,10 @@ class Deck:
     # def shuffle(self):
     #     pass
 
+    # method which deals the first for cards out
+    def deal(self):
+        pass
+
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # handling the low prob case when the whole deck is empty
@@ -99,31 +103,14 @@ class Deck:
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
-    
-    # methods which splits his deck
-    def split(self, player_hand:list, bet:int):
-        """
-        Even if the condition should always be true, an error handling
-        procedure has been done anyways.
-        """
-        # make sure that the player has 2 cards (only 2!)
-        self.condition = len(player_hand) == 2
-        if not self.condition:
-            raise ValueError("Joeur a besoin de 2 cartes!") 
-        
-    
-    # method which lets the player double his deck
-    def double(self):
-        pass
-    
-        
 
+    def blackjack(self, player_hand): # optional arg
+        
 
     # print method which prints the current deck/hand
     def displayHands(self):
         return "Player´s Hand: ",self.player_hand, "Dealer´s Hand: ", self.dealer_hand
 
 # Deck instance
-game = Deck([], [])
+# game = Deck([], [])
 
-condition = game.split([1]) 
