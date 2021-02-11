@@ -27,7 +27,7 @@
 
             1.2.2.2 - [ ] Adapt gameflow/conditions
 
-        1.2.3 - [ ] Adding the possibility to play with multiple people (low-medium priority)
+        1.2.3 - [ ] Adding the possibility to play with multiple people (low priority)
 
 
     1.3 - [ ] Automating/protoclling gameflows for future data gathering

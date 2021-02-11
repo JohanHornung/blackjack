@@ -24,7 +24,7 @@ class Game:
     
     # methods which splits his deck
     def split(self, player_hand:list): # bet arg optional
-        self.split = True
+        self.splitted_hand = True
         """
         Even if the condition should always be true, an error handling
         procedure has been done anyways.
@@ -40,10 +40,21 @@ class Game:
         self.bets = [self.bet // 2, self.bet // 2]
         self.first_hand = player_hand[0]
         self.second_hand = player_hand[1]
+        
+        # VISE VERSA ISSUE #8
         """
         Basically, the following steps are to play each hand itself, the second
-        one gets played if the first one is overbought or when he passed.          
+        one gets played if the first one is overbought or when he passed. The big
+        issue is that the split() method uses the play() method and vise versa.          
         """
+
+    # method which handles the game itself
+    def play(self, bet, player_hand, dealer_hand):
+        pass
+
+
+
+
 
 # x = Game(50)
 # x.split([4, 4])

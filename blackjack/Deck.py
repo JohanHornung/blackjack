@@ -97,7 +97,6 @@ class Deck:
         
         return self.card_id, self.deck, self.suits
         
-    
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
@@ -132,5 +131,5 @@ class Deck:
 
 # Deck instance
 game = Deck([], [])
-game.deal()
-game.displayHands()
+# game.deal()
+# game.displayHands()
