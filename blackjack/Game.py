@@ -27,11 +27,11 @@ class Game:
         self.splitted_hand = True
         """
         Even if the condition should always be true, an error handling
-        procedure has been done anyways.
+        procedure is done anyways.
         """
         # make sure that the player has 2 cards (only 2!) and that they have the same value
         self.condition = (len(player_hand)) == 2 and (player_hand[0]["value"] == player_hand[1]["value"])
-        if not self.condition:
+        if not self.condition: # this won´t really happen if the code works
             if len(player_hand) != 2:
                 raise ValueError("Joeur a besoin de 2 cartes!") 
             else:
@@ -44,8 +44,8 @@ class Game:
         # VISE VERSA ISSUE #8
         """
         Basically, the following steps are to play each hand itself, the second
-        one gets played if the first one is overbought or when he passed. The big
-        issue is that the split() method uses the play() method and vise versa.          
+        one gets played if the first one is overbought or when it got passed. The 
+        big issue is that the split() method uses the play() method and vise versa.          
         """
 
     # method which handles the game itself
