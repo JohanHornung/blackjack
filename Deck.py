@@ -146,6 +146,17 @@ class Deck:
         self.dealer_blackjack = self.blackjack(self.dealer_hand)
         # conditional treatement of the bj outcomes will be handled in Game.py
     
+    # method which returns the cards (suit + card)
+    def cardToString(self):
+        self.player_cards = []
+        self.dealer_cards = []
+        # iteration over both player and dealer hands 
+        for cards in self.player_hand:
+            self.player_cards.append("a {} {}".format(cards["suit"], cards["card"]))
+        for cards in self.dealer_hand:
+            self.dealer_cards.append("a {} {}".format(cards["suit"], cards["card"]))
+        return self.player_cards, self.dealer_cards
+    
     # print method which prints the cards of the player(s)/dealer
     def displayHands(self):
         # if case num_players > 1
@@ -156,12 +167,10 @@ class Deck:
             # print(f"")
         # something like that...
         
-        self.player_cards = [cards["card"] for cards in self.player_hand]
-        self.dealer_cards = [cards["card"] for cards in self.dealer_hand]
+        self.player_cards, self.dealer_cards = self.cardToString()
+        print(f"The player has: {self.player_cards}")
+        print(f"The dealer has: {self.dealer_cards}")
 
-        # BJ booleans prints for debugging purposes
-        print("Player´s Hand: {}\nDealer´s Hand: {}\nPlayer Blackjack: {}\nDealer Blackjack: {}"
-        .format(self.player_cards, self.dealer_cards, self.player_blackjack, self.dealer_blackjack)) 
 
 
 
@@ -170,7 +179,9 @@ class Deck:
 game = Deck([], [])
 game.deal()
 # debugging
-# for i in range(15):
-#     game.hit("player")
-#     game.displayHands()
-#     print(i)
+for i in range(1):
+    game.hit("player")
+    game.hit("dealer")
+    # print(game.cardToString())
+    game.displayHands()
+    # print(i)
