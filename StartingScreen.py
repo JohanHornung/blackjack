@@ -1,3 +1,4 @@
+from math import *
 from Game import *
 from Deck import *
 
@@ -9,9 +10,11 @@ class StartingScreen:
     def __init__(self):
         self.rounds = 0
         # for gameflow
-        self.game = False 
+        self.game = False
+        self.quit = False 
         # for starting the game
         self.bet = 0
+        self.bank = 0
     
     # Optional:
     # num_players = int(input("How many players?")) else 1
@@ -32,21 +35,26 @@ class StartingScreen:
 
     # method with handles the checkout option for the player
     def checkout(self, bank):
+        # for gameflow purposes
+        self.game = False
+        self.quit = True
         # check the sign of the bank
         if bank > 0: # if the player gained money
-            pass
-        else: # if the player lost the money
-            pass
-
+            print(f"Congratulations ! You left with {bank}$ the table.")
+        else: # if the player lost money
+            print(f"Oops ! Looks like you lost {abs(bank - self.bet)}$ on this table.")
+            # abs(bank - self.bet) could be wrong (ISSUE #16)
+    
     # method which handles the main gameflow of the game
-    def gameFlow(self):
+    def gameFlow(self, bet):
         pass
         # if (self.choice == 1):
             # self.game = True
-            # Game(self.bet)
+            # self.bet = int(input(Your bets please))
+            # Game(bet)
             # ..
         # else:
-            # self.checkout(bet)
+            # self.checkout(self.bank)
 
 
 # function which will launch the blackjack game/program

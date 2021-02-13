@@ -1,5 +1,5 @@
 from Deck import *
-
+from StartingScreen import *
 """
 - This file will contain the Game class (prob. most important).
 - It will take no argument in the constructor (maybe the bet)
