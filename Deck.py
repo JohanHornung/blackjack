@@ -41,19 +41,23 @@ class Deck:
         self.cards = CARDS
     
     """
-    method for shuffling the deck is not needed as the card is 
-    beeing choosen randomly.
+    A method for shuffling the deck is not needed as the card is 
+    beeing choosen randomly. In addition, suffling a set is quite
+    harder than shuffling an array.
     """
     # def shuffle(self):
     #     pass
-
 
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # handling the low prob case when the whole deck is empty
         if len(self.deck) == 0:
             pass
-        
+        # a simple alternative would be to re-add a new deck
+            self.deck = DECK
+            # a new picking selection
+            self.suits = SUITS
+            self.cards = CARDS  
         # unique card is beeing randomly choosen
         self.suit = random.choice(self.suits)
         self.card = random.choice(self.cards)
@@ -101,9 +105,13 @@ class Deck:
     # def track(self):
     #     pass
 
-    def blackjack(self, player): # optional arg
-        # if the sum of the cards is 21 the method returns true
-        return True if (player[0]["value"] + player[1]["value"] == 21) else False
+    """
+    Since the deal(self) method defines the blackjack booleans, an additional blackjack
+    method is useless.
+    """
+    # def blackjack(self, player): # optional arg
+    #     # if the sum of the cards is 21 the method returns true
+    #     return True if (player[0]["value"] + player[1]["value"] == 21) else False
     
     # method which deals the first for cards out
     def deal(self): # args optional
