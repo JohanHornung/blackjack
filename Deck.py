@@ -123,7 +123,7 @@ class Deck:
         else:
             self.dealer_hand.append(self.card_id)
         
-        return self.card_id, self.deck, self.suits
+        # return self.card_id, self.deck, self.suits
         
     # method for tracking cards which have been hit/taken
     # def track(self):
@@ -178,10 +178,11 @@ class Deck:
 # Deck instance
 game = Deck([], [])
 game.deal()
+
 # debugging
-for i in range(1):
-    game.hit("player")
-    game.hit("dealer")
-    # print(game.cardToString())
-    game.displayHands()
+# for i in range(2):
+#     game.hit("player")
+#     game.hit("dealer")
+#     # print(game.cardToString())
+#     game.displayHands()
     # print(i)
