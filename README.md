@@ -11,7 +11,7 @@
     1.1 - [x] Remanaging file connection(s)
 
         1.1.1 - [x] Imports
-        1.1.2 - [ ] Avoid "vise versa" calls
+        1.1.2 - [x] Avoid "vise versa" calls
 
     1.2 - [ ] Restructure Algorithm
 
@@ -21,18 +21,20 @@
 
             1.2.1.2 - [ ] StartingScreen Class (selecting overlay w/ different options)
 
-            1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards, hit/pass method...)
+            1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards/points,...)
 
             1.2.1.4 - [ ] Game Class (split method, double method)
 
+
         1.2.2 - [ ] Remanage gameflow (medium-priority)
 
-            1.2.2.1 - [ ] Relook the precise rules
+            1.2.2.1 - [x] Relook the precise rules
 
-            1.2.2.2 - [ ] Adapt gameflow/conditions
+            1.2.2.2 - [x] Adapt gameflow/conditions
 
         1.2.3 - [ ] Adding the possibility to play with multiple people (low-medium priority)
 
+            1.2.3.1 - [x] Pseudo-alternatives written
 
     1.3 - [ ] Automating/protoclling gameflows for future data gathering
 
@@ -74,7 +76,11 @@
 
             2.4.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
 
-                2.4.2.1 - [ ] Use a BT for representing it
+                2.4.2.1 - [ ] Use a BST for representing it
+
+                    2.4.2.1.1 - [ ] Implement BST Class (Node)
+                    2.4.2.1.2 - [ ] Inserting all relevant data
+                    2.4.2.1.3 - [ ] Log all consecutive data for n games ((w, l, w) --> 4)
 
 
     2.5 - [ ] Do the pascale triangle (maybe recursively) for decounting n type of a card out ouf p cards
