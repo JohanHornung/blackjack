@@ -120,11 +120,14 @@ class Deck:
         # The chosen card is beeing added to the hand of player/dealer
         if person == "player":
             self.player_hand.append(self.card_id)
+            # the new sum of the player´s hand is taken in count
+            self.player_sum += self.card_value
         else:
             self.dealer_hand.append(self.card_id)
+            self.dealer_sum += self.card_value
         
         # return self.card_id, self.deck, self.suits
-        
+    
     # method for tracking cards which have been hit/taken
     # def track(self):
     #     pass
@@ -176,8 +179,8 @@ class Deck:
 
 
 # Deck instance
-# game = Deck([], [])
-# game.deal()
+game = Deck([], [])
+game.deal()
 
 # debugging
 # for i in range(2):
