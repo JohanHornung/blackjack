@@ -69,8 +69,9 @@ class Game:
             else:
                 self.winner = "player"
         else:
-            self.winne = "dealer"
-        return self.winner
+            self.winner = "dealer"
+        
+        # return self.winner # defining the variable in enough
 
     # method which handles the game itselfj
     def play(self, bet, player_hand, dealer_hand): 
