@@ -1,4 +1,4 @@
-import Deck
+from Deck import *
 
 """
 - This file will contain the Game class (prob. most important).
@@ -14,6 +14,10 @@ the outcomes (6 different them).
 class Game:
     def __init__(self, bet):
         self.bet = bet
+        # a new game is initialised
+        self.player_hand = []
+        self.dealer_hand = []
+        self.game = Deck(self.player_hand, self.dealer_hand)
         # for conditonal treatement later on
         self.splitted_hand = False 
         self.doubled = False
@@ -21,7 +25,15 @@ class Game:
     # method which lets the player double his game
     def doubleDown(self): # bet arg optional
         self.doubled = True
-        # ...
+        # when a player doubles down his bet is doubled
+        self.bet *= 2
+        # he just gets one new card
+        self.game.hit("player")
+        """
+        Further steps will be taken on in the play(self) method, from
+        the moment the player gets the new card, his hand is compared
+        to the dealer´s one.
+        """    
     
     # methods which splits his deck
     def split(self, player_hand:list): # bet arg optional
@@ -47,7 +59,10 @@ class Game:
         Since this method just modifies the needed variables, it returns nothing. The 
         following steps will be done in play(self).
         """
-        
+    
+    # method which compares the players cards value which the dealer´s
+    def compare(self): # args are optional
+        pass
 
     # method which handles the game itselfj
     def play(self, bet, player_hand, dealer_hand): 
