@@ -105,13 +105,10 @@ class Deck:
     # def track(self):
     #     pass
 
-    """
-    Since the deal(self) method defines the blackjack booleans, an additional blackjack
-    method is useless.
-    """
-    # def blackjack(self, player): # optional arg
-    #     # if the sum of the cards is 21 the method returns true
-    #     return True if (player[0]["value"] + player[1]["value"] == 21) else False
+    
+    def blackjack(self, player): # optional arg
+        # if the sum of the cards is 21 the method returns true
+        return True if (player[0]["value"] + player[1]["value"] == 21) else False
     
     # method which deals the first for cards out
     def deal(self): # args optional
@@ -131,12 +128,14 @@ class Deck:
             # player_cards will be a 2d array
             # for player in range(num_players):
                 # player_cards[player] = [cards["card"] for cards in self.player_hands[player]]
+        # for player in range(num_player):
+            # print(f"")
         # something like that...
         
         self.player_cards = [cards["card"] for cards in self.player_hand]
         self.dealer_cards = [cards["card"] for cards in self.dealer_hand]
 
-        # BJ prints for debugging purposes
+        # BJ booleans prints for debugging purposes
         print("Player´s Hand: {}\nDealer´s Hand: {}\nPlayer Blackjack: {}\nDealer Blackjack: {}"
         .format(self.player_cards, self.dealer_cards, self.player_blackjack, self.dealer_blackjack)) 
 
@@ -144,6 +143,7 @@ class Deck:
 
 
 # Deck instance
-game = Deck([], [])
+# game = Deck([], [])
 # game.deal()
 # game.displayHands()
+
