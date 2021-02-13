@@ -19,7 +19,7 @@ class Game:
         self.doubled = False
     
     # method which lets the player double his game
-    def double(self): # bet arg optional
+    def doubleDown(self): # bet arg optional
         self.doubled = True
         # ...
     
@@ -38,15 +38,23 @@ class Game:
             else:
                 raise ValueError("Joueur n'a pas les meme valeurs") 
 
-        # splitting the bets 
-        self.bets = [self.bet // 2, self.bet // 2]
+        # when the player splits his cards, the same bet is applied to the new hand
+        self.first_bet = self.second_bet = self.bet
         # splitting the player hands
         self.first_hand = player_hand[0]
         self.second_hand = player_hand[1]
+        """
+        Since this method just modifies the needed variables, it returns nothing. The 
+        following steps will be done in play(self).
+        """
         
 
-    # method which handles the game itself
+    # method which handles the game itselfj
     def play(self, bet, player_hand, dealer_hand): 
+        # self.deal() --> creates bj booleans 
+        # Check for BJ for both
+        # self.choice()
+        # ...
         pass
 
 

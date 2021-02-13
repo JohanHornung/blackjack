@@ -49,7 +49,13 @@ class StartingScreen:
             # self.checkout(bet)
 
 
+# function which will launch the blackjack game/program
+def main():
+    pass
+
+
+
+
 
 if __name__ == "__main__":
-    gameOn = StartingScreen()
-    # choice = gameOn.choice()
+    main()

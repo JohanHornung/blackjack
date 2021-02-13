@@ -76,17 +76,17 @@ class Deck:
                 "spades": len(self.deck["spades"]),
                 "hearts": len(self.deck["hearts"]),
                 "diamonds": len(self.deck["diamonds"]),
-                "clubs":  len(self.deck["clubs"])
+                "clubs": len(self.deck["clubs"])
         }
         """
         If theres just the color key left we delete it as no real 
         cards are there anymore.
         """
-        # process of spotting and remvoing the possible empty suit set
+        # process of spotting and remvoing possible empty suit set
         self.items = self.suits_size.items()
         for suit, size in self.items:
             if size == 1:
-                self.suits.remove(suit) # suit beeing removed from list selection
+                self.suits.remove(suit) # suit beeing removed from suit list selection
                 self.deck.pop(suit) # suit set beeing removed from deck set
         
         # The chosen card is beeing added to the hand of player/dealer
@@ -117,12 +117,18 @@ class Deck:
         self.dealer_blackjack = self.blackjack(self.dealer_hand)
         # conditional treatement of the bj outcomes will be handled in Game.py
     
-    # print method which prints the current deck/hand
+    # print method which prints the cards of the player(s)/dealer
     def displayHands(self):
+        # if case num_players > 1
+            # player_cards will be a 2d array
+            # for player in range(num_players):
+                # player_cards[player] = [cards["card"] for cards in self.player_hands[player]]
+        # something like that...
+        
         self.player_cards = [cards["card"] for cards in self.player_hand]
         self.dealer_cards = [cards["card"] for cards in self.dealer_hand]
-        # print(self.player_cards)
-    
+
+        # BJ prints for debugging purposes
         print("Player´s Hand: {}\nDealer´s Hand: {}\nPlayer Blackjack: {}\nDealer Blackjack: {}"
         .format(self.player_cards, self.dealer_cards, self.player_blackjack, self.dealer_blackjack)) 
 
