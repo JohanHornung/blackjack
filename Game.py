@@ -14,7 +14,7 @@ the outcomes (6 different them).
 class Game:
     def __init__(self, bet):
         self.bet = bet
-        # a new game is initialised
+        # a new game is initialised with a new deck
         self.player_hand = []
         self.dealer_hand = []
         self.game = Deck(self.player_hand, self.dealer_hand)
@@ -61,8 +61,16 @@ class Game:
         """
     
     # method which compares the players cards value which the dealer´s
-    def compare(self): # args are optional
-        pass
+    def sumCompare(self): # args are optional
+        self.winner = ""
+        if (self.game.player_sum >= self.game.dealer_sum):
+            if (self.game.player_sum == self.game.dealer_sum):
+                self.winner = "draw"
+            else:
+                self.winner = "player"
+        else:
+            self.winne = "dealer"
+        return self.winner
 
     # method which handles the game itselfj
     def play(self, bet, player_hand, dealer_hand): 
@@ -77,4 +85,4 @@ class Game:
 
 
 # x = Game(50)
-# x.split([4, 4])
+# x.compare()

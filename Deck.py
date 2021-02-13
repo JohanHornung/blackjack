@@ -176,8 +176,8 @@ class Deck:
 
 
 # Deck instance
-game = Deck([], [])
-game.deal()
+# game = Deck([], [])
+# game.deal()
 
 # debugging
 # for i in range(2):
