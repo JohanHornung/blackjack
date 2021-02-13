@@ -38,7 +38,7 @@ class Deck:
         self.deck = DECK
         self.suits = SUITS 
         # The cards are a set of sets (of cards)
-        self.cards = CARDS
+        self.cards = UNIQUE_CARDS
     
     """
     A method for shuffling the deck is not needed as the card is 
@@ -47,6 +47,16 @@ class Deck:
     """
     # def shuffle(self):
     #     pass
+
+    # method which returns a set of the corresponding lengths
+    def setLength(self, set):
+        self.set = {
+                "spades": len(set["spades"]),
+                "hearts": len(set["hearts"]),
+                "diamonds": len(set["diamonds"]),
+                "clubs": len(set["clubs"])
+        }
+        return self.set
 
     # method which lets the player hit a card (randomly)
     def hit(self, person):
@@ -57,7 +67,7 @@ class Deck:
             self.deck = DECK
             # a new picking selection
             self.suits = SUITS
-            self.cards = CARDS  
+            self.cards = UNIQUE_CARDS  
         
         # unique suit is beeing choosen
         self.suit = random.choice(self.suits)
@@ -65,7 +75,7 @@ class Deck:
         self.card = random.choice(self.cards[self.suit])
 
         # this specific card is beeing removed from the deck set
-        self.removed = self.deck[self.suit].pop(self.card)
+        self.card_value = self.deck[self.suit].pop(self.card)
 
         # this specific card is beeing removed from the cards set
         self.cards[self.suit].remove(self.card)
@@ -76,14 +86,9 @@ class Deck:
         The corresponding lenghts and attributes are tracked and are part of the
         conditional treatement.
         """
-        
-        # the whole set will be first removed from the cards set
-        self.cards_size = {
-            "spades": len(self.cards["spades"]),
-            "hearts": len(self.cards["hearts"]),
-            "diamonds": len(self.cards["diamonds"]),
-            "clubs": len(self.cards["clubs"])
-        }
+        # tracking the length of the unique cards set
+        self.cards_size = self.setLength(self.cards)
+        # the whole set will be first removed from the cards set if needed
         self.lengths = self.cards_size.items()
         for suit, length in self.lengths:
             if length == 0:
@@ -94,12 +99,7 @@ class Deck:
         real cards are there anymore.
         """
         # tracking the set with the number of cards for each suit
-        self.suits_size = {
-                "spades": len(self.deck["spades"]),
-                "hearts": len(self.deck["hearts"]),
-                "diamonds": len(self.deck["diamonds"]),
-                "clubs": len(self.deck["clubs"])
-        }
+        self.suits_size = self.setLength(self.deck)
         
         self.sizes = self.suits_size.items()
         for suit, size in self.sizes:
@@ -115,7 +115,7 @@ class Deck:
             "suit": self.suit,
             "color": self.deck[self.suit]["color"],
             "card": self.card,
-            "value": self.removed
+            "value": self.card_value
         }
         # The chosen card is beeing added to the hand of player/dealer
         if person == "player":
