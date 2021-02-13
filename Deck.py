@@ -51,31 +51,48 @@ class Deck:
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # handling the low prob case when the whole deck is empty
-        if (len(self.deck) == 0): # probably some other conditions
+        self.refill = (len(self.deck) == 0) or (len(self.cards) == 0) or (len(self.suits) == 0)
+        if self.refill: 
             # a simple alternative would be to re-add a new deck
             self.deck = DECK
             # a new picking selection
             self.suits = SUITS
             self.cards = CARDS  
         
-        # unique card is beeing randomly choosen
+        # unique suit is beeing choosen
         self.suit = random.choice(self.suits)
-        self.card = random.choice(self.cards)
+        # unique card is beeing randomly choosen
+        self.card = random.choice(self.cards[self.suit])
+
+        # this specific card is beeing removed from the deck set
+        self.removed = self.deck[self.suit].pop(self.card)
+
+        # this specific card is beeing removed from the cards set
+        self.cards[self.suit].remove(self.card)
+
         
         """
-        The unique card hitted is a set with some
-        attributes. It will be removed from the
-        deck and added to the hand of the player/dealer.        
+        The following steps are written to spot and delete possible empty sets or decks.
+        The corresponding lenghts and attributes are tracked and are part of the
+        conditional treatement.
         """
-        self.card_id = {
-            "suit": self.suit,
-            "color": self.deck[self.suit]["color"],
-            "card": self.card,
-            # as the hitted card is automaticly removed we use .pop()
-            # ISSUE #
-            "value": self.deck[self.suit].pop(self.card)
+        
+        # the whole set will be first removed from the cards set
+        self.cards_size = {
+            "spades": len(self.cards["spades"]),
+            "hearts": len(self.cards["hearts"]),
+            "diamonds": len(self.cards["diamonds"]),
+            "clubs": len(self.cards["clubs"])
         }
+        self.lengths = self.cards_size.items()
+        for suit, length in self.lengths:
+            if length == 0:
+                self.cards_size.pop(suit)
         
+        """
+        If theres just the color key left (in the deck set) we delete it as no 
+        real cards are there anymore.
+        """
         # tracking the set with the number of cards for each suit
         self.suits_size = {
                 "spades": len(self.deck["spades"]),
@@ -83,17 +100,23 @@ class Deck:
                 "diamonds": len(self.deck["diamonds"]),
                 "clubs": len(self.deck["clubs"])
         }
-        """
-        If theres just the color key left we delete it as no real 
-        cards are there anymore.
-        """
-        # process of spotting and remvoing possible empty suit set
-        self.items = self.suits_size.items()
-        for suit, size in self.items:
+        
+        self.sizes = self.suits_size.items()
+        for suit, size in self.sizes:
             if size == 1:
                 self.suits.remove(suit) # suit beeing removed from suit list selection
                 self.deck.pop(suit) # suit set beeing removed from deck set
         
+        """
+        The unique card hitted is a set with some
+        attributes.     
+        """
+        self.card_id = {
+            "suit": self.suit,
+            "color": self.deck[self.suit]["color"],
+            "card": self.card,
+            "value": self.removed
+        }
         # The chosen card is beeing added to the hand of player/dealer
         if person == "player":
             self.player_hand.append(self.card_id)
@@ -144,7 +167,10 @@ class Deck:
 
 
 # Deck instance
-# game = Deck([], [])
-# game.deal()
-# game.displayHands()
-
+game = Deck([], [])
+game.deal()
+# debugging
+# for i in range(15):
+#     game.hit("player")
+#     game.displayHands()
+#     print(i)
