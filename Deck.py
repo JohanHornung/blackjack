@@ -51,13 +51,13 @@ class Deck:
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # handling the low prob case when the whole deck is empty
-        if len(self.deck) == 0:
-            pass
-        # a simple alternative would be to re-add a new deck
+        if (len(self.deck) == 0): # probably some other conditions
+            # a simple alternative would be to re-add a new deck
             self.deck = DECK
             # a new picking selection
             self.suits = SUITS
             self.cards = CARDS  
+        
         # unique card is beeing randomly choosen
         self.suit = random.choice(self.suits)
         self.card = random.choice(self.cards)
@@ -72,6 +72,7 @@ class Deck:
             "color": self.deck[self.suit]["color"],
             "card": self.card,
             # as the hitted card is automaticly removed we use .pop()
+            # ISSUE #
             "value": self.deck[self.suit].pop(self.card)
         }
         
