@@ -21,9 +21,10 @@
 
             1.2.1.2 - [ ] Deck Class (+ tracking the decks/cards/points, hit/double method...)
 
-            1.2.1.2 - [ ] Game Class
+            1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards/points,...)
 
             1.2.1.3 - [ ] StartingScren Class
+
 
         1.2.2 - [ ] Remanage gameflow (medium-priority)
 
