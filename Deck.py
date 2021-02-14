@@ -1,4 +1,4 @@
-import random
+from random import *
 from copy import *
 from config import *
 from tools import *
@@ -111,9 +111,9 @@ class Deck:
         # Process of hitting a card randomly:
         
         # unique suit is beeing choosen
-        self.suit = random.choice(self.suits)
+        self.suit = choice(self.suits)
         # unique card is beeing randomly choosen
-        self.card = random.choice(self.unique_cards[self.suit])
+        self.card = choice(self.unique_cards[self.suit])
 
         # this specific card is beeing removed from the deck set
         self.card_value = self.deck[self.suit].pop(self.card)
