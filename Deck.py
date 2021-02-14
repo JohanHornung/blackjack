@@ -1,4 +1,5 @@
 import random
+from copy import *
 from config import *
 from tools import *
 
@@ -38,11 +39,11 @@ class Deck:
         self.card_id = None # nothing has been drawn yet (condition for cardTack(self))
         self.person = "" # this will be a new key in the copied card id´s set
 
-        # a new deck is created when the Class in initialized 
-        self.deck = DECK
-        self.suits = SUITS # all the suits in an array
+        # a new deck is created when the Class is initialized 
+        self.deck = deepcopy(DECK)
+        self.suits = deepcopy(SUITS) # all the suits in an array
         # the unique cards are a set of arrays (["Ace", "King", "Queen", ...])
-        self.unique_cards = UNIQUE_CARDS
+        self.unique_cards = deepcopy(UNIQUE_CARDS)
     """
     - The '-> None' means that this function/method returns None
     - A method for shuffling the deck is not needed as an unique card 
@@ -51,14 +52,14 @@ class Deck:
     """
     
     # method which returns a set of the suit lengths
-    def setLength(self, set) -> dict:
+    def setItemsLength(self, set) -> object:
         self.set = {
                 "spades": len(set["spades"]), # if set is empty len(set) == 0
                 "hearts": len(set["hearts"]),
                 "diamonds": len(set["diamonds"]),
                 "clubs": len(set["clubs"])
         }
-        return self.set
+        return self.set.items()
 
     # method which spots an Ace and replace the card value by 1 if needed
     def isAce(self, card_id, person_sum) -> None:
@@ -75,16 +76,38 @@ class Deck:
 
     # method which lets the player randomly hit a card 
     def hit(self, person:str) -> None:
+        # ALTERNATIVE FOR EMPTY DECKS: Instead of the deleting the suit set we just replace it by a new deck.
+        
+        # tracking the items length of the unique cards set
+        self.unique_cards_items = self.setItemsLength(self.unique_cards)
+        
+        # we then iterate trough the keys and values of the set
+        for _, length in self.unique_cards_items:
+            if int(length) == 0: # if one suit set is empty we deepcopy the constants
+                self.deck = deepcopy(DECK)
+                self.suits = deepcopy(SUITS)    
+                self.unique_cards = deepcopy(UNIQUE_CARDS)  
+        
+        # tracking the set with the number of cards left for each suit
+        self.suits_size = self.setItemsLength(self.deck)
+        
+        for _, length in self.suits_size:
+            if int(length) == 1: # when just the color is left we deepcopy the constants
+                self.deck = deepcopy(DECK)
+                self.suits = deepcopy(SUITS)    
+                self.unique_cards = deepcopy(UNIQUE_CARDS)  
+        
         # we want to know who is playing
         self.person = person 
         # handling the case when the deck is empty
-        self.refill = (len(self.deck) == 0) or (len(self.unique_cards) == 0) or (len(self.suits) == 0) # boolean
-        if self.refill: 
-            # a simple alternative is to re-add a new deck
-            self.deck = DECK
-            # and to add a new picking selection
-            self.suits = SUITS
-            self.unique_cards = UNIQUE_CARDS  
+        # self.refill_decks = (len(self.deck) == 0) or (len(self.suits) == 0) # boolean
+        # self.refill_unique_cards = (len(self.unique_cards) == 0)
+        # if self.refill_decks and self.refill_unique_cards: 
+        #     # a simple alternative is to re-add a new deck
+        #     self.deck = DECK
+        #     # and to add a new picking selection
+        #     self.suits = SUITS
+        #     self.unique_cards = UNIQUE_CARDS  
         
         # Process of hitting a card randomly:
         
@@ -105,33 +128,12 @@ class Deck:
         The corresponding lenghts and attributes are tracked and are part of the
         conditional treatement.
         """
-        # tracking the length of the unique cards set
-        self.unique_cards_length = self.setLength(self.unique_cards)
-        
-        # the whole suit set will be removed from the unique cards set if needed
-        self.lengths = self.unique_cards_length.items()
-        # we then iterate trough the keys and values of the set
-        for suit, length in self.lengths:
-            if length == 0: # if one suit set is empty we remove it
-                self.unique_cards_length.pop(suit) 
-        
         """
-        If theres just the color key left (in the deck set) we delete it as no 
-        real cards are there anymore.
-        """
-        # tracking the set with the number of cards left for each suit
-        self.suits_size = self.setLength(self.deck)
-        
-        # same procedure for spotting empty suit sets
-        self.sizes = self.suits_size.items()
-        for suit, length in self.sizes:
-            if length == 1: # when just the color is left
-                self.suits.remove(suit) # suit beeing removed from suit list selection
-                self.deck.pop(suit) # suit set beeing removed from deck set
-        
-        """
-        The unique drawn card will be a set with important attributes. This set will be
-        appended to the person´s hand later on.     
+        - The unique drawn card will be a set with important attributes. This set will be
+        appended to the person´s hand later on.
+        - ALTERNATIVE: Instead of the deleting the suit set just replacing by new deck!
+        This alternative would make the conditional treatement at the beginning useless.
+     
         """
         self.card_id = {
             "suit": self.suit,
@@ -225,9 +227,13 @@ class Deck:
 # game.deal()
 # game.displayHands()
 
+
 # # debugging
-# for i in range(20):
+# for i in range(50):
 #     game.hit("player")
 #     game.hit("dealer")
-#     game.displayHands()
+#     # game.displayHands()
+#     print()
+#     print(game.suits, "\n", game.unique_cards)
+#     items(game.unique_cards)
 #     print(i)
