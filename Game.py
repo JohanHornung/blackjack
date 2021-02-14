@@ -117,8 +117,11 @@ class Game:
 
 
 
-# x = Game(50, 100)
-# x.play(50)
-# print(f"Player´s sum: {x.game.player_sum}\nDealers sum: {x.game.dealer_sum}")
+# x = Deck([], [])
+# x.deal()
+# x.displayHands()
+# x.displaySums()
+
+# x.displayHands()
 # winner = x.sumCompare()
 # print(winner)
