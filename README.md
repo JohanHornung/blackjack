@@ -19,15 +19,12 @@
 
             1.2.1.1 - [x] Create config/tools file
 
-<<<<<<< HEAD
-            1.2.1.2 - [ ] StartingScreen Class (selecting overlay w/ different options)
-=======
             1.2.1.2 - [x] Deck Class (+ tracking the decks/cards/points, hit/double method...) (current version: 1.0)
->>>>>>> a19e88d (README updated)
 
-            1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards/points,...)
+            1.2.1.3 - [ ] Game Class (split method, double method)
 
-            1.2.1.4 - [ ] Game Class (split method, double method)
+            1.2.1.4 - [ ] StartingScren Class
+
 
 
         1.2.2 - [ ] Remanage gameflow (medium-priority)
