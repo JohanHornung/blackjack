@@ -45,8 +45,6 @@ class Deck:
     beeing choosen randomly. In addition, suffling a set is quite
     harder than shuffling an array.
     """
-    # def shuffle(self):
-    #     pass
 
     # method which returns a set of the corresponding lengths
     def setLength(self, set):
@@ -150,14 +148,20 @@ class Deck:
         # conditional treatement of the bj outcomes will be handled in Game.py
     
     # method which returns the cards (suit + card)
-    def cardToString(self):
+    def cardsToString(self):
         self.player_cards = []
         self.dealer_cards = []
         # iteration over both player and dealer hands 
         for cards in self.player_hand:
             self.player_cards.append("a {} {}".format(cards["suit"], cards["card"]))
-        for cards in self.dealer_hand:
-            self.dealer_cards.append("a {} {}".format(cards["suit"], cards["card"]))
+        
+        # when the dealer just has two cards, just the second one is shown (ISSUE #17)
+        if (len(self.dealer_hand) == 2):
+            self.dealer_cards.append("an unknown card")
+            self.dealer_cards.append("a {} {}".format(self.dealer_hand[1]["suit"], self.dealer_hand[1]["card"])) 
+        else:
+            for cards in self.dealer_hand:
+                self.dealer_cards.append("a {} {}".format(cards["suit"], cards["card"]))
         return self.player_cards, self.dealer_cards
     
     # print method which prints the cards of the player(s)/dealer
@@ -170,7 +174,7 @@ class Deck:
             # print(f"")
         # something like that...
         
-        self.player_cards, self.dealer_cards = self.cardToString()
+        self.player_cards, self.dealer_cards = self.cardsToString*()
         print(f"The player has: {self.player_cards}")
         print(f"The dealer has: {self.dealer_cards}")
 
@@ -181,11 +185,11 @@ class Deck:
 # Deck instance
 game = Deck([], [])
 game.deal()
+# game.displayHands()
 
 # debugging
 # for i in range(2):
 #     game.hit("player")
 #     game.hit("dealer")
 #     # print(game.cardToString())
-#     game.displayHands()
     # print(i)

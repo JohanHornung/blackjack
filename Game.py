@@ -14,10 +14,6 @@ the outcomes (6 different them).
 class Game:
     def __init__(self, bet):
         self.bet = bet
-        # a new game is initialised with a new deck
-        self.player_hand = []
-        self.dealer_hand = []
-        self.game = Deck(self.player_hand, self.dealer_hand)
         # for conditonal treatement later on
         self.splitted_hand = False 
         self.doubled = False
@@ -74,9 +70,14 @@ class Game:
         # return self.winner # defining the variable in enough
 
     # method which handles the game itselfj
-    def play(self, bet, player_hand, dealer_hand): 
-        # self.deal() --> creates bj booleans 
+    def play(self, bet, player_hand=[], dealer_hand=[]): 
+        # a new game is initialised with a new deck
+        # self.game = Deck(player_hand, dealer_hand)
+        
+        # game.deal() --> defines bj booleans and deals out the cards
+        # game.displayHands() --> prints out the hands
         # Check for BJ for both
+            # if (self.)
         # self.choice()
         # ...
         pass
