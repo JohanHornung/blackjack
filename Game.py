@@ -19,7 +19,7 @@ class Game:
         self.doubled = False
         # for card tracking
         self.tracked_cards = []
-        
+
     # method which lets the player double his game
     def doubleDown(self): # bet arg optional
         self.doubled = True
