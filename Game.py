@@ -117,8 +117,8 @@ class Game:
 
 
 
-x = Game(50, 100)
-x.play(50)
-# print(x.game.player_sum, "\n", x.game.dealer_sum)
-winner = x.sumCompare()
+# x = Game(50, 100)
+# x.play(50)
+# print(f"Player´s sum: {x.game.player_sum}\nDealers sum: {x.game.dealer_sum}")
+# winner = x.sumCompare()
 # print(winner)

@@ -45,7 +45,6 @@ class Deck:
         # the unique cards are a set of arrays (["Ace", "King", "Queen", ...])
         self.unique_cards = deepcopy(UNIQUE_CARDS)
     """
-    - The '-> None' means that this function/method returns None
     - A method for shuffling the deck is not needed as an unique card 
     is beeing choosen randomly. In addition, suffling a set is quite
     harder than shuffling an array for example.
@@ -208,10 +207,21 @@ class Deck:
         
         return self.player_cards, self.dealer_cards
     
+    # method which prints the sum of the players
+    def displaySums(self) -> None:
+        # special cas: when the cards just got dealed
+        if (len(self.dealer_hand) == 2):
+            self.hidden_value = self.player_sum - self.player_hand[0]["value"]
+            print(f"The dealer has a total of {self.hidden_value} points")
+        else:
+            print(f"The dealer has a total of {self.dealer_sum} points\n")
+        
+        print(f"The player has a total of {self.player_sum} points\n")
+
     # print method which prints the cards of the player(s)/dealer
     def displayHands(self) -> None:
         # if case num_players > 1
-            # player_cards will be a 2d array
+            # player_cards will be ya 2d array
             # for player in range(num_players):
                 # player_cards[player] = [cards["card"] for cards in self.player_hands[player]]
         # for player in range(num_player):
@@ -226,7 +236,7 @@ class Deck:
 # Deck instance
 # game = Deck([], [])
 # game.deal()
-# game.displayHands()
+# game.displaySums()
 
 
 # # debugging
