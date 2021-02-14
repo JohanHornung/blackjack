@@ -21,9 +21,7 @@
 
             1.2.1.2 - [x] Deck Class (+ tracking the decks/cards/points, hit/double method...) (current version: 1.0)
 
-            1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards/points,...)
-
-            1.2.1.3 - [ ] StartingScren Class
+            1.2.1.3 - [ ] Game Class (split method, double method)
 
 
         1.2.2 - [ ] Remanage gameflow (medium-priority)
@@ -32,7 +30,7 @@
 
             1.2.2.2 - [x] Adapt gameflow/conditions
 
-        1.2.3 - [ ] Adding the possibility to play with multiple people (low priority)
+        1.2.3 - [ ] Adding the possibility to play with multiple people (low-priority)
 
             1.2.3.1 - [x] Pseudo-alternatives written
 
