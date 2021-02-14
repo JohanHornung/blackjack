@@ -19,7 +19,7 @@
 
             1.2.1.1 - [x] Create config/tools file
 
-            1.2.1.2 - [ ] Deck Class (+ tracking the decks/cards/points, hit/double method...)
+            1.2.1.2 - [x] Deck Class (+ tracking the decks/cards/points, hit/double method...) (current version: 1.0)
 
             1.2.1.3 - [ ] Cards Class (+ tracking the decks/cards/points,...)
 
