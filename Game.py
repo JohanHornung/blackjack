@@ -15,6 +15,7 @@ class Game:
     def __init__(self, bet, bank):
         self.bet = bet
         self.bank = bank # or budget
+        # if the player hasn´t enough money the bet has to be reduced (NEW ISSUE)
         # for conditonal treatement later on
         self.splitted_hand = False 
         self.doubled = False
@@ -70,7 +71,7 @@ class Game:
         else:
             self.winner = "dealer"
         
-        # return self.winner # defining the variable in enough
+        return self.winner # defining the variable can be enough
 
     # method whicht treats all the special outcomes of the game (blackjack or overbought)
     def specialOutcomes(self, cause, person):
@@ -83,10 +84,9 @@ class Game:
     # method which handles the game itselfj
     def play(self, bet, player_hand=[], dealer_hand=[]): 
         # a new game is initialised with a new deck if it is the first
-        # self.game = Deck(player_hand, dealer_hand)
-        
-        # game.deal() --> defines bj booleans and deals out the cards
-        # game.displayHands() --> prints out the hands for both
+        self.game = Deck(player_hand, dealer_hand)
+        self.game.deal() # deal the cards
+        self.game.displayHands()
         
         # Check for BJ for both
         # if (self.player_blackjack)
@@ -117,5 +117,8 @@ class Game:
 
 
 
-# x = Game(50)
-# x.compare()
+x = Game(50, 100)
+x.play(50)
+# print(x.game.player_sum, "\n", x.game.dealer_sum)
+winner = x.sumCompare()
+# print(winner)
