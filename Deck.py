@@ -27,17 +27,21 @@ will be tracked over the time of playing as well as those which have been given.
 
 class Deck:
     def __init__(self, player_hand:list, dealer_hand:list):
-        # For the player
+        # for the player
         self.player_hand = player_hand
         self.player_sum = 0 # first criteria of game break
-        # For the dealer
+        # for the dealer
         self.dealer_hand = dealer_hand
         self.dealer_sum = 0 # second criteria of game break
-        
-        # A new deck is created when the class in initialized 
+        # for card tracking
+        self.tracked_cards = []
+        self.card_id = None # since nothing has been drawn
+        self.person = ""
+
+        # a new deck is created when the class in initialized 
         self.deck = DECK
         self.suits = SUITS 
-        # The cards are a set of sets (of cards)
+        # the cards are a set of sets (of cards)
         self.cards = UNIQUE_CARDS
     
     """
@@ -61,9 +65,18 @@ class Deck:
         if (card_id["card"] == "Ace"):
                 if (person_sum + card_id["value"] > 21):
                         card_id["value"] = 1
+    
+    # method for tracking cards which have been hit/taken
+    def cardTrack(self, tracking_list:list, content=None):
+        # the goal is to append all drawn cards to an array
+        # if (at least) a card has been drawn
+        if content:
+            tracking_list.append(content)
 
     # method which lets the player hit a card (randomly)
     def hit(self, person):
+        # assigning the corresponding person to the class var
+        self.person = person 
         # handling the low prob case when the whole deck is empty
         self.refill = (len(self.deck) == 0) or (len(self.cards) == 0) or (len(self.suits) == 0)
         if self.refill: 
@@ -121,29 +134,30 @@ class Deck:
             "card": self.card,
             "value": self.card_value 
         }
-        # The chosen card is beeing added to the hand of player/dealer
-        # The new sum of the player´s hand is taken in count
+        # we track down this card ID
+        self.tracked_card = self.card_id.copy()
+        self.tracked_card["person"] = "player" if (self.person == "player") else "dealer"
+        self.cardTrack(self.tracked_cards, self.tracked_card)
+        
+        # the chosen card is beeing added to the hand of player/dealer
+        # the new sum of the player´s hand is taken in count
         if person == "player":
             # check if the card is an ace
             self.isAce(self.card_id, self.player_sum)
             # card_id is appended to the player hand
             self.player_hand.append(self.card_id)
             # player sum is adjusted
-            self.player_sum += self.card_id["value"]
+            self.player_sum += self.card_id["value"] # self.card_value does not change dynamically (ace)
 
         else:
             # same for the dealer
             self.isAce(self.card_id, self.dealer_sum)
             self.dealer_hand.append(self.card_id)
-            self.dealer_sum += self.card_id["value"]
+            self.dealer_sum += self.card_id["value"] # self.card_value does not change dynamically (ace)
         
-        # return self.card_id, self.deck, self.suits
-
-    # method for tracking cards which have been hit/taken
-    def cardTrack(self):
-        pass
-
+        # as the class var´s are modified, hit(self) doesnt have to return anything
     
+    # method which returns a boolean which is True when the player has a blackjack
     def blackjack(self, player):
         # if the sum of the cards is 21 the method returns true
         return True if (player[0]["value"] + player[1]["value"] == 21) else False

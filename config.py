@@ -20,7 +20,6 @@ DECK = {
         "Seven": 7, "Six": 6, "Five": 5, "Four": 4, "Three": 3, "Two": 2
         },
 }
-
 SUITS = ["spades", "hearts", "diamonds", "clubs"]
 UNIQUE_CARDS = {
     "spades": ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"],
