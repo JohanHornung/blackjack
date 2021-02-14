@@ -56,6 +56,12 @@ class Deck:
         }
         return self.set
 
+    # method which spots an Ace and replace the card value if needed
+    def isAce(self, card_id, person_sum):
+        if (card_id["card"] == "Ace"):
+                if (person_sum + card_id["value"] > 21):
+                        card_id["value"] = 1
+
     # method which lets the player hit a card (randomly)
     def hit(self, person):
         # handling the low prob case when the whole deck is empty
@@ -113,25 +119,32 @@ class Deck:
             "suit": self.suit,
             "color": self.deck[self.suit]["color"],
             "card": self.card,
-            "value": self.card_value
+            "value": self.card_value 
         }
         # The chosen card is beeing added to the hand of player/dealer
+        # The new sum of the player´s hand is taken in count
         if person == "player":
+            # check if the card is an ace
+            self.isAce(self.card_id, self.player_sum)
+            # card_id is appended to the player hand
             self.player_hand.append(self.card_id)
-            # the new sum of the player´s hand is taken in count
-            self.player_sum += self.card_value
+            # player sum is adjusted
+            self.player_sum += self.card_id["value"]
+
         else:
+            # same for the dealer
+            self.isAce(self.card_id, self.dealer_sum)
             self.dealer_hand.append(self.card_id)
-            self.dealer_sum += self.card_value
+            self.dealer_sum += self.card_id["value"]
         
         # return self.card_id, self.deck, self.suits
-    
+
     # method for tracking cards which have been hit/taken
-    # def track(self):
-    #     pass
+    def cardTrack(self):
+        pass
 
     
-    def blackjack(self, player): # optional arg
+    def blackjack(self, player):
         # if the sum of the cards is 21 the method returns true
         return True if (player[0]["value"] + player[1]["value"] == 21) else False
     
