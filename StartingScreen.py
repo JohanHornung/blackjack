@@ -14,7 +14,7 @@ class StartingScreen:
         self.quit = False 
         # for starting the game
         self.bet = 0
-        self.bank = 0
+        self.bank = 0 # or budget
     
     # Optional:
     # num_players = int(input("How many players?")) else 1
@@ -51,7 +51,7 @@ class StartingScreen:
         # if (self.choice == 1):
             # self.game = True
             # self.bet = int(input(Your bets please))
-            # Game(bet)
+            # Game(bet, bank)
             # ..
         # else:
             # self.checkout(self.bank)
