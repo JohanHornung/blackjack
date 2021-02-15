@@ -93,9 +93,11 @@ class Game:
         
         return self.string
     
-    # method which takes the input choice of the player and returns it
-    def choosenInput(self, question):
-        pass
+    # method which takes the question and all the possibles answers as parameters
+    def choosenInput(self, question, *answers) -> bool:
+        print(question)
+        self.answer = str(input())
+        return True if (self.answer.lower() == answers) else False
     
     # method which handles the game itself
     def play(self, player_hand=[], dealer_hand=[]): # bet param already defined 
@@ -119,7 +121,7 @@ class Game:
             elif self.game.dealer_blackjack: 
                 self.cause = "blackjack" # for later on statistics
                 self.player = "dealer" # for later on statistics
-                self.outcome =  self.specialOutcome(self, self.cause, self.player)
+                self.outcome =  self.specialOutcome(self.cause, self.player)
                 # at this point, the game is over
                 self.game = False
                 break
@@ -128,30 +130,33 @@ class Game:
             self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
             if (self.split_condition): # the player can split and gets asked to
                 self.question = "Do you want to split?"
-                self.choice = self.choosenInput(self.question)
-                
-                # if the player wants to split
-                if (self.choice):
-                    self.splitted_hand == True
-                    self.left_split = self.right_split = True # (optional)
-                    # recursive call with the left card as a new deck and the right one
-                    # while (self.left_split):
-                    #     self.play()
+                self.answers = ["yes", "y", "yessir", "of course", "please"]
+                self.choice = self.choosenInput(self.question, *self.answers)
+                print(self.choice)
             break
-            # self.choice = self.choosenInput()
-            # if (self.choice == <option>):
-                # hit or stand or double
-                # check the outcomes (overbought)
-            
-            # if the player stands (for the second time)
-            # compare the values and evaluate
-            # calculate the the bank/budget
-            # return the new bet or bank/budget
-            pass
-        # Do you want to play again?
-        # self.restart = StartingScreen()
-        # yes --> self.choice = 1  --> restart.gameFlow()
-        # no --> self.restart.checkout(self.bank)
+                # # if the player wants to split
+                # if (self.choice):
+                #     self.splitted_hand == True
+                #     self.left_split = self.right_split = True # (optional)
+                #     # recursive call with the left card as a new deck and the right one
+                #     # while (self.left_split):
+                #     #     self.play()
+                # else:
+                #     # we go on
+                #     # self.choice = self.choosenInput()
+                #     # if (self.choice == <option>):
+                #         # hit or stand or double
+                #         # check the outcomes (overbought)
+                    
+                #     # if the player stands (for the second time)
+                #     # compare the values and evaluate
+                #     # calculate the the bank/budget
+                #     # return the new bet or bank/budget
+                #     pass
+                # # Do you want to play again?
+                # # self.restart = StartingScreen()
+                # # yes --> self.choice = 1  --> restart.gameFlow()
+                # # no --> self.restart.checkout(self.bank)
 
 
 new_game = Game(2000, 4000)
