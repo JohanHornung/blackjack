@@ -1,5 +1,5 @@
 from Deck import *
-from StartingScreen import *
+# from StartingScreen import *
 """
 - This file will contain the Game class (prob. most important).
 - It will take no argument in the constructor (maybe the bet)
@@ -17,6 +17,7 @@ class Game:
         self.bank = bank # or budget
         # if the player hasn´t enough money the bet has to be reduced (NEW ISSUE)
         # for conditonal treatement later on
+        self.game = True
         self.splitted_hand = False 
         self.doubled = False
         # for card tracking
@@ -93,7 +94,7 @@ class Game:
         return self.string
     
     # method which takes the input choice of the player and returns it
-    def choosenInput(self):
+    def choosenInput(self, question):
         pass
     
     # method which handles the game itself
@@ -107,25 +108,36 @@ class Game:
             self.game.displayHands() # we show both hands
             
             # Check for BJ for both
-            if (self.player_blackjack):
+            if (self.game.player_blackjack):
                 self.cause = "blackjack" # for later on statistics
                 self.player = "player" # for later on statistics
                 self.outcome =  self.specialOutcome(self.cause, self.player)
                 # at this point, the game is over
+                self.game = False
                 break
             
-            elif self.dealer_blackjack: 
+            elif self.game.dealer_blackjack: 
                 self.cause = "blackjack" # for later on statistics
                 self.player = "dealer" # for later on statistics
                 self.outcome =  self.specialOutcome(self, self.cause, self.player)
                 # at this point, the game is over
+                self.game = False
                 break
-            # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
-            # if (self.split_condition): # the player can split
-                # if self.split == True
-                    # self.left_valid = self.right_valid = True (optional)
+            
+            # we check if the player has the possibility to split
+            self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
+            if (self.split_condition): # the player can split and gets asked to
+                self.question = "Do you want to split?"
+                self.choice = self.choosenInput(self.question)
+                
+                # if the player wants to split
+                if (self.choice):
+                    self.splitted_hand == True
+                    self.left_split = self.right_split = True # (optional)
                     # recursive call with the left card as a new deck and the right one
-                    
+                    # while (self.left_split):
+                    #     self.play()
+            break
             # self.choice = self.choosenInput()
             # if (self.choice == <option>):
                 # hit or stand or double
@@ -136,12 +148,15 @@ class Game:
             # calculate the the bank/budget
             # return the new bet or bank/budget
             pass
+        # Do you want to play again?
+        # self.restart = StartingScreen()
+        # yes --> self.choice = 1  --> restart.gameFlow()
+        # no --> self.restart.checkout(self.bank)
 
 
-
-
-x = Game(2000, 4000)
-x.play()
+new_game = Game(2000, 4000)
+new_game.play()
+# x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
 # x = Deck([], [])
 # x.deal()

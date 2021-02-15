@@ -46,7 +46,7 @@ class StartingScreen:
             # abs(bank - self.bet) could be wrong (ISSUE #16)
     
     # method which handles the main gameflow of the game
-    def gameFlow(self, bet):
+    def gameFlow(self):
         pass
         # if (self.choice == 1):
             # self.game = True
