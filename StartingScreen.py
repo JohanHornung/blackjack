@@ -20,7 +20,7 @@ class StartingScreen:
     # num_players = int(input("How many players?")) else 1
     
     # to start the menu, we search for a valid input
-    def choice(self):
+    def choice(self) -> int:
         while True:
             try:
                 self.action = int(input(
@@ -34,7 +34,7 @@ class StartingScreen:
             return self.action
 
     # method with handles the checkout option for the player
-    def checkout(self, bank):
+    def checkout(self, bank) -> None:
         # for gameflow purposes
         self.game = False
         self.quit = True

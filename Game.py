@@ -74,49 +74,75 @@ class Game:
         return self.winner # defining the variable can be enough
 
     # method whicht treats all the special outcomes of the game (blackjack or overbought)
-    def specialOutcomes(self, cause, person):
-        pass
-
+    def specialOutcome(self, outcome:str, person:str):
+        self.string = ""
+        # if the player has a blackjack
+        if (person.lower() == "player") and (outcome.lower() == "blackjack"):
+            self.blackjack_sum = round(((3 * self.bet) / 2), 2) # a bj pays 3:2
+            self.string = f"Congratulations ! You have won {self.blackjack_sum}$ with a Blackjack!"
+        # if dealer ouverbought himself
+        elif (person.lower() == "player") and (outcome.lower() == "overbought"):
+            self.string = f"Congratulations ! You have won {self.bet}$ as the dealer has overbought!"
+        # if the dealer has blackjack
+        elif (person.lower() == "dealer") and (outcome.lower() == "blackjack"):
+            self.string = f"Too bad ! You have lost {self.bet}$, the dealer has Blackjack!"
+        # if the player overboughts
+        else:
+            self.string = f"You overbought ! You lost {self.bet}$"
+        
+        return self.string
+    
     # method which takes the input choice of the player and returns it
     def choosenInput(self):
         pass
     
-    # method which handles the game itselfj
-    def play(self, bet, player_hand=[], dealer_hand=[]): 
-        # a new game is initialised with a new deck if it is the first
-        self.game = Deck(player_hand, dealer_hand)
-        self.game.deal() # deal the cards
-        self.game.displayHands()
-        
-        # Check for BJ for both
-        # if (self.player_blackjack)
-            # cause = "blackjack"
-            # return specialOutcome(self, cause, player)
-        # if (self.dealer_blackjack) 
-            # cause = "blackjack"
-            # return specialOutcome(self, cause, dealer)
-        
-        # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
-        # if (self.split_condition): # the player can split
-            # if self.split == True
-                # self.left_valid = self.right_valid = True (optional)
-                # recursive call with the left card as a new deck and the right one
-                
-        # self.choice = self.choosenInput()
-        # if (self.choice == <option>):
-            # hit or stand or double
-            # check the outcomes (overbought)
-        
-        # if the player stands (for the second time)
-        # compare the values and evaluate
-        # calculate the the bank/budget
-        # return the new bet or bank/budget
-        pass
+    # method which handles the game itself
+    def play(self, player_hand=[], dealer_hand=[]): # bet param already defined 
+        while self.game:
+            # we first remove the bet from the player from the bank
+            self.bank -= self.bet
+            # a new game is initialised with a new deck if it is the first
+            self.game = Deck(player_hand, dealer_hand)
+            self.game.deal() # deal the cards
+            self.game.displayHands() # we show both hands
+            
+            # Check for BJ for both
+            if (self.player_blackjack):
+                self.cause = "blackjack" # for later on statistics
+                self.player = "player" # for later on statistics
+                self.outcome =  self.specialOutcome(self.cause, self.player)
+                # at this point, the game is over
+                break
+            
+            elif self.dealer_blackjack: 
+                self.cause = "blackjack" # for later on statistics
+                self.player = "dealer" # for later on statistics
+                self.outcome =  self.specialOutcome(self, self.cause, self.player)
+                # at this point, the game is over
+                break
+            # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
+            # if (self.split_condition): # the player can split
+                # if self.split == True
+                    # self.left_valid = self.right_valid = True (optional)
+                    # recursive call with the left card as a new deck and the right one
+                    
+            # self.choice = self.choosenInput()
+            # if (self.choice == <option>):
+                # hit or stand or double
+                # check the outcomes (overbought)
+            
+            # if the player stands (for the second time)
+            # compare the values and evaluate
+            # calculate the the bank/budget
+            # return the new bet or bank/budget
+            pass
 
 
 
 
-
+x = Game(2000, 4000)
+x.play()
+# print(x.specialOutcome("blackjack", "dealer"))
 # x = Deck([], [])
 # x.deal()
 # x.displayHands()
