@@ -195,10 +195,15 @@ class Deck:
             format(cards["suit"], cards["card"]))
             # diamond Ace, spades Ten, ...
         
-        # when the dealer just has two cards, just the second one is shown (ISSUE #17 (closed))
+        # when the dealer just has two cards, just the second one is shown 
         if (len(self.dealer_hand) == 2):
-            self.dealer_cards.append("an unknown card") # the first one is not shown
-            self.dealer_cards.append("a {} {}".
+            if (self.dealer_blackjack): # if the dealer has a blackjack both cards are shown
+                for cards in self.dealer_hand:
+                    self.dealer_cards.append("a {} {}".
+                    format(cards["suit"], cards["card"]))
+            else:
+                self.dealer_cards.append("an unknown card") # the first one is not shown
+                self.dealer_cards.append("a {} {}".
             format(self.dealer_hand[1]["suit"], self.dealer_hand[1]["card"])) 
         else:
             for cards in self.dealer_hand:
@@ -211,7 +216,7 @@ class Deck:
     def displaySums(self) -> None:
         print(f"The player has a total of {self.player_sum} points\n")
         
-        # special cas: when the cards just got dealed
+        # special cas: when the cards just got dealed 
         if (len(self.dealer_hand) == 2):
             self.hidden_value = int(self.dealer_hand[1]["value"])
             print(f"The dealer has a total of {self.hidden_value} points\n")
