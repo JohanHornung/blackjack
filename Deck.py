@@ -218,8 +218,11 @@ class Deck:
         
         # special cas: when the cards just got dealed 
         if (len(self.dealer_hand) == 2):
-            self.hidden_value = int(self.dealer_hand[1]["value"])
-            print(f"The dealer has a total of {self.hidden_value} points\n")
+            if (self.dealer_blackjack):
+                print(f"The dealer has a total of {self.dealer_sum} points\n")
+            else:
+                self.hidden_value = int(self.dealer_hand[1]["value"])
+                print(f"The dealer has a total of {self.hidden_value} points\n")
         else:
             print(f"The dealer has a total of {self.dealer_sum} points\n")
         
