@@ -15,7 +15,7 @@ class Game:
     def __init__(self, bet, bank):
         self.bet = bet
         self.bank = bank # or budget
-        # if the player hasn´t enough money the bet has to be reduced (NEW ISSUE)
+        
         # for conditonal treatement later on
         self.game_flow = True
         self.splitted_hand = False 
@@ -107,10 +107,20 @@ class Game:
     # method which handles the game itself
     def play(self, bet, player_hand=[], dealer_hand=[]): # bet param already defined 
         while self.game_flow:
-            # we first remove the bet from the player from the bank
-            self.bank -= self.bet
+            # if the player hasn´t enough money the bet has to be reduced (ISSUE#25 fixed)
+            if (self.bet > self.bank):
+                print(f"You are not able to bet {self.bet}$. You only have {self.bank}$ in your bank.")
+                # the bet will be set automatically to the bank budget
+                self.bet = self.bank
+                self.bank = 0
+                print("Your bet has been set to your maximum budget.\n")
+            else:
+                # we remove the bet from the player from the bank
+                self.bank -= self.bet
+            
             # a new game is initialised with a new deck if it is the first
             self.game = Deck(player_hand, dealer_hand)
+            
             self.game.deal() # deal the cards
             self.game.displayHands() # we show both hands
             self.game.displaySums() # sums are shown
@@ -204,7 +214,7 @@ class Game:
         # no --> self.restart.checkout(self.bank)
 
 
-new_game = Game(2000, 4000)
+new_game = Game(5000, 4000)
 new_game.play(50)
 # x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
