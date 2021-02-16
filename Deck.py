@@ -209,14 +209,15 @@ class Deck:
     
     # method which prints the sum of the players
     def displaySums(self) -> None:
+        print(f"The player has a total of {self.player_sum} points\n")
+        
         # special cas: when the cards just got dealed
         if (len(self.dealer_hand) == 2):
             self.hidden_value = int(self.dealer_hand[1]["value"])
-            print(f"The dealer has a total of {self.hidden_value} points")
+            print(f"The dealer has a total of {self.hidden_value} points\n")
         else:
             print(f"The dealer has a total of {self.dealer_sum} points\n")
         
-        print(f"The player has a total of {self.player_sum} points\n")
 
     # print method which prints the cards of the player(s)/dealer
     def displayHands(self) -> None:
