@@ -134,6 +134,7 @@ class Game:
             self.game = Deck(player_hand, dealer_hand)
             
             self.game.deal() # deal the cards
+            self.game.first_deal = False
             self.game.displayHands() # we show both hands
             self.game.displaySums() # sums are shown
 
@@ -243,17 +244,14 @@ class Game:
 
 
 
-            #         # compare the values and evaluate
-            #         # calculate the the bank/budget
-            #         # return the new bet or bank/budget
-            #         # pass
-            # break
-            # else: # the player doesnt want to split his cards
-            #     # normal game
+                    # compare the values and evaluate
+                    # calculate the the bank/budget
+                    # return the new bet or bank/budget
+                    # pass
+            break
 
                 
                 
-            #     break # to prevent infinite loop
 
         # Do you want to play again?
         # self.restart = StartingScreen()

@@ -34,11 +34,13 @@ class Deck:
         # class variables for the dealer
         self.dealer_hand = dealer_hand
         self.dealer_sum = 0 # important criteria of game break
+        self.first_deal = True
+
         # class variables for card tracking
         self.tracked_cards = []
         self.card_id = None # nothing has been drawn yet (condition for cardTack(self))
         self.person = "" # this will be a new key in the copied card id´s set
-            
+
         # a new deck is created when the Class is initialized 
         self.deck = deepcopy(DECK)
         self.suits = deepcopy(SUITS) # all the suits in an array
@@ -201,10 +203,17 @@ class Deck:
                 for cards in self.dealer_hand:
                     self.dealer_cards.append("a {} {}".
                     format(cards["suit"], cards["card"]))
+            
+            elif not (self.first_deal):
+                for cards in self.dealer_hand:
+                    self.dealer_cards.append("a {} {}".
+                    format(cards["suit"], cards["card"]))
+
             else:
                 self.dealer_cards.append("an unknown card") # the first one is not shown
                 self.dealer_cards.append("a {} {}".
             format(self.dealer_hand[1]["suit"], self.dealer_hand[1]["card"])) 
+        
         else:
             for cards in self.dealer_hand:
                 self.dealer_cards.append("a {} {}".
@@ -216,11 +225,13 @@ class Deck:
     def displaySums(self) -> None:
         print(f"The player has a total of {self.player_sum} points\n")
         
-        # special cas: when the cards just got dealed 
+        # special case: when the cards just got dealed 
         if (len(self.dealer_hand) == 2):
             if (self.dealer_blackjack):
                 print(f"The dealer has a total of {self.dealer_sum} points\n")
-            else:
+            elif not (self.first_deal):
+                print(f"The dealer has a total of {self.dealer_sum} points\n")
+            else:    
                 self.hidden_value = int(self.dealer_hand[1]["value"])
                 print(f"The dealer has a total of {self.hidden_value} points\n")
         else:
