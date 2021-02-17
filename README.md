@@ -23,6 +23,7 @@
 
             1.2.1.3 - [ ] Game Class (split method, double method)
 
+            1.2.1.4 - [ ] StartingScreen Class (choice, checkout, gameFlow)
 
         1.2.2 - [ ] Remanage gameflow (medium-priority)
 

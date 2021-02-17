@@ -48,6 +48,14 @@ class StartingScreen:
             print(f"Oops ! Looks like you lost {abs(bank - self.bet)}$ on this table.")
             # abs(bank - self.bet) could be wrong (ISSUE #16)
     
+    # method which asks the player for another round
+    def rematch(self):
+        # self.rematch = gameRematch(self) (needs to be written)
+        # yes --> self.choice = 1  --> restart.gameFlow()
+        # self.restart = StartingScreen()
+        # no --> self.restart.checkout(self.bank)
+        pass
+
     # method which handles the main gameflow of the game
     def gameFlow(self):
         self.action = self.choice() # menu screen

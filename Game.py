@@ -13,6 +13,9 @@ the outcomes (6 different them).
 
 class Game:
     def __init__(self, bank):
+        # a new game is initialised with a new deck if it is the first
+        self.game = Deck([], [])
+        
         self.bet = 0
         self.bank = bank # or budget
         
@@ -41,7 +44,7 @@ class Game:
         to the dealer´s one.
         """    
     
-    # methods which splits his deck
+    # methods which splits a deck
     def split(self, player_hand:list): # bet arg optional
         self.splitted_hand = True
         """
@@ -84,7 +87,7 @@ class Game:
         if (winner == "player"):
             self.bet *= 2
             self.bank += self.bet
-            print(f"Congratulations! You have more points than the dealer, {self.bet}$ have been added to your bank account.")
+            print(f"Congratulations! You have more points than the dealer,{self.bet}$ have been added to your bank account.")
         elif (winner == "dealer"):
             print(f"Too bad! You have less points than the dealer, you have lost {self.bet}$ on this game.")
         else: #draw
@@ -110,7 +113,7 @@ class Game:
         return self.string
     
     # method which takes the question and all the possibles answers as parameters
-    def choosenInput(self, question) -> bool:
+    def choosenInput(self, question) -> str:
         print(question)
         self.answer = str(input())
         return self.answer.lower()
@@ -130,8 +133,6 @@ class Game:
                 # we remove the bet from the player from the bank
                 self.bank -= self.bet
             
-            # a new game is initialised with a new deck if it is the first
-            self.game = Deck(player_hand, dealer_hand)
             
             self.game.deal() # deal the cards
             self.game.first_deal = False
@@ -157,7 +158,8 @@ class Game:
                 self.game_flow = False # break out of the loop anyway
                 break
             
-            # we check if the player has the possibility to split
+            ### SPLIT ### (for later)
+            
             # self.split_condition = True # debugging 
             # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
             # # lets assume for now that you can just split once
@@ -208,7 +210,9 @@ class Game:
             #             else:
             #                 # value comparison
             #                 pass
-            # the player gets asked if he wants to double
+            
+            ### DOUBLE ###
+            
             self.double_choice = input("Do you want to double down?")
             if (self.double_choice in self.positive_answers) or (self.double_choice in self.optional_answers[2]):
                 print("the player doubled")
@@ -225,38 +229,66 @@ class Game:
                     break # the game is over          
                 else:
                     # we compare the sums
-                    self.winner = self.sumCompare()
-                    if (self.winner == "player"):
-                        # the game is over
-                        self.game_flow = False
-                        self.casualOutcome(self.winner)
-                        break
-                    elif (self.winner == "dealer"):
-                        # the game is over
-                        self.game_flow = False
-                        self.casualOutcome(self.winner)
-                        break
-                    else: # draw
-                        # the game is over
-                        self.game_flow = False
-                        self.casualOutcome(self.winner)
-                        break
+                    self.winner = self.sumCompare() # determine who the winner is
+                    self.casualOutcome(self.winner) # print() the outcome and regulate the won sum
+                    self.game_flow = False # optional
+                    break
+            
+            ### HIT/STAND ###
 
+            self.answer = self.choosenInput("Do you want to hit or stand?")
+            
+            while (self.answer in self.optional_answers[0]): # hit
+                self.game.hit("player")
+                self.game.displayHands()
+                self.game.displaySums()
+                # check if player exceeds 21
+                if (self.game.player_sum > 21):
+                    self.game_flow = False # break out of the loop anyway
+                    self.outcome = self.specialOutcome("overbought", "player")
+                    print(self.outcome) # message for overbought
+                    self.game_flow = False # break out of the loop anyway
+                    break # the game is over  
+                
+                self.answer = self.choosenInput("Do you want to hit or stand?")
+            
+            # check if the player hasn´t overbought himself
+            if not self.game_flow: 
+                break
+            
+            # dealer must stand on 17 and must draw to 16
+            while (self.game.dealer_sum < 17):
+                self.game.hit("dealer") # draw
+                self.game.displayHands()
+                self.game.displaySums()
 
+                if (self.game.dealer_sum == 16):
+                    self.game.hit("dealer")
+                    break
+                # check for exceed
+                elif (self.game.dealer_sum > 21):
+                    self.outcome = self.specialOutcome("overbought", "dealer")
+                    print(self.outcome) # message for dealer overbought
+                    self.game_flow = False # break out of the loop anyway
+                    break # the game is over  
 
-                    # compare the values and evaluate
-                    # calculate the the bank/budget
-                    # return the new bet or bank/budget
-                    # pass
+            # if the dealer has overbought himself the game ends
+            if not self.game_flow: 
+                break
+
+            ### VALUE SHOWDOWN ###
+            
+            self.winner = self.sumCompare() # determine who the winner is
+            self.casualOutcome(self.winner) # print() the outcome and regulate the won sum
+            self.game_flow = False # optional
             break
+                    
+        
+        ### REMATCH (in StartingScreen class)###
+        
 
-                
-                
 
-        # Do you want to play again?
-        # self.restart = StartingScreen()
-        # yes --> self.choice = 1  --> restart.gameFlow()
-        # no --> self.restart.checkout(self.bank)
+
 
 
 new_game = Game(4000)
