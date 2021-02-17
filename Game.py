@@ -135,7 +135,6 @@ class Game:
             
             
             self.game.deal() # deal the cards
-            self.game.first_deal = False
             self.game.displayHands() # we show both hands
             self.game.displaySums() # sums are shown
 
@@ -228,25 +227,25 @@ class Game:
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over          
                 else:
+                    while (self.game.dealer_sum < 17):
+                        self.game.hit("dealer") # draw
+                        self.game.displayHands()
+                        self.game.displaySums()
+                        if (self.game.dealer_sum == 16):
+                            self.game.hit("dealer")
+                            break
+                        # check for exceed
+                        elif (self.game.dealer_sum > 21):
+                            self.outcome = self.specialOutcome("overbought", "dealer")
+                            print(self.outcome) # message for dealer overbought
+                            self.game_flow = False # break out of the loop anyway
+                            break # the game is over  1
                     # we compare the sums
                     self.winner = self.sumCompare() # determine who the winner is
                     self.casualOutcome(self.winner) # print() the outcome and regulate the won sum
                     self.game_flow = False # optional
                     break
                     # dealer draws cards until 17
-            while (self.game.dealer_sum < 17):
-                self.game.hit("dealer") # draw
-                self.game.displayHands()
-                self.game.displaySums()
-                if (self.game.dealer_sum == 16):
-                    self.game.hit("dealer")
-                    break
-                # check for exceed
-                elif (self.game.dealer_sum > 21):
-                    self.outcome = self.specialOutcome("overbought", "dealer")
-                    print(self.outcome) # message for dealer overbought
-                    self.game_flow = False # break out of the loop anyway
-                    break # the game is over  1
 
             ### HIT/STAND ###
 

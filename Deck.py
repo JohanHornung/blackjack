@@ -34,7 +34,7 @@ class Deck:
         # class variables for the dealer
         self.dealer_hand = dealer_hand
         self.dealer_sum = 0 # important criteria of game break
-        self.first_deal = True
+        self.first_deal = False
 
         # class variables for card tracking
         self.tracked_cards = []
