@@ -81,7 +81,14 @@ class Game:
 
     # method which treats the casual outcomes of the game (value comparison)
     def casualOutcome(self, winner:str):
-        pass
+        if (winner == "player"):
+            self.bet *= 2
+            self.bank += self.bet
+            print(f"Congratulations! You have more points than the dealer, {self.bet}$ have been added to your bank account.")
+        elif (winner == "dealer"):
+            print(f"Too bad! You have less points than the dealer, you have lost {self.bet}$ on this game.")
+        else: #draw
+            print(f"Draw game! You have as many points as the dealer. You get back your bet, {self.bet}$.")
 
     # method whicht treats all the special outcomes of the game (blackjack or overbought)
     def specialOutcome(self, outcome:str, winner:str):
@@ -221,14 +228,17 @@ class Game:
                     if (self.winner == "player"):
                         # the game is over
                         self.game_flow = False
+                        self.casualOutcome(self.winner)
                         break
                     elif (self.winner == "dealer"):
                         # the game is over
                         self.game_flow = False
+                        self.casualOutcome(self.winner)
                         break
                     else: # draw
                         # the game is over
                         self.game_flow = False
+                        self.casualOutcome(self.winner)
                         break
 
 
