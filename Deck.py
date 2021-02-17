@@ -38,7 +38,7 @@ class Deck:
         self.tracked_cards = []
         self.card_id = None # nothing has been drawn yet (condition for cardTack(self))
         self.person = "" # this will be a new key in the copied card id´s set
-
+            
         # a new deck is created when the Class is initialized 
         self.deck = deepcopy(DECK)
         self.suits = deepcopy(SUITS) # all the suits in an array

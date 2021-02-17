@@ -13,7 +13,7 @@ class StartingScreen:
         self.game = False
         self.quit = False 
         # for starting the game
-        self.bet = 0
+        self.bet = None
         self.bank = 0 # or budget
     
     # Optional:
@@ -31,6 +31,9 @@ class StartingScreen:
             except (ValueError):
                 print("This isn´t a number")
                 continue # until he gets a valid input   
+            if (self.action == 1): # playes for the first time
+                self.bank = int(input("Your budget please"))
+            
             return self.action
 
     # method with handles the checkout option for the player
@@ -47,14 +50,13 @@ class StartingScreen:
     
     # method which handles the main gameflow of the game
     def gameFlow(self):
-        pass
-        # if (self.choice == 1):
-            # self.game = True
-            # self.bet = int(input(Your bets please))
-            # Game(bet, bank)
-            # ..
-        # else:
-            # self.checkout(self.bank)
+        self.action = self.choice() # menu screen
+        if (self.action == 1):
+            self.bet = int(input("Your bets please"))
+            self.game = Game(self.bank)
+            self.game.play(self.bet)
+        else:
+            self.checkout(self.bank)
 
 
 # function which will launch the blackjack game/program

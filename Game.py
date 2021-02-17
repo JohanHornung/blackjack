@@ -12,8 +12,8 @@ the outcomes (6 different them).
 """
 
 class Game:
-    def __init__(self, bet, bank):
-        self.bet = bet
+    def __init__(self, bank):
+        self.bet = 0
         self.bank = bank # or budget
         
         # for conditonal treatement later on
@@ -67,7 +67,7 @@ class Game:
         """
     
     # method which compares the players cards value which the dealer´s
-    def sumCompare(self): # args are optional
+    def sumCompare(self) -> str: # args are optional
         self.winner = ""
         if (self.game.player_sum >= self.game.dealer_sum):
             if (self.game.player_sum == self.game.dealer_sum):
@@ -79,23 +79,27 @@ class Game:
         
         return self.winner # defining the variable can be enough
 
+    # method which treats the casual outcomes of the game (value comparison)
+    def casualOutcome(self, winner:str):
+        pass
+
     # method whicht treats all the special outcomes of the game (blackjack or overbought)
-    def specialOutcome(self, outcome:str, person:str):
+    def specialOutcome(self, outcome:str, winner:str):
         self.string = ""
         # if the player has a blackjack
-        if (person.lower() == "player") and (outcome.lower() == "blackjack"):
+        if (winner.lower() == "player") and (outcome.lower() == "blackjack"):
             self.blackjack_sum = round(((3 * self.bet) / 2), 2) # a bj pays 3:2
             self.string = f"Congratulations ! You have won {self.blackjack_sum}$ with a Blackjack!"
         # if dealer ouverbought himself
-        elif (person.lower() == "player") and (outcome.lower() == "overbought"):
-            self.string = f"Congratulations ! You have won {self.bet}$ as the dealer has overbought!"
+        elif (winner.lower() == "player") and (outcome.lower() == "overbought"):
+            self.string = f"You overbought ! You lost {self.bet}$"
         # if the dealer has blackjack
-        elif (person.lower() == "dealer") and (outcome.lower() == "blackjack"):
+        elif (winner.lower() == "dealer") and (outcome.lower() == "blackjack"):
             self.string = f"Too bad ! You have lost {self.bet}$, the dealer has Blackjack!"
         # if the player overboughts
         else:
-            self.string = f"You overbought ! You lost {self.bet}$"
-        
+            self.string = f"Congratulations ! You have won {self.bet}$ as the dealer has overbought!"
+            
         return self.string
     
     # method which takes the question and all the possibles answers as parameters
@@ -106,6 +110,7 @@ class Game:
     
     # method which handles the game itself
     def play(self, bet, player_hand=[], dealer_hand=[]): # bet param already defined 
+        self.bet = bet
         while self.game_flow:
             # if the player hasn´t enough money the bet has to be reduced (ISSUE#25 fixed)
             if (self.bet > self.bank):
@@ -132,22 +137,21 @@ class Game:
                 self.outcome =  self.specialOutcome(self.cause, self.player)
                 print(self.outcome)
                 # at this point, the game is over
-                self.game_flow = False
+                self.game_flow = False # break out of the loop anyway
                 break
             
-            elif self.game.dealer_blackjack: 
+            elif (self.game.dealer_blackjack): 
                 self.cause = "blackjack" # for later on statistics
                 self.player = "dealer" # for later on statistics
                 self.outcome =  self.specialOutcome(self.cause, self.player)
                 print(self.outcome)
                 # at this point, the game is over
-                self.game_flow = False
+                self.game_flow = False # break out of the loop anyway
                 break
             
             # we check if the player has the possibility to split
             # self.split_condition = True # debugging 
             # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
-            break
             # # lets assume for now that you can just split once
             # if (self.split_condition) and not (self.splitted_hand): 
             #     self.question = "Do you want to split?"
@@ -174,7 +178,7 @@ class Game:
                         
             #                 # check for overbought
             #                 if (self.game.player_sum > 21):
-            #                     self.game_flow = True
+            #                     self.game_flow = False # break out of the loop anyway
             #                     self.outcome = self.specialOutcome("overbought", "player")
             #                     print(self.outcome) # message for overbought
             #                     # we want to know if the player has splitted his cards
@@ -183,7 +187,7 @@ class Game:
             #                         print("Let´s switch to your other hand...\n")
             #                         self.play(self.game.second_bet, self.game.second_hand, self.game.dealer_hand)
             #                     else:
-            #                         self.game_flow = False
+            #                         self.game_flow = False # break out of the loop anyway
             #                         break # the game is finished, he can play again
             #             # if the player got at this point (both hands overbought) he lost
             #             break            
@@ -196,11 +200,44 @@ class Game:
             #             else:
             #                 # value comparison
             #                 pass
+            # the player gets asked if he wants to double
+            self.double_choice = input("Do you want to double down?")
+            if (self.double_choice in self.positive_answers) or (self.double_choice in self.optional_answers[2]):
+                print("the player doubled")
+                # we double down the hand
+                self.doubleDown()
+                self.game.displayHands()
+                self.game.displaySums()
+                # if the players cards exceed 21
+                if (self.game.player_sum > 21):
+                    self.game_flow = False # break out of the loop anyway
+                    self.outcome = self.specialOutcome("overbought", "player")
+                    print(self.outcome) # message for overbought
+                    self.game_flow = False # break out of the loop anyway
+                    break # the game is over          
+                else:
+                    # we compare the sums
+                    self.winner = self.sumCompare()
+                    if (self.winner == "player"):
+                        # the game is over
+                        self.game_flow = False
+                        break
+                    elif (self.winner == "dealer"):
+                        # the game is over
+                        self.game_flow = False
+                        break
+                    else: # draw
+                        # the game is over
+                        self.game_flow = False
+                        break
+
+
+
             #         # compare the values and evaluate
             #         # calculate the the bank/budget
             #         # return the new bet or bank/budget
             #         # pass
-            
+            # break
             # else: # the player doesnt want to split his cards
             #     # normal game
 
@@ -214,7 +251,7 @@ class Game:
         # no --> self.restart.checkout(self.bank)
 
 
-new_game = Game(5000, 4000)
+new_game = Game(4000)
 new_game.play(50)
 # x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
