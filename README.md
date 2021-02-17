@@ -25,7 +25,7 @@
 
             1.2.1.4 - [ ] StartingScreen Class (choice, checkout, gameFlow)
 
-        1.2.2 - [ ] Remanage gameflow (medium-priority)
+        1.2.2 - [x] Remanage gameflow (medium-priority)
 
             1.2.2.1 - [x] Relook the precise rules
 
