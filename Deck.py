@@ -176,6 +176,7 @@ class Deck:
     
     # method which deals the first cards out and checks for BJ
     def deal(self) -> None: # params optional
+        self.first_deal = True
         for _ in range(2):
             self.hit("player")
             # to be more accurate to the game rules
