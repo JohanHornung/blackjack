@@ -1,5 +1,5 @@
 from Deck import *
-# from StartingScreen import *
+from StartingScreen import *
 """
 - This file will contain the Game class (prob. most important).
 - It will take no argument in the constructor (maybe the bet)
@@ -137,7 +137,6 @@ class Game:
             self.game.deal() # deal the cards
             self.game.displayHands() # we show both hands
             self.game.displaySums() # sums are shown
-
             # Check for BJ for both
             if (self.game.player_blackjack):
                 self.cause = "blackjack" # for later on statistics
@@ -227,6 +226,7 @@ class Game:
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over          
                 else:
+                    self.game.first_deal = False # for displaying
                     while (self.game.dealer_sum < 17):
                         self.game.hit("dealer") # draw
                         self.game.displayHands()
@@ -268,7 +268,7 @@ class Game:
             # check if the player hasn´t overbought himself
             if not self.game_flow: 
                 break
-            
+            self.game.first_deal = False
             # dealer must stand on 17 and must draw to 16
             while (self.game.dealer_sum < 17):
                 self.game.hit("dealer") # draw
@@ -299,7 +299,8 @@ class Game:
                     
         
         ### REMATCH (in StartingScreen class)###
-        
+        self.restart = StartingScreen()
+        self.restart.rematch()
 
 
 
