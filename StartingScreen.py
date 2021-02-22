@@ -19,10 +19,7 @@ class StartingScreen:
         
     # Optional:
     # num_players = int(input("How many players?")) else 1
-    
 
-        
-    
     # method which asks the player for another round
     def rematch(self):
         self.action = Game.choosenInput(self, "Do you want to play again?\n")
@@ -74,11 +71,11 @@ class StartingScreen:
 
 # function which will launch the blackjack game/program
 def main():
-    x = StartingScreen()
-    x.welcome()
+    # x = StartingScreen()
+    # x.welcome()
     # x.gameFlow()
     # x.rematch()
-
+    pass
 
 
 
