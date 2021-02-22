@@ -12,7 +12,7 @@ the outcomes (6 different them).
 """
 
 class Game:
-    def __init__(self, bank):
+    def __init__(self, bank=None):
         # a new game is initialised with a new deck if it is the first
         self.game = Deck([], [])
         
@@ -109,13 +109,19 @@ class Game:
         self.answer = str(input())
         return self.answer.lower()
     
-    # method which stores results of a game in an array
+    # method which stores results of a game in an dictionnary
     def writeResults(self, winner, nature, target=[]):
         self.winner = winner
         self.nature = nature
         self.num_drawn_cards = len(self.game.tracked_cards)
-
-        self.result = [self.winner, self.nature, self.num_drawn_cards]
+        
+        self.result = {
+            "winner": self.winner, 
+            "type": self.nature, 
+            "player sum": self.game.player_sum, 
+            "dealer sum": self.game.dealer_sum, 
+            "number of drawn cards": self.num_drawn_cards,
+        }
         target.append(self.result)
     
     # method which draws automatically cards up to n points and returns an array of the results
@@ -124,11 +130,11 @@ class Game:
         
         # new data entry is created which will be returned
         self.results = []
-        
         for _ in range(n): # for n games played
             self.game = Deck([], []) # new game w/ new deck
             self.game.deal() # first cards are dealed to the player/dealer
             self.game_flow = True
+            self.tracked_cards = []
             
             while self.game_flow:
                 if (self.game.player_blackjack or self.game.dealer_blackjack):
@@ -138,7 +144,7 @@ class Game:
                 # a new card is beeing drawn up to n points
                 while (self.game.player_sum <= value):
                     self.game.hit("player")
-                    
+                        
                     if (self.game.player_sum > 21):
                         self.writeResults("dealer", "overbought", self.results)
                         self.game_flow = False
@@ -150,7 +156,7 @@ class Game:
                 # the dealer hits until he has 17 or more
                 while (self.game.dealer_sum < 17):
                     self.game.hit("dealer") 
-                    
+                
                     if (self.game.dealer_sum == 16):
                         self.game.hit("dealer")
                     
@@ -168,7 +174,9 @@ class Game:
                 self.winner = self.sumCompare()
                 self.writeResults(self.winner, "comparison", self.results)        
                 break
-                
+        # drawn cards are added manually
+        self.result["drawn cards"] = self.game.tracked_cards
+        
         return self.results
 
     # method which handles the game itself
@@ -344,9 +352,9 @@ class Game:
 
 
 
-new_game = Game(4000)
+# new_game = Game(4000)
 # new_game.play(50)
-print(new_game.autoDraw(16, 500))
+# print(new_game.autoDraw(16, 500))
 # x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
 # x = Deck([], [])

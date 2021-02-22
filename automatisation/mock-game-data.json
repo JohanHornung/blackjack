@@ -1,0 +1,51 @@
+{
+  "winner": "player",
+  "type": "overbought",
+  "player sum": 20,
+  "dealer sum": 23,
+  "number of drawn cards": 6,
+  "drawn cards": [
+    {
+      "suit": "spades",
+      "color": "black",
+      "card": "King",
+      "value": 10,
+      "person": "player"
+    },
+    {
+      "suit": "hearts",
+      "color": "red",
+      "card": "Ten",
+      "value": 10,
+      "person": "dealer"
+    },
+    {
+      "suit": "spades",
+      "color": "black",
+      "card": "Four",
+      "value": 4,
+      "person": "player"
+    },
+    {
+      "suit": "spades",
+      "color": "black",
+      "card": "Three",
+      "value": 3,
+      "person": "dealer"
+    },
+    {
+      "suit": "clubs",
+      "color": "black",
+      "card": "Six",
+      "value": 6,
+      "person": "player"
+    },
+    {
+      "suit": "hearts",
+      "color": "red",
+      "card": "King",
+      "value": 10,
+      "person": "dealer"
+    }
+  ]
+}

@@ -37,7 +37,8 @@
 
     1.3 - [ ] Automating/protoclling gameflows for future data gathering
 
-        1.3.1 - [ ] Simulation class (in progress)
+w
+1.3.1 - [ ] Simulation class (in progress)
 
         1.3.2 - [x] Protocolling Results (while loop): for taking automaticly cards up to n points
 
