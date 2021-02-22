@@ -103,12 +103,66 @@ class Game:
             
         return self.string
     
-    # static method which takes the question and all the possibles answers as parameters
+    # method which takes the question and all the possibles answers as parameters
     def choosenInput(self, question) -> str:
         print(question)
         self.answer = str(input())
         return self.answer.lower()
     
+    # method which stores results of a game in an array
+    def writeResults(self, winner, nature, num_drawn_cards, target=[]):
+        pass
+    
+    def autoDraw(self, n) -> tuple:
+        # new data entry is created which will be returned
+        self.results = []
+        self.game.deal()
+        
+        if (self.game.player_blackjack or self.game.dealer_blackjack):
+            # defining the content of the results entry
+            self.winner = "player" if self.game.player_blackjack else "dealer"
+            self.outcome = "blackjack"
+            self.num_tracked_cards = len(self.game.tracked_cards)            
+            
+            self.result = [self.winner, self.outcome, self.num_tracked_cards]
+            self.results.append(self.result)
+        
+        # a new card is beeing drawn up to n points
+        while (self.game.player_sum <= n):
+            self.game.hit("player")
+            if (self.game.player_sum > 21):
+                self.winner = "dealer"
+                self.outcome = "overbought"
+                self.num_tracked_cards = len(self.game.tracked_cards)            
+
+                self.result = [self.winner, self.outcome, self.num_tracked_cards]
+                self.results.append(self.result)
+
+        # the dealer hits until he has 17 or more
+        while (self.game.dealer_sum < 17):
+            self.game.hit("dealer") 
+            
+            if (self.game.dealer_sum == 16):
+                self.game.hit("dealer")
+            
+            # check for exceed
+            elif (self.game.dealer_sum > 21):
+                self.outcome = "ouverbought"
+                self.winner = "player"
+                self.num_tracked_cards = len(self.game.tracked_cards)            
+                self.result = [self.winner, self.outcome, self.num_tracked_cards]
+                self.results.append(self.result) 
+                break 
+        
+        # default value comparison
+        self.winner = self.sumCompare()
+        self.outcome = "comparison"
+        self.num_tracked_cards = len(self.tracked_cards)
+        self.result = [self.winner, self.outcome, self.num_tracked_cards]
+        self.results.append(self.result)    
+        
+        return self.results
+
     # method which handles the game itself
     def play(self, bet, player_hand=[], dealer_hand=[]): # bet param already defined 
         self.bet = bet
@@ -198,9 +252,10 @@ class Game:
                         self.game.hit("dealer") # draw
                         self.game.displayHands()
                         self.game.displaySums()
+                        
                         if (self.game.dealer_sum == 16):
                             self.game.hit("dealer")
-                            break
+                        
                         # check for exceed
                         elif (self.game.dealer_sum > 21):
                             self.outcome = self.specialOutcome("overbought", "dealer")
