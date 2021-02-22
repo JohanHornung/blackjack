@@ -110,57 +110,65 @@ class Game:
         return self.answer.lower()
     
     # method which stores results of a game in an array
-    def writeResults(self, winner, nature, num_drawn_cards, target=[]):
-        pass
+    def writeResults(self, winner, nature, target=[]):
+        self.winner = winner
+        self.nature = nature
+        self.num_drawn_cards = len(self.game.tracked_cards)
+
+        self.result = [self.winner, self.nature, self.num_drawn_cards]
+        target.append(self.result)
     
-    def autoDraw(self, n) -> tuple:
+    # method which draws automatically cards up to n points and returns an array of the results
+    def autoDraw(self, value, n=None) -> tuple:
+        n = n if n else 1 # for avoiding errors
+        
         # new data entry is created which will be returned
         self.results = []
-        self.game.deal()
         
-        if (self.game.player_blackjack or self.game.dealer_blackjack):
-            # defining the content of the results entry
-            self.winner = "player" if self.game.player_blackjack else "dealer"
-            self.outcome = "blackjack"
-            self.num_tracked_cards = len(self.game.tracked_cards)            
+        for _ in range(n): # for n games played
+            self.game = Deck([], []) # new game w/ new deck
+            self.game.deal() # first cards are dealed to the player/dealer
+            self.game_flow = True
             
-            self.result = [self.winner, self.outcome, self.num_tracked_cards]
-            self.results.append(self.result)
-        
-        # a new card is beeing drawn up to n points
-        while (self.game.player_sum <= n):
-            self.game.hit("player")
-            if (self.game.player_sum > 21):
-                self.winner = "dealer"
-                self.outcome = "overbought"
-                self.num_tracked_cards = len(self.game.tracked_cards)            
-
-                self.result = [self.winner, self.outcome, self.num_tracked_cards]
-                self.results.append(self.result)
-
-        # the dealer hits until he has 17 or more
-        while (self.game.dealer_sum < 17):
-            self.game.hit("dealer") 
-            
-            if (self.game.dealer_sum == 16):
-                self.game.hit("dealer")
-            
-            # check for exceed
-            elif (self.game.dealer_sum > 21):
-                self.outcome = "ouverbought"
-                self.winner = "player"
-                self.num_tracked_cards = len(self.game.tracked_cards)            
-                self.result = [self.winner, self.outcome, self.num_tracked_cards]
-                self.results.append(self.result) 
-                break 
-        
-        # default value comparison
-        self.winner = self.sumCompare()
-        self.outcome = "comparison"
-        self.num_tracked_cards = len(self.tracked_cards)
-        self.result = [self.winner, self.outcome, self.num_tracked_cards]
-        self.results.append(self.result)    
-        
+            while self.game_flow:
+                if (self.game.player_blackjack or self.game.dealer_blackjack):
+                    # defining the content of the results entry and saving the results in the results array
+                    self.writeResults("player", "blackjack", self.results)
+                    break   
+                # a new card is beeing drawn up to n points
+                while (self.game.player_sum <= value):
+                    self.game.hit("player")
+                    
+                    if (self.game.player_sum > 21):
+                        self.writeResults("dealer", "overbought", self.results)
+                        self.game_flow = False
+                        break
+                # checking if the game can still go on
+                if not self.game_flow:
+                    break
+                
+                # the dealer hits until he has 17 or more
+                while (self.game.dealer_sum < 17):
+                    self.game.hit("dealer") 
+                    
+                    if (self.game.dealer_sum == 16):
+                        self.game.hit("dealer")
+                    
+                    # check for exceed
+                    elif (self.game.dealer_sum > 21):
+                        self.writeResults("player", "overbought", self.results)
+                        self.game_flow = False
+                        break
+                
+                # checking if the game can still go on
+                if not self.game_flow:
+                    break
+                
+                # default value comparison if nothing happened yet
+                self.winner = self.sumCompare()
+                self.writeResults(self.winner, "comparison", self.results)        
+                break
+                
         return self.results
 
     # method which handles the game itself
@@ -336,8 +344,9 @@ class Game:
 
 
 
-# new_game = Game(4000)
+new_game = Game(4000)
 # new_game.play(50)
+print(new_game.autoDraw(16, 500))
 # x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
 # x = Deck([], [])
