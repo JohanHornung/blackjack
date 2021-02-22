@@ -21,7 +21,7 @@
 
             1.2.1.2 - [x] Deck Class (+ tracking the decks/cards/points, hit/double method...) (current version: 1.2)
 
-            1.2.1.3 - [ ] Game Class (split method, double method)
+            1.2.1.3 - [x] Game Class (split method, double method) (current version: 1.0)
 
             1.2.1.4 - [ ] StartingScreen Class (choice, checkout, gameFlow)
 
@@ -37,7 +37,7 @@
 
     1.3 - [ ] Automating/protoclling gameflows for future data gathering
 
-        1.3.1 - [ ] Protocolling Condition (while loop): for taking automaticly cards up to n points
+        1.3.1 - [ ] Protocolling Results (while loop): for taking automaticly cards up to n points
 
         1.3.2 - [ ] Protocolling Blackjacks (for dealer and player(s))
 

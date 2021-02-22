@@ -1,5 +1,5 @@
 from Deck import *
-from StartingScreen import *
+# from StartingScreen import *
 """
 - This file will contain the Game class (prob. most important).
 - It will take no argument in the constructor (maybe the bet)
@@ -46,19 +46,10 @@ class Game:
     
     # methods which splits a deck
     def split(self, player_hand:list): # bet arg optional
-        self.splitted_hand = True
         """
         Even if the condition should always be true, an error handling
-        procedure is done anyways.
+        procedure has been done anyways.
         """
-        # make sure that the player has 2 cards (only 2!) and that they have the same value
-        self.condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
-        if not self.condition: # this won´t really happen if the code works
-            if len(player_hand) != 2:
-                raise ValueError("Joeur a besoin de 2 cartes!") 
-            else:
-                raise ValueError("Joueur n'a pas les meme valeurs") 
-
         # when the player splits his cards, the same bet is applied to the new hand
         self.game.first_bet = self.game.second_bet = self.bet
         # splitting the player hands
@@ -112,7 +103,7 @@ class Game:
             
         return self.string
     
-    # method which takes the question and all the possibles answers as parameters
+    # static method which takes the question and all the possibles answers as parameters
     def choosenInput(self, question) -> str:
         print(question)
         self.answer = str(input())
@@ -133,10 +124,17 @@ class Game:
                 # we remove the bet from the player from the bank
                 self.bank -= self.bet
             
+            # distributing the cards
+            if (self.splitted_hand):
+                self.game.hit("player")
+            else:
+                self.game.deal() # deal the cards
             
-            self.game.deal() # deal the cards
+            if (self.game.dealer_blackjack or self.game.player_blackjack):
+                self.game.first_deal = False
             self.game.displayHands() # we show both hands
             self.game.displaySums() # sums are shown
+            self.game.first_deal = False
             # Check for BJ for both
             if (self.game.player_blackjack):
                 self.cause = "blackjack" # for later on statistics
@@ -155,65 +153,35 @@ class Game:
                 # at this point, the game is over
                 self.game_flow = False # break out of the loop anyway
                 break
-            
-            ### SPLIT ### (for later)
+            # print(self.game.player_hand)
+            ### SPLIT ### 
             
             # self.split_condition = True # debugging 
-            # self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
-            # # lets assume for now that you can just split once
-            # if (self.split_condition) and not (self.splitted_hand): 
-            #     self.question = "Do you want to split?"
-            #     self.choice = self.choosenInput(self.question)
-            #     # if the player wants to split
-            #     if (self.choice in self.positive_answers):
-            #         self.splitted_hand = True
-            #         self.left_split = self.right_split = True 
-            #         self.split(self.game.player_hand)
-            #         # recursive call with the left card as a new deck and the right one
-            #         # while (self.left_split):
-            #         #     self.left_split = False
-            #             # self.play(self.game.first_bet, self.game.first_hand, self.game.dealer_hand)
-            #     else:
-            #         # we go on
-            #         self.choice = self.choosenInput()
-            #         if (self.choice in self.optional_answers[0]): # player chose to hit
-            #             self.hit = True # to know when to break out of the loop
-            #             while (self.hit):
-            #                 self.game.hit("player")
-            #                 # display cards & sums
-            #                 self.game.displayHands()
-            #                 self.game.displaySums()
-                        
-            #                 # check for overbought
-            #                 if (self.game.player_sum > 21):
-            #                     self.game_flow = False # break out of the loop anyway
-            #                     self.outcome = self.specialOutcome("overbought", "player")
-            #                     print(self.outcome) # message for overbought
-            #                     # we want to know if the player has splitted his cards
-            #                     if (self.left_split):
-            #                         self.left_split = False
-            #                         print("Let´s switch to your other hand...\n")
-            #                         self.play(self.game.second_bet, self.game.second_hand, self.game.dealer_hand)
-            #                     else:
-            #                         self.game_flow = False # break out of the loop anyway
-            #                         break # the game is finished, he can play again
-            #             # if the player got at this point (both hands overbought) he lost
-            #             break            
-            #         # if the player stands 
-            #         elif (self.choice in self.optional_answers[1]):
-            #             # check if he has splitted
-            #             if (self.splitted_hand):
-            #                 print("Let´s switch to your other hand...\n")
-            #                 self.play(self.game.second_bet, self.game.second_hand, self.game.dealer_hand)
-            #             else:
-            #                 # value comparison
-            #                 pass
+            self.split_condition = (len(player_hand) == 2) and (player_hand[0]["value"] == player_hand[1]["value"])
+            # lets assume for now that you can just split once
+            if (self.split_condition) and not (self.splitted_hand): 
+                self.question = "Do you want to split?"
+                self.choice = self.choosenInput(self.question)
+                # if the player wants to split
+                if (self.choice in self.positive_answers):
+                    self.splitted_hand = True
+                    self.left_split = self.right_split = True 
+                    self.split(self.game.player_hand)
+                    # recursive call to play the game with the left hand
+                    if (self.left_split):
+                        self.left_split = False
+                        self.play(self.game.first_bet, self.game.first_hand, dealer_hand)
+                    
+                    elif (self.right_split):
+                        self.right_split = False
+                        self.play(self.game.second_bet, self.game.second_hand, dealer_hand)
             
             ### DOUBLE ###
             
             self.double_choice = input("Do you want to double down?")
             if (self.double_choice in self.positive_answers) or (self.double_choice in self.optional_answers[2]):
-                print("the player doubled")
+                print("the player doubled\n")
+                # self.game.first_deal = False
                 # we double down the hand
                 self.doubleDown()
                 self.game.displayHands()
@@ -226,7 +194,6 @@ class Game:
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over          
                 else:
-                    self.game.first_deal = False # for displaying
                     while (self.game.dealer_sum < 17):
                         self.game.hit("dealer") # draw
                         self.game.displayHands()
@@ -257,7 +224,6 @@ class Game:
                 self.game.displaySums()
                 # check if player exceeds 21
                 if (self.game.player_sum > 21):
-                    self.game_flow = False # break out of the loop anyway
                     self.outcome = self.specialOutcome("overbought", "player")
                     print(self.outcome) # message for overbought
                     self.game_flow = False # break out of the loop anyway
@@ -268,8 +234,8 @@ class Game:
             # check if the player hasn´t overbought himself
             if not self.game_flow: 
                 break
-            self.game.first_deal = False
             # dealer must stand on 17 and must draw to 16
+            # self.game.first_deal = False
             while (self.game.dealer_sum < 17):
                 self.game.hit("dealer") # draw
                 self.game.displayHands()
@@ -278,6 +244,7 @@ class Game:
                 if (self.game.dealer_sum == 16):
                     self.game.hit("dealer")
                     break
+                
                 # check for exceed
                 elif (self.game.dealer_sum > 21):
                     self.outcome = self.specialOutcome("overbought", "dealer")
@@ -290,6 +257,9 @@ class Game:
             if not self.game_flow: 
                 break
             
+            # self.game.displayHands()
+            # self.game.displaySums()
+            
             ### VALUE SHOWDOWN ###
             
             self.winner = self.sumCompare() # determine who the winner is
@@ -299,15 +269,15 @@ class Game:
                     
         
         ### REMATCH (in StartingScreen class)###
-        self.restart = StartingScreen()
-        self.restart.rematch()
+        # self.restart = StartingScreen()
+        # self.restart.rematch()
 
 
 
 
 
-new_game = Game(4000)
-new_game.play(50)
+# new_game = Game(4000)
+# new_game.play(50)
 # x.game.displaySums()
 # print(x.specialOutcome("blackjack", "dealer"))
 # x = Deck([], [])

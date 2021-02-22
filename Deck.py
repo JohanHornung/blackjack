@@ -179,7 +179,7 @@ class Deck:
         self.first_deal = True
         for _ in range(2):
             self.hit("player")
-            # to be more accurate to the game rules
+            # # to be more accurate to the game rules
             self.hit("dealer")
         
         # check for player blackjack
