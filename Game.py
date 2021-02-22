@@ -187,6 +187,7 @@ class Game:
             if (self.game.dealer_blackjack or self.game.player_blackjack):
                 self.game.first_deal = False
             self.game.displayHands() # we show both hands
+            print("\n")
             self.game.displaySums() # sums are shown
             self.game.first_deal = False
             # Check for BJ for both
@@ -239,6 +240,7 @@ class Game:
                 # we double down the hand
                 self.doubleDown()
                 self.game.displayHands()
+                print("\n")
                 self.game.displaySums()
                 # if the players cards exceed 21
                 if (self.game.player_sum > 21):
@@ -251,6 +253,7 @@ class Game:
                     while (self.game.dealer_sum < 17):
                         self.game.hit("dealer") # draw
                         self.game.displayHands()
+                        print("\n")
                         self.game.displaySums()
                         
                         if (self.game.dealer_sum == 16):
@@ -276,6 +279,7 @@ class Game:
             while (self.answer in self.optional_answers[0]): # hit
                 self.game.hit("player")
                 self.game.displayHands()
+                print("\n")
                 self.game.displaySums()
                 # check if player exceeds 21
                 if (self.game.player_sum > 21):
@@ -294,6 +298,7 @@ class Game:
             while (self.game.dealer_sum < 17):
                 self.game.hit("dealer") # draw
                 self.game.displayHands()
+                print("\n")
                 self.game.displaySums()
 
                 if (self.game.dealer_sum == 16):

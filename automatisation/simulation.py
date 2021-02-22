@@ -12,4 +12,6 @@ class Simulation:
     (1.3.1) To be able to draw cards automatically up to n points, a autoDraw(self, n) method is added
     written in the Game class. The results are written and stored in the writeResults(self, winner, 
     nature, num_drawn_cards, target=[]) method.
+    
+    
     """

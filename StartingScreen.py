@@ -61,7 +61,17 @@ class StartingScreen:
                 # game instance is created
                 self.game = Game(self.bank)
             
-            self.bet = int(input("Your bets please"))
+            # asking once for bet
+            self.bet = int(input("Your bets please\n"))
+            
+            while True:
+                # if the players bet is nothing
+                if (self.bet != 0):
+                    break
+                print("You can´t bet with 0$")
+                self.bet = int(input("Your bets please\n"))
+            
+            # we play the game with a valid bet
             self.game.play(self.bet)
         
         else:
@@ -71,8 +81,8 @@ class StartingScreen:
 
 # function which will launch the blackjack game/program
 def main():
-    # x = StartingScreen()
-    # x.welcome()
+    x = StartingScreen()
+    x.welcome()
     # x.gameFlow()
     # x.rematch()
     pass

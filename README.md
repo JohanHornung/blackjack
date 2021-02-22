@@ -37,11 +37,13 @@
 
     1.3 - [ ] Automating/protoclling gameflows for future data gathering
 
-        1.3.1 - [ ] Protocolling Results (while loop): for taking automaticly cards up to n points
+        1.3.1 - [ ] Simulation class
 
-        1.3.2 - [ ] Protocolling Blackjacks (for dealer and player(s))
+        1.3.2 - [ ] Protocolling Results (while loop): for taking automaticly cards up to n points
 
-        1.3.3 - [ ] Protoclling the reason of win/lost (bj, overbought, point-win)
+        1.3.3 - [ ] Protocolling Blackjacks (for dealer and player(s))
+
+        1.3.4 - [ ] Protoclling the reason of win/lost (bj, overbought, point-win)
 
 
     1.4 - [ ] Debugging & Error handeling

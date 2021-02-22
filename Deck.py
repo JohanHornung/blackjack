@@ -224,7 +224,7 @@ class Deck:
     
     # method which prints the sum of the players
     def displaySums(self) -> None:
-        print(f"The player has a total of {self.player_sum} points\n")
+        print(f"The player has a total of {self.player_sum} points")
         
         # special case: when the cards just got dealed 
         if (len(self.dealer_hand) == 2):
