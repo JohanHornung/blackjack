@@ -174,8 +174,9 @@ class Game:
                 self.winner = self.sumCompare()
                 self.writeResults(self.winner, "comparison", self.results)        
                 break
-        # drawn cards are added manually
-        self.result["drawn cards"] = self.game.tracked_cards
+            
+            # drawn cards are added manually
+            self.result["drawn cards"] = self.game.tracked_cards
         
         return self.results
 
