@@ -118,8 +118,10 @@ class Game:
         self.result = {
             "winner": self.winner, 
             "type": self.nature, 
-            "player sum": self.game.player_sum, 
-            "dealer sum": self.game.dealer_sum, 
+            "player_sum": self.game.player_sum, 
+            "dealer_sum": self.game.dealer_sum, 
+            "player_blackjack": self.game.player_blackjack,
+            "dealer_blackjack": self.game.dealer_blackjack,
             "number of drawn cards": self.num_drawn_cards,
         }
         target.append(self.result)
