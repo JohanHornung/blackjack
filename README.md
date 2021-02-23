@@ -2,47 +2,10 @@
 
 <br><br>
 
-# **Detailed structure of the project:**
+# **Detailed structure of the project (simulation / data-science part):**
 
 <br>
 
-## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority) on codebase branch
-
-    1.1 - [x] Remanaging file connection(s)
-
-        1.1.1 - [x] Imports
-        1.1.2 - [x] Avoid "vise versa" calls
-
-    1.2 - [ ] Restructure Algorithm
-
-        1.2.1 - [ ] Start replacing functions by classes
-
-            1.2.1.1 - [x] Create config/tools file
-
-            1.2.1.2 - [x] Deck Class (+ tracking the decks/cards/points, hit/double method...) (current version: 1.2)
-
-            1.2.1.3 - [x] Game Class (split method, double method) (current version: 1.0)
-
-            1.2.1.4 - [ ] StartingScreen Class (choice, checkout, gameFlow)
-
-        1.2.2 - [x] Remanage gameflow (medium-priority)
-
-            1.2.2.1 - [x] Relook the precise rules
-
-            1.2.2.2 - [x] Adapt gameflow/conditions
-
-        1.2.3 - [ ] Adding the possibility to play with multiple people (low-priority)
-
-            1.2.3.1 - [x] Pseudo-alternatives written
-
-
-
-    1.4 - [ ] Debugging & Error handeling
-
-        1.4.1 - [ ] Hardcoding all possible outcomes (split is missing)
-        1.4.2 - [ ] Rework the conditional error handeling (split is missing)
-
-<br>
 
 ## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
 
@@ -54,9 +17,9 @@
 
         2.1.3 - [ ] Protocolling Results (while loop): for automatically double down cards
 
-        2.1.4 - [ ] Protocolling Blackjacks (for dealer and player(s))
+        2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
 
-        2.1.5 - [ ] Protoclling the reason of win/lost (bj, overbought, point-win)
+        2.1.5 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
 
     2.2 - [ ] Gathering statistics
 
@@ -95,6 +58,27 @@
 
     2.7 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
 
-        2.7.1 - [x] Array of dictionnaries for raw games results from simulations (2.1)
+        2.7.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
 
+<br>
+
+## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL DB (medium-priority)
+
+    3.1 - [ ] Choose data structure of exports for SQL
+
+        3.1.1 - [x] JSON/CSV for 2.7.1
+
+    3.1 - [ ] Store data in (multiple?) CSV/JSON files
+
+        - [x] JSON (json.dump(data, file, indent=2) in write mode)
+
+        - [ ] CSV
+
+            - [ ] Define header-rows (gameId, won, reason, cards, dealer_cards...)
+            - [ ] Delimiter
+            - [ ] Writing to CSV: (https://www.programiz.com/python-programming/writing-csv-files)
+
+    3.2 - [ ] Exporting to a seperate file and prepare results for SQL
+
+        3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
 <br>
