@@ -57,11 +57,11 @@
 
     2.7 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
 
-        2.7.1 - [x] Array of dictionnaries for raw games results from simulations (2.1)
+        2.7.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
 
 <br>
 
-## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority)
+## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL DB (medium-priority)
 
     3.1 - [ ] Choose data structure of exports for SQL
 
