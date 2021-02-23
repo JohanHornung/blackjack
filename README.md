@@ -6,6 +6,7 @@
 
 <br>
 
+
 ## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
 
     2.1 - [ ] Automating/protoclling gameflows
@@ -57,11 +58,11 @@
 
     2.7 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
 
-        2.7.1 - [x] Array of dictionnaries for raw games results from simulations (2.1)
+        2.7.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
 
 <br>
 
-## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority)
+## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL DB (medium-priority)
 
     3.1 - [ ] Choose data structure of exports for SQL
 
@@ -80,5 +81,4 @@
     3.2 - [ ] Exporting to a seperate file and prepare results for SQL
 
         3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
-
 <br>
