@@ -7,59 +7,130 @@
     {
       "winner": "dealer",
       "type": "comparison",
-      "player_sum": 16,
-      "dealer_sum": 20,
+      "player_sum": 17,
+      "dealer_sum": 19,
       "player_blackjack": false,
       "dealer_blackjack": false,
-      "number of drawn cards": 7,
+      "number of drawn cards": 5,
       "drawn cards": [
         {
           "suit": "hearts",
           "color": "red",
-          "card": "Six",
-          "value": 6,
+          "card": "Seven",
+          "value": 7,
           "person": "player"
         },
         {
-          "suit": "hearts",
-          "color": "red",
-          "card": "Five",
-          "value": 5,
-          "person": "dealer"
-        },
-        {
-          "suit": "hearts",
+          "suit": "diamonds",
           "color": "red",
           "card": "Eight",
           "value": 8,
-          "person": "player"
+          "person": "dealer"
         },
         {
           "suit": "clubs",
           "color": "black",
-          "card": "Nine",
-          "value": 9,
+          "card": "Three",
+          "value": 3,
+          "person": "player"
+        },
+        {
+          "suit": "hearts",
+          "color": "red",
+          "card": "Ace",
+          "value": 11,
+          "person": "dealer"
+        },
+        {
+          "suit": "diamonds",
+          "color": "red",
+          "card": "Seven",
+          "value": 7,
+          "person": "player"
+        }
+      ]
+    },
+    {
+      "winner": "dealer",
+      "type": "bust",
+      "player_sum": 23,
+      "dealer_sum": 12,
+      "player_blackjack": false,
+      "dealer_blackjack": false,
+      "number of drawn cards": 5,
+      "drawn cards": [
+        {
+          "suit": "hearts",
+          "color": "red",
+          "card": "Four",
+          "value": 4,
+          "person": "player"
+        },
+        {
+          "suit": "spades",
+          "color": "black",
+          "card": "Jack",
+          "value": 10,
+          "person": "dealer"
+        },
+        {
+          "suit": "clubs",
+          "color": "black",
+          "card": "Ace",
+          "value": 11,
+          "person": "player"
+        },
+        {
+          "suit": "hearts",
+          "color": "red",
+          "card": "Two",
+          "value": 2,
           "person": "dealer"
         },
         {
           "suit": "spades",
           "color": "black",
-          "card": "Two",
-          "value": 2,
+          "card": "Eight",
+          "value": 8,
+          "person": "player"
+        }
+      ]
+    },
+    {
+      "winner": "player",
+      "type": "blackjack",
+      "player_sum": 17,
+      "dealer_sum": 21,
+      "player_blackjack": false,
+      "dealer_blackjack": true,
+      "number of drawn cards": 4,
+      "drawn cards": [
+        {
+          "suit": "clubs",
+          "color": "black",
+          "card": "Seven",
+          "value": 7,
+          "person": "player"
+        },
+        {
+          "suit": "clubs",
+          "color": "black",
+          "card": "Ace",
+          "value": 11,
+          "person": "dealer"
+        },
+        {
+          "suit": "clubs",
+          "color": "black",
+          "card": "King",
+          "value": 10,
           "person": "player"
         },
         {
           "suit": "diamonds",
           "color": "red",
-          "card": "Two",
-          "value": 2,
-          "person": "dealer"
-        },
-        {
-          "suit": "diamonds",
-          "color": "red",
-          "card": "Four",
-          "value": 4,
+          "card": "Queen",
+          "value": 10,
           "person": "dealer"
         }
       ]
@@ -67,68 +138,29 @@
     {
       "winner": "dealer",
       "type": "comparison",
-      "player_sum": 16,
-      "dealer_sum": 18,
+      "player_sum": 17,
+      "dealer_sum": 20,
       "player_blackjack": false,
       "dealer_blackjack": false,
-      "number of drawn cards": 4,
+      "number of drawn cards": 5,
       "drawn cards": [
         {
-          "suit": "hearts",
-          "color": "red",
-          "card": "Six",
-          "value": 6,
-          "person": "player"
-        },
-        {
           "suit": "clubs",
-          "color": "black",
-          "card": "Nine",
-          "value": 9,
-          "person": "dealer"
-        },
-        {
-          "suit": "spades",
           "color": "black",
           "card": "Ten",
           "value": 10,
           "person": "player"
         },
         {
-          "suit": "diamonds",
-          "color": "red",
-          "card": "Nine",
-          "value": 9,
-          "person": "dealer"
-        }
-      ]
-    },
-    {
-      "winner": "player",
-      "type": "bust",
-      "player_sum": 17,
-      "dealer_sum": 25,
-      "player_blackjack": false,
-      "dealer_blackjack": false,
-      "number of drawn cards": 6,
-      "drawn cards": [
-        {
-          "suit": "diamonds",
-          "color": "red",
-          "card": "Queen",
-          "value": 10,
-          "person": "player"
-        },
-        {
-          "suit": "diamonds",
+          "suit": "hearts",
           "color": "red",
           "card": "Six",
           "value": 6,
           "person": "dealer"
         },
         {
-          "suit": "hearts",
-          "color": "red",
+          "suit": "spades",
+          "color": "black",
           "card": "Seven",
           "value": 7,
           "person": "player"
@@ -141,53 +173,7 @@
           "person": "dealer"
         },
         {
-          "suit": "clubs",
-          "color": "black",
-          "card": "Five",
-          "value": 5,
-          "person": "dealer"
-        },
-        {
-          "suit": "clubs",
-          "color": "black",
-          "card": "Queen",
-          "value": 10,
-          "person": "dealer"
-        }
-      ]
-    },
-    {
-      "winner": "player",
-      "type": "blackjack",
-      "player_sum": 14,
-      "dealer_sum": 21,
-      "player_blackjack": false,
-      "dealer_blackjack": true,
-      "number of drawn cards": 4,
-      "drawn cards": [
-        {
-          "suit": "hearts",
-          "color": "red",
-          "card": "Eight",
-          "value": 8,
-          "person": "player"
-        },
-        {
-          "suit": "diamonds",
-          "color": "red",
-          "card": "Ace",
-          "value": 11,
-          "person": "dealer"
-        },
-        {
-          "suit": "clubs",
-          "color": "black",
-          "card": "Six",
-          "value": 6,
-          "person": "player"
-        },
-        {
-          "suit": "clubs",
+          "suit": "spades",
           "color": "black",
           "card": "Jack",
           "value": 10,
@@ -197,38 +183,59 @@
     },
     {
       "winner": "player",
-      "type": "blackjack",
-      "player_sum": 21,
-      "dealer_sum": 12,
-      "player_blackjack": true,
+      "type": "bust",
+      "player_sum": 17,
+      "dealer_sum": 24,
+      "player_blackjack": false,
       "dealer_blackjack": false,
-      "number of drawn cards": 4,
+      "number of drawn cards": 7,
       "drawn cards": [
         {
-          "suit": "spades",
-          "color": "black",
+          "suit": "hearts",
+          "color": "red",
           "card": "Ten",
           "value": 10,
           "person": "player"
+        },
+        {
+          "suit": "spades",
+          "color": "black",
+          "card": "King",
+          "value": 10,
+          "person": "dealer"
         },
         {
           "suit": "diamonds",
           "color": "red",
           "card": "Two",
           "value": 2,
-          "person": "dealer"
-        },
-        {
-          "suit": "spades",
-          "color": "black",
-          "card": "Ace",
-          "value": 11,
           "person": "player"
         },
         {
           "suit": "diamonds",
           "color": "red",
-          "card": "Ten",
+          "card": "Four",
+          "value": 4,
+          "person": "dealer"
+        },
+        {
+          "suit": "hearts",
+          "color": "red",
+          "card": "Two",
+          "value": 2,
+          "person": "player"
+        },
+        {
+          "suit": "diamonds",
+          "color": "red",
+          "card": "Three",
+          "value": 3,
+          "person": "player"
+        },
+        {
+          "suit": "clubs",
+          "color": "black",
+          "card": "Queen",
           "value": 10,
           "person": "dealer"
         }

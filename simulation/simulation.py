@@ -57,7 +57,7 @@ class Simulation:
         # if the data is not given we take the results from simulated games
         data = data if data else self.auto_draw_id
         
-        with open("simulation/mock-results.json", "w") as results:
+        with open("data/mock-results-autodraw.json", "w") as results:
             json.dump(self.auto_draw_id, results, indent=2)
         
     """
