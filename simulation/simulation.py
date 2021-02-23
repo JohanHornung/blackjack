@@ -35,7 +35,7 @@ class Simulation:
         # if the data is not given we take the results from simulated games
         data = data if data else self.results
         
-        with open("automatisation/mock-results.json", "w") as results:
+        with open("simulation/mock-results.json", "w") as results:
             json.dump(self.results, results, indent=2)
         
     # method which exports the raw game data to CSV
