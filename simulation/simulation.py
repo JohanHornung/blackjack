@@ -20,7 +20,7 @@ class Simulation:
     - Another scenario would be to automate the double-down answers to yes and then to collect
     data.
     """
-    def collectRawGameData(self, value, n=None):
+    def collectGameData(self, value, n=None):
         # for the basic scenario
         self.results = self.game.autoDraw(value, n)
         
@@ -46,7 +46,7 @@ class Simulation:
 
 
 # simulations = Simulation()
-# simulations.collectRawGameData(15, 50)
+# simulations.collectGameData(15, 50)
 
 
 # simulations.toJson()
