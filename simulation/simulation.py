@@ -71,7 +71,7 @@ class Simulation:
 
 
 simulations = Simulation()
-simulations.collectGameData(15, 20)
+simulations.collectGameData(15, 5)
 # print(simulations.sim_id)
 
 simulations.toJson()
