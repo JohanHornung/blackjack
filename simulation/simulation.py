@@ -26,8 +26,19 @@ class Simulation:
         
         # for the double-down scenario
         # coming soon
+    
+    # 2.1.4
+    # method which tracks down the blackjacks in a dataset
+    def blackjackCounter(self):
+        pass
+    
+    # 2.1.5
+    # method which tracks down the outcome reason in a dataset
+    def outcomeCounter(self):
+        pass
+    
     """
-    (3.x) - Raw data is exported to a mock-results.json file (the data is not valid JSON
+    (3.1) - Raw data is exported to a mock-results.json file (the data is not valid JSON
     as it is an array of dictionnaries/json data) !
     """
     # method which exports the raw game data to json
@@ -38,6 +49,9 @@ class Simulation:
         with open("simulation/mock-results.json", "w") as results:
             json.dump(self.results, results, indent=2)
         
+    """
+    (3.1) - Raw data is exported to a mock-results.csv file. 
+    """
     # method which exports the raw game data to CSV
     def toCsv(self):
         pass
@@ -45,9 +59,9 @@ class Simulation:
 
 
 
-# simulations = Simulation()
-# simulations.collectGameData(15, 50)
+simulations = Simulation()
+simulations.collectGameData(15, 10)
 
 
-# simulations.toJson()
+simulations.toJson()
 # print(simulations.results)

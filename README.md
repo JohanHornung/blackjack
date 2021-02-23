@@ -54,9 +54,9 @@
 
         2.1.3 - [ ] Protocolling Results (while loop): for automatically double down cards
 
-        2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
+        2.1.4 - [ ] Protocolling Blackjacks (for dealer and player(s))
 
-        2.1.5 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
+        2.1.5 - [ ] Protoclling the reason of win/lost (bj, overbought, point-win)
 
     2.2 - [ ] Gathering statistics
 

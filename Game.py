@@ -84,7 +84,7 @@ class Game:
         else: #draw
             print(f"Draw game! You have as many points as the dealer. You get back your bet, {self.bet}$.")
 
-    # method whicht treats all the special outcomes of the game (blackjack or overbought)
+    # method whicht treats all the special outcomes of the game (blackjack or bust)
     def specialOutcome(self, outcome:str, winner:str):
         self.string = ""
         # if the player has a blackjack
@@ -92,14 +92,14 @@ class Game:
             self.blackjack_sum = round(((3 * self.bet) / 2), 2) # a bj pays 3:2
             self.string = f"Congratulations ! You have won {self.blackjack_sum}$ with a Blackjack!"
         # if dealer ouverbought himself
-        elif (winner.lower() == "player") and (outcome.lower() == "overbought"):
-            self.string = f"You overbought ! You lost {self.bet}$"
+        elif (winner.lower() == "player") and (outcome.lower() == "bust"):
+            self.string = f"You bust ! You lost {self.bet}$"
         # if the dealer has blackjack
         elif (winner.lower() == "dealer") and (outcome.lower() == "blackjack"):
             self.string = f"Too bad ! You have lost {self.bet}$, the dealer has Blackjack!"
-        # if the player overboughts
+        # if the player busts
         else:
-            self.string = f"Congratulations ! You have won {self.bet}$ as the dealer has overbought!"
+            self.string = f"Congratulations ! You have won {self.bet}$ as the dealer has bust!"
             
         return self.string
     
@@ -146,7 +146,7 @@ class Game:
                     self.game.hit("player")
                         
                     if (self.game.player_sum > 21):
-                        self.writeResults("dealer", "overbought", self.results)
+                        self.writeResults("dealer", "bust", self.results)
                         self.game_flow = False
                         break
                 # checking if the game can still go on
@@ -162,7 +162,7 @@ class Game:
                     
                     # check for exceed
                     elif (self.game.dealer_sum > 21):
-                        self.writeResults("player", "overbought", self.results)
+                        self.writeResults("player", "bust", self.results)
                         self.game_flow = False
                         break
                 
@@ -262,8 +262,8 @@ class Game:
                 # if the players cards exceed 21
                 if (self.game.player_sum > 21):
                     self.game_flow = False # break out of the loop anyway
-                    self.outcome = self.specialOutcome("overbought", "player")
-                    print(self.outcome) # message for overbought
+                    self.outcome = self.specialOutcome("bust", "player")
+                    print(self.outcome) # message for bust
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over          
                 else:
@@ -278,8 +278,8 @@ class Game:
                         
                         # check for exceed
                         elif (self.game.dealer_sum > 21):
-                            self.outcome = self.specialOutcome("overbought", "dealer")
-                            print(self.outcome) # message for dealer overbought
+                            self.outcome = self.specialOutcome("bust", "dealer")
+                            print(self.outcome) # message for dealer bust
                             self.game_flow = False # break out of the loop anyway
                             break # the game is over  1
                     # we compare the sums
@@ -300,14 +300,14 @@ class Game:
                 self.game.displaySums()
                 # check if player exceeds 21
                 if (self.game.player_sum > 21):
-                    self.outcome = self.specialOutcome("overbought", "player")
-                    print(self.outcome) # message for overbought
+                    self.outcome = self.specialOutcome("bust", "player")
+                    print(self.outcome) # message for bust
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over  
                 
                 self.answer = self.choosenInput("Do you want to hit or stand?")
             
-            # check if the player hasn´t overbought himself
+            # check if the player hasn´t bust 
             if not self.game_flow: 
                 break
             # dealer must stand on 17 and must draw to 16
@@ -324,13 +324,13 @@ class Game:
                 
                 # check for exceed
                 elif (self.game.dealer_sum > 21):
-                    self.outcome = self.specialOutcome("overbought", "dealer")
-                    print(self.outcome) # message for dealer overbought
+                    self.outcome = self.specialOutcome("bust", "dealer")
+                    print(self.outcome) # message for dealer bust
                     self.game_flow = False # break out of the loop anyway
                     break # the game is over  
             
 
-            # if the dealer has overbought himself the game ends
+            # if the dealer has bust the game ends
             if not self.game_flow: 
                 break
             
