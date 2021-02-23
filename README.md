@@ -6,6 +6,7 @@
 
 <br>
 
+
 ## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
 
     2.1 - [ ] Automating/protoclling gameflows
@@ -80,5 +81,4 @@
     3.2 - [ ] Exporting to a seperate file and prepare results for SQL
 
         3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
-
 <br>
