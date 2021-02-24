@@ -7,12 +7,15 @@ import time as t
 import json
 
 class Simulation:
-    def __init__(self, num_players=1) -> None:
+    def __init__(self, n=None, num_players=1) -> None:
         self.num_players = num_players # for now we play with 1 player
         self.start = StartingScreen() # the player joins the table
         self.game = Game()
         self.sim_type = "auto_draw_up_to_n" # hardcoded for now
         self.player_count = 1 # for now
+        self.played = n if n else 1
+        # plural handeling
+        self.plural = "s" if self.played > 1 else ""
 
     """
     (2.1)  
@@ -22,8 +25,7 @@ class Simulation:
     - Another scenario would be to automate the double-down answers to yes and then to collect
     data.
     """
-    def collectGameData(self, value, n=None) -> dict:
-        self.played = n
+    def collectGameData(self, value) -> dict:
         # for the basic scenario
         # we create a dictionnary with some unique attributes
         self.auto_draw_results = {
@@ -34,7 +36,7 @@ class Simulation:
             "games": []
         }
         # the results for the games are appended to the games key
-        self.sim_results = self.game.autoDraw(value, n) 
+        self.sim_results = self.game.autoDraw(value, self.played) 
         self.auto_draw_results["games"] = self.sim_results
         
         # for the double-down scenario
@@ -78,6 +80,8 @@ class Simulation:
             else:    
                 self.outcome_type["comparison"] += 1
 
+        print(f"Out of {self.played} game{self.plural} \
+            , the player has won {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
         return self.outcome_type
     
     # 2.1.6
@@ -85,6 +89,7 @@ class Simulation:
     def outcomeCounter(self, data=None):
         data = data if data else self.auto_draw_results
         self.outcomes = {
+            "games_played": self.played,
             "win": 0,
             "loss": 0
         }
@@ -94,8 +99,29 @@ class Simulation:
                 self.outcomes["loss"] += 1
             else:    
                 self.outcomes["win"] += 1
+        
+        self.wins = self.outcomes["win"]
+        self.losses = self.outcomes["loss"]
+        print(f"Out of {self.played} game{self.plural}, the player has won {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
 
+        
         return self.outcomes
+    
+    # 2.17
+    # method which calculates the times it takes for given operations (for now, exclusively for the ads)
+    def takesTime(self, instructions, value, n):
+        """exec() HIGH RISK"""
+        self.start = t.time()
+        results = simulations.collectGameData(value, n)
+        # this method needs to be avoided
+        for instruction in instructions:
+            exec(instruction)
+        
+        self.end = t.time()
+        self.time = (self.end - self.start)
+        
+        return self.time    
+    
     """
     (3.1) - Raw data is exported to a mock-results.json file (the data is not valid JSON
     as it is an array of dictionnaries/json data) !
@@ -116,13 +142,17 @@ class Simulation:
 
 
 
-
-simulations = Simulation()
-results = simulations.collectGameData(15, 500)
+simulations = Simulation(500)
+instructions = ["simulations.toJson('mock-results-autodraw', results)"]
+simulations.collectGameData(15)
+simulations.outcomeCounter()
+# print(simulations.takesTime(instructions, 15, 500))
+# print(then-now)
 # print(results)
-outcome_type = simulations.outcomeTypeCounter(results)
-# print(outcome_type)
-outcomes = simulations.outcomeCounter()
-simulations.toJson("outcome_type", outcome_type)
-simulations.toJson("outcomes", outcomes)
+
+# outcome_type = simulations.outcomeTypeCounter(results)
+# # print(outcome_type)
+# outcomes = simulations.outcomeCounter()
+# simulations.toJson("outcome_type", outcome_type)
+# simulations.toJson("outcomes", outcomes)
 # print(simulations.total_bjs)

@@ -22,6 +22,8 @@
 
         2.1.6 - [x] Protoclling wins/loss
 
+        2.1.7 - [x] Protoclling time efficiency for all these operations
+
     2.2 - [ ] Gathering statistics
 
         2.2.1 - [ ] Calculate percentages of the results from 2.1
