@@ -142,10 +142,12 @@ class Simulation:
 
 
 
-simulations = Simulation(500)
-instructions = ["simulations.toJson('mock-results-autodraw', results)"]
-simulations.collectGameData(15)
-simulations.outcomeCounter()
+simulation = Simulation(300)
+instructions = ["simulation.toJson('mock-results-autodraw', results)"]
+simulation.collectGameData(15)
+simulation.outcomeCounter()
+simulation.toJson("outcomes", simulation.outcomes)
+simulation.toJson("mock-results-autodraw")
 # print(simulations.takesTime(instructions, 15, 500))
 # print(then-now)
 # print(results)
