@@ -18,9 +18,9 @@
 
         2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
 
-        2.1.5 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
+        2.1.5 - [x] Protoclling wins/loss
 
-        2.1.6 - [x] Protoclling wins/loss
+        2.1.6 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
 
         2.1.7 - [x] Protoclling time efficiency for all these operations
 
