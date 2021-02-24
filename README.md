@@ -6,7 +6,6 @@
 
 <br>
 
-
 ## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
 
     2.1 - [ ] Automating/protoclling gameflows
@@ -20,6 +19,8 @@
         2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
 
         2.1.5 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
+
+        2.1.6 - [x] Protoclling wins/losts
 
     2.2 - [ ] Gathering statistics
 
@@ -81,4 +82,5 @@
     3.2 - [ ] Exporting to a seperate file and prepare results for SQL
 
         3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
+
 <br>
