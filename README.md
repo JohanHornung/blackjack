@@ -20,7 +20,7 @@
 
         2.1.5 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
 
-        2.1.6 - [x] Protoclling wins/losts
+        2.1.6 - [x] Protoclling wins/loss
 
     2.2 - [ ] Gathering statistics
 
