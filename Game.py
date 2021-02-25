@@ -122,13 +122,13 @@ class Game:
             "dealer_sum": self.game.dealer_sum, 
             "player_blackjack": self.game.player_blackjack,
             "dealer_blackjack": self.game.dealer_blackjack,
-            "number of drawn cards": self.num_drawn_cards,
+            "number_of_drawn_cards": self.num_drawn_cards,
         }
         target.append(self.result)
     
     # method which draws automatically cards up to n points and returns an array of the results
-    def autoDraw(self, value, n=None) -> tuple:
-        n = n if n else 1 # for avoiding errors
+    def autoDraw(self, n=None, double=False, value=None) -> tuple:
+        n = n if n else 1 # for avoiding errors (NoneType)
         
         # new data entry is created which will be returned
         self.results = []
@@ -138,48 +138,87 @@ class Game:
             self.game_flow = True
             self.tracked_cards = []
             
-            while self.game_flow:
-                if (self.game.player_blackjack or self.game.dealer_blackjack):
-                    # defining the content of the results entry and saving the results in the results array
-                    self.writeResults("player", "blackjack", self.results)
-                    break   
-                # a new card is beeing drawn up to n points
-                while (self.game.player_sum <= value):
-                    self.game.hit("player")
-                        
-                    if (self.game.player_sum > 21):
-                        self.writeResults("dealer", "bust", self.results)
-                        self.game_flow = False
+            # the type of auto draw is deciding for further instructions
+            if double:
+                # the player doubles automatically each time
+                while self.game_flow:
+                    if (self.game.player_blackjack or self.game.dealer_blackjack):
+                        # defining the content of the results entry and saving the results in the results array
+                        self.writeResults("player", "blackjack", self.results)
                         break
-                # checking if the game can still go on
-                if not self.game_flow:
-                    break
-                
-                # the dealer hits until he has 17 or more
-                while (self.game.dealer_sum < 17):
-                    self.game.hit("dealer") 
-                
-                    if (self.game.dealer_sum == 16):
-                        self.game.hit("dealer")
                     
-                    # check for exceed
-                    elif (self.game.dealer_sum > 21):
-                        self.writeResults("player", "bust", self.results)
-                        self.game_flow = False
+                    # the player always doubles his cards
+                    self.doubleDown()
+                    # check for player exceed
+                    if (self.game.player_sum > 21):
+                            self.writeResults("dealer", "bust", self.results)
+                            self.game_flow = False
+                            break
+                    # the dealer hits until he has 17 or more
+                    while (self.game.dealer_sum < 17 and self.game_flow):
+                        self.game.hit("dealer") 
+                    
+                        if (self.game.dealer_sum == 16):
+                            self.game.hit("dealer")
+                        
+                        # check for exceed
+                        elif (self.game.dealer_sum > 21):
+                            self.writeResults("player", "bust", self.results)
+                            self.game_flow = False
+                            
+                    if not self.game_flow:
                         break
-                
-                # checking if the game can still go on
-                if not self.game_flow:
+                    
+                    # default value comparison if nothing happened yet
+                    self.winner = self.sumCompare()
+                    self.writeResults(self.winner, "comparison", self.results)        
+
+                # add the tracked cards to the result dictionnary
+                self.result["drawn_cards"] = self.game.tracked_cards
+            
+            else:
+                while self.game_flow:
+                    if (self.game.player_blackjack or self.game.dealer_blackjack):
+                        # defining the content of the results entry and saving the results in the results array
+                        self.writeResults("player", "blackjack", self.results)
+                        break   
+                    # a new card is beeing drawn up to n points
+                    while (self.game.player_sum <= value):
+                        self.game.hit("player")
+                            
+                        if (self.game.player_sum > 21):
+                            self.writeResults("dealer", "bust", self.results)
+                            self.game_flow = False
+                            break
+                    # checking if the game can still go on
+                    if not self.game_flow:
+                        break
+                    
+                    # the dealer hits until he has 17 or more
+                    while (self.game.dealer_sum < 17):
+                        self.game.hit("dealer") 
+                    
+                        if (self.game.dealer_sum == 16):
+                            self.game.hit("dealer")
+                        
+                        # check for exceed
+                        elif (self.game.dealer_sum > 21):
+                            self.writeResults("player", "bust", self.results)
+                            self.game_flow = False
+                            break
+                    
+                    # checking if the game can still go on
+                    if not self.game_flow:
+                        break
+                    
+                    # default value comparison if nothing happened yet
+                    self.winner = self.sumCompare()
+                    self.writeResults(self.winner, "comparison", self.results)        
                     break
                 
-                # default value comparison if nothing happened yet
-                self.winner = self.sumCompare()
-                self.writeResults(self.winner, "comparison", self.results)        
-                break
+                # drawn cards are added manually
+                self.result["drawn_cards"] = self.game.tracked_cards
             
-            # drawn cards are added manually
-            self.result["drawn cards"] = self.game.tracked_cards
-        
         return self.results
 
     # method which handles the game itself

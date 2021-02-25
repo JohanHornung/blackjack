@@ -7,12 +7,12 @@ import time as t
 import json
 
 class Simulation:
-    def __init__(self, value, n=None, num_players=1,) -> None:
+    def __init__(self, n=None, num_players=1, sim_type="auto_draw_up_to_n", draw_limit=None) -> None:
         self.num_players = num_players # for now we play with 1 player
-        self.draw_limit = value
+        self.draw_limit = draw_limit
         self.start = StartingScreen() # the player joins the table
         self.game = Game()
-        self.sim_type = "auto_draw_up_to_n" # hardcoded for now
+        self.sim_type = sim_type # defaulft is the working simulation for now
         self.player_count = 1 # for now
         self.played = n if n else 1
         # plural handeling
@@ -26,30 +26,33 @@ class Simulation:
     - Another scenario would be to automate the double-down answers to yes and then to collect
     data.
     """
-    def collectGameData(self) -> dict:
-        # for the basic scenario
+    def collectGameData(self, sim_type="auto_draw_up_to_n") -> dict:
+        # define a simulation boolean
+        self.double = True if sim_type == "auto_double" else False
+        
         # we create a dictionnary with some unique attributes
-        self.auto_draw_results = {
+        self.auto_game_results = {
             "played": self.played if self.played else 1,
             "sim_type": self.sim_type,
             "draw_limit": self.draw_limit,
             "player_count": self.player_count,
             "games": []
         }
-        # the results for the games are appended to the games key
-        self.sim_results = self.game.autoDraw(self.draw_limit, self.played) 
-        self.auto_draw_results["games"] = self.sim_results
+        if (self.double):
+            # the results for the games are appended to the games key
+            self.sim_results = self.game.autoDraw(self.played, self.double) 
+            self.auto_game_results["games"] = self.sim_results
+        else:
+            self.sim_results = self.game.autoDraw(self.played, self.double, self.draw_limit)
+            self.auto_game_results["games"] = self.sim_results
         
-        # for the double-down scenario
-        # coming soon   
-    
-        return self.auto_draw_results
+        return self.auto_game_results
     
     # 2.1.4
     # method which tracks down the blackjacks in a dataset
     def blackjackCounter(self, data=None, player_count=1) -> int:
         self.dealer_bjs = self.player_bjs = 0
-        data = data if data else self.auto_draw_results
+        data = data if data else self.auto_game_results
         
         # we iterate through all games played
         for game in data["games"]:
@@ -66,7 +69,7 @@ class Simulation:
     # 2.1.5
     # method which counts wins and losses of the player
     def outcomeCounter(self, data=None):
-        data = data if data else self.auto_draw_results
+        data = data if data else self.auto_game_results
         self.outcomes = {
             "games_played": self.played,
             "sim_type": self.sim_type,
@@ -92,7 +95,7 @@ class Simulation:
     # 2.1.6
     # method which counts all the possibles outcomes of thee game
     def outcomeTypeCounter(self, data=None) -> dict:
-        data = data if data else self.auto_draw_results
+        data = data if data else self.auto_game_results
         self.outcome_type = {
             "sim_typ": self.sim_type,
             "games_played": self.played,
@@ -121,7 +124,8 @@ class Simulation:
         print(f"Out of {self.played} game{self.plural}, the player  {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
         
         return self.outcome_type
-    # 2.17
+    
+    # 2.1.7
     # method which calculates the times it takes for given operations (for now, exclusively for the ads)
     def takesTime(self, instructions):
         """exec() HIGH RISK"""
@@ -141,10 +145,10 @@ class Simulation:
     as it is an array of dictionnaries/json data) !
     """
     # method which exports the raw game data to json
-    def toJson(self, filename, data=None):
-        data = data if data else self.auto_draw_results
+    def toJson(self, filepath, data=None):
+        data = data if data else self.auto_game_results
 
-        with open(f"data/{filename}.json", "w") as results:
+        with open(f"data/{filepath}.json", "w") as results:
             json.dump(data, results, indent=2)
         
     """
@@ -156,17 +160,17 @@ class Simulation:
 
 
 def main():
-    simulation = Simulation(15, 50)
+    simulation = Simulation(50, 1, "auto-double")
     instructions = ["simulation.toJson('mock-results-autodraw', results)"]
     # print(simulation.takesTime(instructions))
-    simulation.collectGameData()
+    simulation.collectGameData("auto_double")
+    simulation.toJson("auto-double/mock-results-auto-double", simulation.auto_game_results)    
     simulation.outcomeCounter()
     simulation.outcomeTypeCounter()
-    simulation.toJson("outcome_type", simulation.outcome_type)
-    simulation.toJson("outcomes", simulation.outcomes)
-    # simulation.toJson("mock-results-autodraw")
+    simulation.toJson("auto-double/outcome_type", simulation.outcome_type)
+    simulation.toJson("auto-double/outcomes", simulation.outcomes)
+    # simulation.toJson("auto-draw-up-to-n/mock-results-autodraw")
     # print(simulations.takesTime(instructions, 15, 500))
-    # print(then-now)
     # print(results)
 
     # outcome_type = simulations.outcomeTypeCounter(results)
