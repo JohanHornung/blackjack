@@ -14,7 +14,7 @@
 
         2.1.2 - [x] Protocolling Results (while loop): for taking automaticly cards up to n points
 
-        2.1.3 - [ ] Protocolling Results (while loop): for automatically double down cards
+        2.1.3 - [x] Protocolling Results (while loop): for automatically double down cards
 
         2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
 
