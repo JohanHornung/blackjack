@@ -143,8 +143,13 @@ class Game:
                 # the player doubles automatically each time
                 while self.game_flow:
                     if (self.game.player_blackjack or self.game.dealer_blackjack):
+                        # determine the winner
+                        if not (self.game.player_blackjack and self.game.dealer_blackjack):
+                            self.winner = "player" if self.game.player_blackjack else "dealer"
+                        else:
+                            self.winner = "draw"
                         # defining the content of the results entry and saving the results in the results array
-                        self.writeResults("player", "blackjack", self.results)
+                        self.writeResults(self.winner, "blackjack", self.results)
                         break
                     
                     # the player always doubles his cards
@@ -179,9 +184,15 @@ class Game:
             else:
                 while self.game_flow:
                     if (self.game.player_blackjack or self.game.dealer_blackjack):
+                        # determine the winner
+                        if not (self.game.player_blackjack and self.game.dealer_blackjack):
+                            self.winner = "player" if self.game.player_blackjack else "dealer"
+                        else:
+                            self.winner = "draw"
                         # defining the content of the results entry and saving the results in the results array
-                        self.writeResults("player", "blackjack", self.results)
+                        self.writeResults(self.winner, "blackjack", self.results)
                         break   
+                    
                     # a new card is beeing drawn up to n points
                     while (self.game.player_sum <= value):
                         self.game.hit("player")

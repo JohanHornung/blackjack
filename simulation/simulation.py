@@ -160,16 +160,17 @@ class Simulation:
 
 
 def main():
-    simulation = Simulation(50, 1, "auto-double")
+    simulation = Simulation(5, 1, "auto-double")
     instructions = ["simulation.toJson('mock-results-autodraw', results)"]
     # print(simulation.takesTime(instructions))
     simulation.collectGameData("auto_double")
-    simulation.toJson("auto-double/mock-results-auto-double", simulation.auto_game_results)    
-    simulation.outcomeCounter()
-    simulation.outcomeTypeCounter()
-    simulation.toJson("auto-double/outcome_type", simulation.outcome_type)
-    simulation.toJson("auto-double/outcomes", simulation.outcomes)
-    # simulation.toJson("auto-draw-up-to-n/mock-results-autodraw")
+    # print(simulation.auto_game_results)
+    # simulation.toJson("auto-double/mock-results-auto-double", simulation.auto_game_results)    
+    # simulation.outcomeCounter()
+    # simulation.outcomeTypeCounter()
+    # simulation.toJson("auto-double/outcome_type", simulation.outcome_type)
+    # simulation.toJson("auto-double/outcomes", simulation.outcomes)
+    # # simulation.toJson("auto-draw-up-to-n/mock-results-autodraw")
     # print(simulations.takesTime(instructions, 15, 500))
     # print(results)
 
