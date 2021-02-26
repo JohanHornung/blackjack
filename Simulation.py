@@ -186,10 +186,10 @@ class Simulation:
                     self.content_writer.writerow(games)
 
 
-simulation = Simulation(100000, 1, "auto_draw_up_to_n", 15)
+simulation = Simulation(100, 1, "auto_draw_up_to_n", 15)
 simulation.collectGameData()
 # simulation.contentToCsv("content-mock") 
-simulation.idToCsv("id-mock-csv")
+# simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)
 # print(simulation.sim_results)
 # print(simulation.auto_game_results)

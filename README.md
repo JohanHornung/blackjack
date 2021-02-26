@@ -24,7 +24,7 @@
 
         2.1.7 - [x] Protoclling time efficiency for all these operations
 
-    2.2 - [ ] Gathering statistics
+    2.2 - [ ] Gathering statistics (statistics Class)
 
         2.2.1 - [ ] Calculate percentages of the results from 2.1
 
@@ -36,8 +36,8 @@
 
     2.4 - [ ] Decounting/protocolling of cards (dealer and player(s))
 
-        2.4.1. - [ ] How much numbers/pictures out of the n number of cards ? (goto 2.4)
-        2.4.1. - [ ] Which colors & figures out of these n pictures ? (goto 2.4)
+        2.4.1. - [ ] How much numbers/pictures out of the n number of cards ? (goto 2.3)
+        2.4.1. - [ ] Which colors & figures out of these n pictures ? (goto 2.3)
 
 
     2.5 - [ ] Protocolling number of n won/lost games
@@ -58,10 +58,11 @@
         2.6.1 - [ ] Choose data structure (probably 2d matrix)
         2.6.2 - [ ] Solve it recursively or iterative with 0(n^2) time max
 
+    2.7 - [ ] Probabilities (IMPORTANT)
 
-    2.7 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
+    2.8 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
 
-        2.7.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
+        2.8.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
 
 <br>
 
