@@ -5,6 +5,7 @@ from StartingScreen import StartingScreen
 from Game import Game
 import time as t
 import json
+import csv
 
 class Simulation:
     def __init__(self, n=None, num_players=1, sim_type="auto_draw_up_to_n", draw_limit=None) -> None:
@@ -17,6 +18,8 @@ class Simulation:
         self.played = n if n else 1
         # plural handeling
         self.plural = "s" if self.played > 1 else ""
+        self.auto_game_results = ""
+        self.tracked_cards = []
 
     """
     (2.1)  
@@ -26,9 +29,9 @@ class Simulation:
     - Another scenario would be to automate the double-down answers to yes and then to collect
     data.
     """
-    def collectGameData(self, sim_type="auto_draw_up_to_n") -> dict:
+    def collectGameData(self) -> dict:
         # define a simulation boolean
-        self.double = True if sim_type == "auto_double" else False
+        self.double = True if self.sim_type == "auto_double" else False
         
         # we create a dictionnary with some unique attributes
         self.auto_game_results = {
@@ -40,19 +43,19 @@ class Simulation:
         }
         if (self.double):
             # the results for the games are appended to the games key
-            self.sim_results = self.game.autoDraw(self.played, self.double) 
+            self.sim_results = self.game.autoDraw(self.played, self.double, self.tracked_cards) 
             self.auto_game_results["games"] = self.sim_results
         else:
-            self.sim_results = self.game.autoDraw(self.played, self.double, self.draw_limit)
+            self.sim_results = self.game.autoDraw(self.played, self.double, self.tracked_cards, self.draw_limit)
             self.auto_game_results["games"] = self.sim_results
         
-        return self.auto_game_results
+        # return self.auto_game_results
     
     # 2.1.4
     # method which tracks down the blackjacks in a dataset
     def blackjackCounter(self, data=None, player_count=1) -> int:
-        self.dealer_bjs = self.player_bjs = 0
         data = data if data else self.auto_game_results
+        self.dealer_bjs = self.player_bjs = 0
         
         # we iterate through all games played
         for game in data["games"]:
@@ -147,14 +150,56 @@ class Simulation:
     # method which exports the raw game data to json
     def toJson(self, filepath, data=None):
         data = data if data else self.auto_game_results
-
-        with open(f"data/{filepath}.json", "w") as results:
+        with open(f"auto/data/JSON/{filepath}.json", "w") as results:
             json.dump(data, results, indent=2)
         
     """
     (3.1) - Raw data is exported to a mock-results.csv file. 
     """
-    # method which exports the raw game data to CSV
-    def toCsv(self):
-        pass
+    # for the auto-double/draw the data, 2 files will be created
+    # method which exports the raw game data id to CSV
+    def idToCsv(self, filepath, data=None):
+        data = data if data else self.auto_game_results
+        # frist file: the fieldnames are the simulation infos (not the games themselfs)
+        with open(f"auto/data/CSV/{filepath}.csv", "w", newline="") as id_results:
+            self.outcomeCounter(data) # for more data 
+            self.outcomeTypeCounter(data) # for more data
+            data.pop("games") # as the games are not in the first file
+            self.id_fieldnames = [key for key in self.outcome_type.keys()]
+            # id_writer objects for the games 
+            self.id_writer = csv.DictWriter(id_results, fieldnames=self.id_fieldnames)
+            self.id_writer.writeheader()
+            self.id_writer.writerow(self.outcome_type)
 
+    def contentToCsv(self, filepath, data=None):
+            data = data if data else self.auto_game_results
+            # second file: the fieldnames are (not the games themselfs)
+            with open(f"auto/data/CSV/{filepath}.csv", "w", newline="") as cont_results:
+                self.games = data.pop("games") # as the games are not in the first file
+                self.content_fieldnames = [key for key in self.games[0].keys()]
+                
+                # the drawn cards will be represented as a string of arrays (needs to be less time consuming)
+                self.cards_str = ""
+                for game in self.games:
+                    for card in game["drawn_cards"]:
+                        self.cards_str += f"{card}"
+                        self.cards_str += " / "
+
+                # # content_writer objects for the games 
+                self.content_writer = csv.DictWriter(cont_results, fieldnames=self.content_fieldnames)
+                self.content_writer.writeheader()
+
+                for games in self.games:
+                    games["drawn_cards"].pop()
+                    self.content_writer.writerow(games)
+            # print(self.game.game.tracked_cards)
+
+
+simulation = Simulation(10, 1, "auto_draw_up_to_n", 15)
+simulation.collectGameData()
+# print(len(simulation.tracked_cards[0]))
+# simulation.contentToCsv("content-mock-100") 
+# print(simulation.sim_results)
+# print(simulation.auto_game_results)
+# simulation.toCsv("mock-csv")
+# print(simulation.fieldnames)
