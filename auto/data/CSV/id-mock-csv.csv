@@ -1,0 +1,2 @@
+sim_typ,games_played,won,lost,draw_limit,player_count,comparison,bust,blackjack
+auto_draw_up_to_n,100000,47778,52222,15,1,50800,39663,9537

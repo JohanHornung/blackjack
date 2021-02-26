@@ -178,28 +178,19 @@ class Simulation:
                 self.games = data.pop("games") # as the games are not in the first file
                 self.content_fieldnames = [key for key in self.games[0].keys()]
                 
-                # the drawn cards will be represented as a string of arrays (needs to be less time consuming)
-                self.cards_str = ""
-                for game in self.games:
-                    for card in game["drawn_cards"]:
-                        self.cards_str += f"{card}"
-                        self.cards_str += " / "
-
-                # # content_writer objects for the games 
+                # content_writer objects for the games 
                 self.content_writer = csv.DictWriter(cont_results, fieldnames=self.content_fieldnames)
                 self.content_writer.writeheader()
 
                 for games in self.games:
-                    games["drawn_cards"].pop()
                     self.content_writer.writerow(games)
-            # print(self.game.game.tracked_cards)
 
 
-simulation = Simulation(10, 1, "auto_draw_up_to_n", 15)
+simulation = Simulation(100000, 1, "auto_draw_up_to_n", 15)
 simulation.collectGameData()
-# print(len(simulation.tracked_cards[0]))
-# simulation.contentToCsv("content-mock-100") 
+# simulation.contentToCsv("content-mock") 
+simulation.idToCsv("id-mock-csv")
+# print(simulation.tracked_cards)
 # print(simulation.sim_results)
 # print(simulation.auto_game_results)
-# simulation.toCsv("mock-csv")
 # print(simulation.fieldnames)
