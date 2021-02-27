@@ -72,6 +72,7 @@ class Simulation:
     # 2.1.5
     # method which counts wins and losses of the player
     def outcomeCounter(self, data=None):
+        print(self.played)
         data = data if data else self.auto_game_results
         self.outcomes = {
             "games_played": self.played,
@@ -83,6 +84,7 @@ class Simulation:
         }
         # same procedure as for the method before
         for game in data["games"]:
+            
             if game["winner"] == "dealer": # the player lost
                 self.outcomes["loss"] += 1
             elif game["winner"] == "player":    
@@ -96,7 +98,6 @@ class Simulation:
         self.draws = self.outcomes["draw"]
         # print(f"Out of {self.played} game{self.plural}, the player has won {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
 
-        
         return self.outcomes
     
     # 2.1.6
@@ -255,8 +256,12 @@ class Simulation:
 # debugging 
 simulation = Simulation(100, 1, "auto_draw_up_to_n", 15)
 simulation.collectGameData()
-simulation.statistics()
-print(simulation.data_statistics)
+simulation.outcomeCounter()
+simulation.outcomeTypeCounter()
+simulation.toJson("auto-draw-up-to-n/outcome-type", simulation.outcome_type)
+simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
+# simulation.statistics()
+# print(simulation.data_statistics)
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)

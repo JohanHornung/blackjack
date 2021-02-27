@@ -1,0 +1,12 @@
+{
+  "sim_typ": "auto_draw_up_to_n",
+  "games_played": 100,
+  "won": 39,
+  "lost": 52,
+  "draws": 9,
+  "draw_limit": 15,
+  "player_count": 1,
+  "comparison": 54,
+  "bust": 41,
+  "blackjack": 5
+}
