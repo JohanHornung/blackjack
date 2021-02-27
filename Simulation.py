@@ -72,7 +72,6 @@ class Simulation:
     # 2.1.5
     # method which counts wins and losses of the player
     def outcomeCounter(self, data=None):
-        print(self.played)
         data = data if data else self.auto_game_results
         self.outcomes = {
             "games_played": self.played,
@@ -246,9 +245,8 @@ class Simulation:
         # make sure these stats are right (for later)
 
         # for the outcome types (similar to outcomes)
-        self.data_statistics["win"] = outcomeStatistic(self.data, "won", self.outcome_param)
-        self.data_statistics["loss"] = outcomeStatistic(self.data, "lost", self.outcome_param)
-        self.data_statistics["win"] = outcomeStatistic(self.data, "draws", self.outcome_param)
+        self.data_statistics["comparison"] = outcomeStatistic(self.data, "comparison", self.outcome_param)
+        self.data_statistics["bust"] = outcomeStatistic(self.data, "bust", self.outcome_param)
         
 
         # print(self.data_statistics)
@@ -256,12 +254,12 @@ class Simulation:
 # debugging 
 simulation = Simulation(100, 1, "auto_draw_up_to_n", 15)
 simulation.collectGameData()
-simulation.outcomeCounter()
-simulation.outcomeTypeCounter()
-simulation.toJson("auto-draw-up-to-n/outcome-type", simulation.outcome_type)
-simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
-# simulation.statistics()
-# print(simulation.data_statistics)
+simulation.statistics()
+print(simulation.data_statistics)
+# simulation.outcomeCounter()
+# simulation.outcomeTypeCounter()
+# simulation.toJson("auto-draw-up-to-n/outcome-type", simulation.outcome_type)
+# simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)
