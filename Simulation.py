@@ -78,18 +78,22 @@ class Simulation:
             "sim_type": self.sim_type,
             "draw_limit": self.draw_limit,
             "win": 0,
-            "loss": 0
+            "loss": 0,
+            "draw": 0,
         }
         # same procedure as for the method before
         for game in data["games"]:
             if game["winner"] == "dealer": # the player lost
                 self.outcomes["loss"] += 1
-            else:    
+            elif game["winner"] == "player":    
                 self.outcomes["win"] += 1
+            else: # draw
+                self.outcomes["draw"] += 1
         
         # for data printing
         self.wins = self.outcomes["win"]
         self.losses = self.outcomes["loss"]
+        self.draws = self.outcomes["draw"]
         # print(f"Out of {self.played} game{self.plural}, the player has won {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
 
         
@@ -104,6 +108,7 @@ class Simulation:
             "games_played": self.played,
             "won": self.wins,
             "lost": self.losses,
+            "draws": self.draws,
             "draw_limit": self.draw_limit,
             "player_count": 1,
             "comparison": 0,
@@ -124,8 +129,7 @@ class Simulation:
         self.busts = self.outcome_type["bust"]
         self.comparison = self.outcome_type["comparison"]
         self.blackjack = self.outcome_type["blackjack"]
-        print(f"Out of {self.played} game{self.plural}, the player  {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
-        
+        # print(f"Out of {self.played} game{self.plural}, the player  {self.wins} time{self.plural} and loss {self.losses} time{self.plural}.")
         return self.outcome_type
     
     # 2.1.7
@@ -185,9 +189,74 @@ class Simulation:
                 for games in self.games:
                     self.content_writer.writerow(games)
 
+    # method which caculates all cain of statistics about the simulated game results
+    def statistics(self):
+        # statistic dictionnary which will be treated on each game
+        self.data_statistics = {
+            "total_games": self.played,
+            "draw_limit": self.draw_limit,
+            "blackjacks": 0,
+            "win": 0,
+            "loss": 0,
+            "draw": 0,
+            "bust": 0,
+            "comparison": 0,
+            "cards": {
+                "pictured_cards": 0,
+                "numbered_cards": 0,
+                "suits": {
+                    "spades": 0,
+                    "hearts": 0,
+                    "diamonds": 0,
+                    "clubs": 0,
+                },
+                "aces": 0,
+                "queens": 0,
+                "kings": 0,
+                "jacks": 0,
+            }
+        }
+        # for defining number of wins and additional data
+        self.outcomes = self.outcomeCounter(self.auto_game_results)
+        self.data = self.outcomeTypeCounter(self.auto_game_results)
+        
+        # function which returns specific statistical value in relation to a specific parameter
+        def outcomeStatistic(data, outcome, param):
+            outcome_value = data.get(outcome, None)
+            param_value = data.get(param, None)
+            # check for presence of the data
+            if (outcome_value != None and param_value != None):
+                result = round(outcome_value / param_value, 3)
+                return result
+            else:
+                return None
+        
+        # setting the outcome type for now
+        self.outcome_param = "games_played"
+        
+        # for blackjacks
+        self.data_statistics["blackjacks"] = outcomeStatistic(self.data, "blackjack", self.outcome_param)
+        
+        
+        # for wins/losses/draws
+        self.data_statistics["win"] = outcomeStatistic(self.data, "won", self.outcome_param)
+        self.data_statistics["loss"] = outcomeStatistic(self.data, "lost", self.outcome_param)
+        self.data_statistics["draw"] = outcomeStatistic(self.data, "draws", self.outcome_param)
+        # make sure these stats are right (for later)
 
+        # for the outcome types (similar to outcomes)
+        self.data_statistics["win"] = outcomeStatistic(self.data, "won", self.outcome_param)
+        self.data_statistics["loss"] = outcomeStatistic(self.data, "lost", self.outcome_param)
+        self.data_statistics["win"] = outcomeStatistic(self.data, "draws", self.outcome_param)
+        
+
+        # print(self.data_statistics)
+
+# debugging 
 simulation = Simulation(100, 1, "auto_draw_up_to_n", 15)
 simulation.collectGameData()
+simulation.statistics()
+print(simulation.data_statistics)
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)
