@@ -1,0 +1,24 @@
+{
+  "total_games": 10000,
+  "draw_limit": 16,
+  "win": 0.391,
+  "loss": 0.52,
+  "draw": 0.09,
+  "blackjack": 0.1,
+  "bust": 0.446,
+  "comparison": 0.454,
+  "cards": {
+    "pictured_cards": 0,
+    "numbered_cards": 0,
+    "suits": {
+      "spades": 0,
+      "hearts": 0,
+      "diamonds": 0,
+      "clubs": 0
+    },
+    "aces": 0,
+    "queens": 0,
+    "kings": 0,
+    "jacks": 0
+  }
+}

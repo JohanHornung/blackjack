@@ -106,9 +106,9 @@ class Simulation:
         self.outcome_type = {
             "sim_typ": self.sim_type,
             "games_played": self.played,
-            "won": self.wins,
-            "lost": self.losses,
-            "draws": self.draws,
+            "win": self.wins,
+            "loss": self.losses,
+            "draw": self.draws,
             "draw_limit": self.draw_limit,
             "player_count": 1,
             "comparison": 0,
@@ -154,7 +154,7 @@ class Simulation:
     # method which exports the raw game data to json
     def toJson(self, filepath, data=None):
         data = data if data else self.auto_game_results
-        with open(f"auto/data/JSON/{filepath}.json", "w") as results:
+        with open(f"simulations/data/JSON/{filepath}.json", "w") as results:
             json.dump(data, results, indent=2)
         
     """
@@ -195,10 +195,10 @@ class Simulation:
         self.data_statistics = {
             "total_games": self.played,
             "draw_limit": self.draw_limit,
-            "blackjacks": 0,
             "win": 0,
             "loss": 0,
             "draw": 0,
+            "blackjack": 0,
             "bust": 0,
             "comparison": 0,
             "cards": {
@@ -232,33 +232,28 @@ class Simulation:
                 return None
         
         # setting the outcome type for now
-        self.outcome_param = "games_played"
-        
-        # for blackjacks
-        self.data_statistics["blackjacks"] = outcomeStatistic(self.data, "blackjack", self.outcome_param)
-        
-        
-        # for wins/losses/draws
-        self.data_statistics["win"] = outcomeStatistic(self.data, "won", self.outcome_param)
-        self.data_statistics["loss"] = outcomeStatistic(self.data, "lost", self.outcome_param)
-        self.data_statistics["draw"] = outcomeStatistic(self.data, "draws", self.outcome_param)
-        # make sure these stats are right (for later)
+        self.categories = ["general", "cards", "figures"]
+        self.param_outcome = "games_played"
+        self.param_keys = ["blackjack", "win", "loss", "draw", "comparison", "bust"]
+        # function which inserts a caclulated statistic value of given keys
+        def keyFill(category, param_keys:list, param_outcome: str, data):
+            # if general statistics are filled out
+            if category == "general": # filling out general information
+                for key in param_keys:
+                    data[key] = outcomeStatistic(self.data, key, param_outcome)
+            elif category == "cards": # filling out information about cards
+                pass
 
-        # for the outcome types (similar to outcomes)
-        self.data_statistics["comparison"] = outcomeStatistic(self.data, "comparison", self.outcome_param)
-        self.data_statistics["bust"] = outcomeStatistic(self.data, "bust", self.outcome_param)
-        
-
-        # print(self.data_statistics)
+        # filling out the data from the param_keys array
+        keyFill(self.categories[0], self.param_keys, self.param_outcome, self.data_statistics)
 
 # debugging 
-simulation = Simulation(100, 1, "auto_draw_up_to_n", 15)
+simulation = Simulation(10000, 1, "auto_draw_up_to_n", 16)
 simulation.collectGameData()
 simulation.statistics()
-print(simulation.data_statistics)
+simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.outcomeCounter()
 # simulation.outcomeTypeCounter()
-# simulation.toJson("auto-draw-up-to-n/outcome-type", simulation.outcome_type)
 # simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
