@@ -1,4 +1,4 @@
-exec(open("F:\workspace\Blackjack\imports.py").read())
+# exec(open("F:\workspace\Blackjack\imports.py").read())
 from Simulation import Simulation
 
 def main():

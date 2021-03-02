@@ -42,7 +42,7 @@ class StartingScreen:
             # abs(bank - self.bet) could be wrong (ISSUE #16)
     
     # to start the menu, we search for a valid input
-    def welcome(self) -> None:
+    def welcome(self):
         while True:
             try:
                 self.action = int(input(

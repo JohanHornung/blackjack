@@ -27,7 +27,7 @@ will be tracked over the time of playing as well as those which have been given.
 """
 
 class Deck:
-    def __init__(self, player_hand:list, dealer_hand:list) -> None: # theoretically these parameters are optional
+    def __init__(self, player_hand:list, dealer_hand:list): # theoretically these parameters are optional
         # class variables for the player
         self.player_hand = player_hand
         self.player_sum = 0 # important criteria of game break
@@ -46,6 +46,7 @@ class Deck:
         self.suits = deepcopy(SUITS) # all the suits in an array
         # the unique cards are a set of arrays (["Ace", "King", "Queen", ...])
         self.unique_cards = deepcopy(UNIQUE_CARDS)
+        self.cards = []
     """
     - A method for shuffling the deck is not needed as an unique card 
     is beeing choosen randomly. In addition, suffling a set is quite
@@ -53,7 +54,7 @@ class Deck:
     """
     
     # method which returns a set of the suit lengths
-    def setItemsLength(self, set) -> object:
+    def setItemsLength(self, set):
         self.set = {
                 "spades": len(set["spades"]), # if set is empty len(set) == 0
                 "hearts": len(set["hearts"]),
@@ -63,20 +64,20 @@ class Deck:
         return self.set.items()
 
     # method which spots an Ace and replace the card value by 1 if needed
-    def isAce(self, card_id, person_sum) -> None:
+    def isAce(self, card_id, person_sum):
         if (card_id["card"] == "Ace"): # if the drawned card is an Ace
         # if the current person´s sum would exceed 21 with that ace, the value of the Ace is set to 1
                 if (person_sum + card_id["value"] > 21): 
                         card_id["value"] = 1
     
     # method for tracking cards which have been drawned
-    def cardTrack(self, tracking_list:list, element=None) -> None:
+    def cardTrack(self, tracking_list:list, element=None):
         # the goal is to append all drawn cards to an array
         if element: # if (at least) a card has been drawn
             tracking_list.append(element)
 
     # method which lets the player randomly hit a card 
-    def hit(self, person:str) -> None:
+    def hit(self, person:str):
         # ALTERNATIVE FOR EMPTY DECKS: Instead of the deleting the suit set we just replace it by a new deck.
         
         # tracking the items length of the unique cards set
@@ -122,7 +123,6 @@ class Deck:
 
         # this specific card is beeing removed from the cards set
         self.unique_cards[self.suit].remove(self.card)
-
         
         """
         The following steps are written to spot and delete possible empty sets or decks.
@@ -143,6 +143,8 @@ class Deck:
             "value": self.card_value 
         }
         
+        # for statistics
+        self.cards.append((self.card_id["card"], self.card_id["suit"]))
         # Procces of tracking down the drawned card´s ID
 
         # first a copy of the card_id is created
@@ -166,16 +168,16 @@ class Deck:
             self.isAce(self.card_id, self.dealer_sum)
             self.dealer_hand.append(self.card_id)
             self.dealer_sum += self.card_id["value"] # self.card_value does not change dynamically (ace)
-        
+        print(self.cards)
         # as the class var´s are modified, hit(self) doesnt have to return anything
     
     # method returns a boolean which is True when the player has a blackjack
-    def blackjack(self, player) -> bool:
+    def blackjack(self, player):
         # if the sum of the cards is 21 the method returns true
         return True if (player[0]["value"] + player[1]["value"] == 21) else False
     
     # method which deals the first cards out and checks for BJ
-    def deal(self) -> None: # params optional
+    def deal(self): # params optional
         self.first_deal = True
         for _ in range(2):
             self.hit("player")
@@ -189,7 +191,7 @@ class Deck:
         # conditional treatement of the bj outcomes will be handled in Game.py
     
     # method which returns the cards (suit + card)
-    def cardsToString(self) -> tuple:
+    def cardsToString(self):
         self.player_cards = []
         self.dealer_cards = []
         # iteration over both player and dealer hands 
@@ -223,7 +225,7 @@ class Deck:
         return self.player_cards, self.dealer_cards
     
     # method which prints the sum of the players
-    def displaySums(self) -> None:
+    def displaySums(self):
         print(f"The player has a total of {self.player_sum} points")
         
         # special case: when the cards just got dealed 
@@ -240,7 +242,7 @@ class Deck:
         
 
     # print method which prints the cards of the player(s)/dealer
-    def displayHands(self) -> None:
+    def displayHands(self):
         # if case num_players > 1
             # player_cards will be ya 2d array
             # for player in range(num_players):

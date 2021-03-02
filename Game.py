@@ -61,7 +61,7 @@ class Game:
         """
     
     # method which compares the players cards value which the dealer´s
-    def sumCompare(self) -> str: # args are optional
+    def sumCompare(self): # args are optional
         self.winner = ""
         if (self.game.player_sum >= self.game.dealer_sum):
             if (self.game.player_sum == self.game.dealer_sum):
@@ -104,7 +104,7 @@ class Game:
         return self.string
     
     # method which takes the question and all the possibles answers as parameters
-    def choosenInput(self, question) -> str:
+    def choosenInput(self, question):
         print(question)
         self.answer = str(input())
         return self.answer.lower()
@@ -128,7 +128,7 @@ class Game:
         target.append(self.result)
     
     # method which draws automatically cards up to n points and returns an array of the results
-    def autoDraw(self, n=1, double=False, tracked_cards=[], value=None) -> tuple:
+    def autoDraw(self, n=1, double=False, tracked_cards=[], value=None):
         # new data entry is created which will be returned
         self.results = []
         self.game_counter = 0 # for data
