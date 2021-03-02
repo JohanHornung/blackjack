@@ -8,7 +8,7 @@ import json
 import csv
 
 class Simulation:
-    def __init__(self, n=None, num_players=1, sim_type="auto_draw_up_to_n", draw_limit=None) -> None:
+    def __init__(self, n=None, num_players=1, sim_type="auto_draw_up_to_n", draw_limit=None):
         self.num_players = num_players # for now we play with 1 player
         self.draw_limit = draw_limit
         self.start = StartingScreen() # the player joins the table
@@ -29,7 +29,7 @@ class Simulation:
     - Another scenario would be to automate the double-down answers to yes and then to collect
     data.
     """
-    def collectGameData(self) -> dict:
+    def collectGameData(self):
         # define a simulation boolean
         self.double = True if self.sim_type == "auto_double" else False
         
@@ -53,7 +53,7 @@ class Simulation:
     
     # 2.1.4
     # method which tracks down the blackjacks in a dataset
-    def blackjackCounter(self, data=None, player_count=1) -> int:
+    def blackjackCounter(self, data=None, player_count=1):
         data = data if data else self.auto_game_results
         self.dealer_bjs = self.player_bjs = 0
         
@@ -101,7 +101,7 @@ class Simulation:
     
     # 2.1.6
     # method which counts all the possibles outcomes of thee game
-    def outcomeTypeCounter(self, data=None) -> dict:
+    def outcomeTypeCounter(self, data=None):
         data = data if data else self.auto_game_results
         self.outcome_type = {
             "sim_typ": self.sim_type,
