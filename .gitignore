@@ -131,3 +131,6 @@ dmypy.json
 
 # All .txt files
 *.txt
+
+# .vscode files
+.vscode/
