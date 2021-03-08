@@ -3,6 +3,7 @@
 
 from StartingScreen import StartingScreen
 from Game import Game
+from config import *
 import time as t
 import json
 import csv
@@ -242,16 +243,32 @@ class Simulation:
                 for key in param_keys:
                     data[key] = outcomeStatistic(self.data, key, param_outcome)
             elif category == "cards": # filling out information about cards
-                pass
+                # cards counter
+                pictured_cards = 0
+                numbered_cards = 0
+                pictures = ["Ace", "King", "Queen", "Jack"]
+                numbers = ["Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
+        #         # we iterate through the cards list created in the Deck class
+        #         for card, suit in self.game.game.cards:
+        #             # classification of attributes in statistics
+        #             if card in pictures: # for pictured cards
+        #                 for picture in pictures: # finding out which picture
+        #                     if card == picture:
+        #                         data["cards"][picture] += 1 
+                        
+        #                 data["cards"]["pictured_cards"] += 1
+        #             else:
+        #                 data["cards"]["numbered_cards"] += 1
 
-        # filling out the data from the param_keys array
-        keyFill(self.categories[0], self.param_keys, self.param_outcome, self.data_statistics)
+
+        # # filling out the data from the param_keys array
+        keyFill(self.categories[1], self.param_keys, self.param_outcome, self.data_statistics)
 
 # debugging 
-simulation = Simulation(10000, 1, "auto_draw_up_to_n", 16)
+simulation = Simulation(1, 1, "auto_draw_up_to_n", 16)
 simulation.collectGameData()
 simulation.statistics()
-simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
+# simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.outcomeCounter()
 # simulation.outcomeTypeCounter()
 # simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
