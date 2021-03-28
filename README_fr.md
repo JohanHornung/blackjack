@@ -6,7 +6,7 @@
 
 <br>
 
-## 1 - [ ] Retravailler l'ensemble du Code BJ en utilisant des classes, des méthodes.... (haute priorité) sur la branche codebaseÖ:\_ﬂ˛Æ+
+## 1 - [ ] Retravailler l'ensemble du Code BJ en utilisant des classes, des méthodes.... (haute priorité) sur la branche game
 
     sur la branche blackjack
 
