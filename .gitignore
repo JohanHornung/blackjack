@@ -133,4 +133,4 @@ dmypy.json
 *.txt
 
 # .vscode cache
-vscode/
+.vscode/
