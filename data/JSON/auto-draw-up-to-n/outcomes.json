@@ -1,8 +1,8 @@
 {
-  "games_played": 100,
+  "games_played": 1000,
   "sim_type": "auto_draw_up_to_n",
-  "draw_limit": 15,
-  "win": 39,
-  "loss": 52,
-  "draw": 9
+  "draw_limit": 16,
+  "win": 389,
+  "loss": 528,
+  "draw": 83
 }

@@ -155,9 +155,9 @@ class Simulation:
     # method which exports the raw game data to json
     def toJson(self, filepath, data=None):
         data = data if data else self.auto_game_results
-        with open(f"simulations/data/JSON/{filepath}.json", "w") as results:
+        with open(f"data/JSON/{filepath}.json", "w") as results:
             json.dump(data, results, indent=2)
-        
+        print(f"data sucessfully exported to {filepath}.json")
     """
     (3.1) - Raw data is exported to a mock-results.csv file. 
     """
@@ -166,7 +166,7 @@ class Simulation:
     def idToCsv(self, filepath, data=None):
         data = data if data else self.auto_game_results
         # frist file: the fieldnames are the simulation infos (not the games themselfs)
-        with open(f"auto/data/CSV/{filepath}.csv", "w", newline="") as id_results:
+        with open(f"data/CSV/{filepath}.csv", "w", newline="") as id_results:
             self.outcomeCounter(data) # for more data 
             self.outcomeTypeCounter(data) # for more data
             data.pop("games") # as the games are not in the first file
@@ -176,19 +176,22 @@ class Simulation:
             self.id_writer.writeheader()
             self.id_writer.writerow(self.outcome_type)
 
+        print(f"data sucessfully exported to {filepath}.csv")
+    
     def contentToCsv(self, filepath, data=None):
-            data = data if data else self.auto_game_results
-            # second file: the fieldnames are (not the games themselfs)
-            with open(f"auto/data/CSV/{filepath}.csv", "w", newline="") as cont_results:
-                self.games = data.pop("games") # as the games are not in the first file
-                self.content_fieldnames = [key for key in self.games[0].keys()]
-                
-                # content_writer objects for the games 
-                self.content_writer = csv.DictWriter(cont_results, fieldnames=self.content_fieldnames)
-                self.content_writer.writeheader()
-
-                for games in self.games:
-                    self.content_writer.writerow(games)
+        data = data if data else self.auto_game_results
+        # second file: the fieldnames are (not the games themselfs)
+        with open(f"data/CSV/{filepath}.csv", "w", newline="") as cont_results:
+            self.games = data.pop("games") # as the games are not in the first file
+            self.content_fieldnames = [key for key in self.games[0].keys()]
+            
+            # content_writer objects for the games 
+            self.content_writer = csv.DictWriter(cont_results, fieldnames=self.content_fieldnames)
+            self.content_writer.writeheader()
+            for games in self.games:
+                self.content_writer.writerow(games)
+    
+        print(f"data sucessfully exported to '{filepath}.csv'")
 
     # method which caculates all cain of statistics about the simulated game results
     def statistics(self):
@@ -265,13 +268,14 @@ class Simulation:
         keyFill(self.categories[1], self.param_keys, self.param_outcome, self.data_statistics)
 
 # debugging 
-simulation = Simulation(1, 1, "auto_draw_up_to_n", 16)
+simulation = Simulation(1000, 1, "auto_draw_up_to_n", 16)
 simulation.collectGameData()
-simulation.statistics()
+simulation.outcomeCounter()
+simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
+# simulation.statistics()
 # simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.outcomeCounter()
 # simulation.outcomeTypeCounter()
-# simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)

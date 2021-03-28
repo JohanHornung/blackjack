@@ -168,7 +168,7 @@ class Deck:
             self.isAce(self.card_id, self.dealer_sum)
             self.dealer_hand.append(self.card_id)
             self.dealer_sum += self.card_id["value"] # self.card_value does not change dynamically (ace)
-        print(self.cards)
+        # print(self.cards)
         # as the class var´s are modified, hit(self) doesnt have to return anything
     
     # method returns a boolean which is True when the player has a blackjack
