@@ -222,8 +222,8 @@ class Simulation:
         self.data = self.outcomeTypeCounter(self.auto_game_results)
         
         # function which returns specific statistical value in relation to a specific parameter
-        def outcomeStatistic(data, outcome, param):
-            outcome_value = data.get(outcome, None)
+        def outcomeStatistic(data, key, param):
+            outcome_value = data.get(key, None)
             param_value = data.get(param, None)
             # check for presence of the data
             if (outcome_value != None and param_value != None):
