@@ -34,7 +34,7 @@
 
 ## 6 - [ ] Visualisation des résultats (priorité basse) sur la branche maths ou données, peut-être créer une nouvelle branche.
 
-    6.1 - [ ] Graphiques
+    6.1 - [ ] Diagrammes
 
         6.1.1 - [ ] Diagrammes à barres
         6.1.2 - [ ] Diagramme circulaire
