@@ -146,7 +146,7 @@ class Simulation:
         self.end = t.time()
         self.time = (self.end - self.start)
         
-        return self.time    
+        return round(self.time, 1)    
     
     """
     (3.1) - Raw data is exported to a mock-results.json file (the data is not valid JSON
@@ -268,10 +268,12 @@ class Simulation:
         keyFill(self.categories[1], self.param_keys, self.param_outcome, self.data_statistics)
 
 # debugging 
-simulation = Simulation(1000, 1, "auto_draw_up_to_n", 16)
-simulation.collectGameData()
-simulation.outcomeCounter()
-simulation.toJson("auto-draw-up-to-n/outcomes", simulation.outcomes)
+simulation = Simulation(10000, 1, "auto_draw_up_to_n", 16)
+instructions = ["simulation.collectGameData()",
+"simulation.outcomeCounter()",
+"simulation.toJson('auto-draw-up-to-n/outcomes', simulation.outcomes)"]
+time = simulation.takesTime(instructions)
+print(time)
 # simulation.statistics()
 # simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.outcomeCounter()

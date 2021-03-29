@@ -31,7 +31,7 @@
 
     2.3 - [ ] Collect all formulas and mathematical tools
 
-        2.3.1 - [ ] Write them down in functions or Classes in formula.py
+        2.3.1 - [x] Write them down in functions or Classes in formula.py
         2.3.2 - [ ] Note for each case/operation which one to use
 
     2.4 - [ ] Decounting/protocolling of cards (dealer and player(s))
