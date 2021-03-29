@@ -1,48 +1,48 @@
-# **Blackjack project for the end of the year (American Blackjack)**
+# **Projet de blackjack pour la fin de l'année (American Blackjack)**.
 
 <br><br>
 
-# **Detailed structure of the project:**
+# **Structure détaillée du projet:**
 
 <br>
 
-## 1 - [ ] Rework the entire Codebase using classes, methods... (high priority) on codebase branch
+## 1 - [ ] Retravailler l'ensemble du Code BJ en utilisant des classes, des méthodes.... (haute priorité) sur la branche game
 
-    View blackjack branch
-
-<br>
-
-## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
-
-    View blackjack/data branch
-
-## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL (medium-priority) on data branch
-
-    View data branch
+    sur la branche blackjack
 
 <br>
 
-## 4 - [ ] Implement CSV results in a SQL Database (MySQL probably) (third hardest part) (medium-priority) on db branch
+## 2 - [ ] Simuler/collecter des données et les travailler/interpréter (statistiques, dénombrement, combinatoire) (deuxième partie la plus difficile & haute priorité) sur data branch / math branch.
 
-    View db branch
+    Voir branche données / blackjack
 
-## 5 - [ ] Load & preprocess data for neural network w/ TensorFlow (hardest part) (high-priority) on neural network branch
+## 3 - [ ] Exporter les résultats dans un fichier CSV (peut-être JSON) pour interprétation et SQL (priorité moyenne) sur la branche data
 
-    View data/neural-network branch
+    Voir la branche des données
 
 <br>
 
-## 6 - [ ] Visualizing results (low priority) on math or data branch, maybe create a new one
+## 4 - [ ] Implémenter les résultats CSV dans une base de données SQL (MySQL probablement) (troisième partie la plus difficile) (priorité moyenne) sur la branche db.
 
-    6.1 - [ ] Charts
+    Voir la branche db
 
-        6.1.1 - [ ] Bar charts
-        6.1.2 - [ ] Pie charts
-        6.1.3 - [ ] Pictograms
+## 5 - [ ] Charger et prétraiter des données pour un réseau neuronal avec pandas/TensorFlow (partie la plus difficile) (priorité élevée) sur la branche neural network
 
-    6.2 - [ ] Graphs
+    Voir la branche data/neural-network
 
-        6.2.1 - [ ] Line Graphs
-        6.2.2 - [ ] Spider Graphs
+<br>
 
-    6.3 - [ ] Evolutions
+## 6 - [ ] Visualisation des résultats (priorité basse) sur la branche maths ou données, peut-être créer une nouvelle branche.
+
+    6.1 - [ ] Diagrammes
+
+        6.1.1 - [ ] Diagrammes à barres
+        6.1.2 - [ ] Diagramme circulaire
+        6.1.3 - [ ] Pictogrammes
+
+    6.2 - [ ] Graphiques
+
+        6.2.1 - [ ] Graphiques linéaires
+        6.2.2 - [ ] Graphiques en araignée
+
+    6.3 - [ ] Évolutions
