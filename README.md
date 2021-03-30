@@ -8,17 +8,17 @@
 
 ## 1 - [ ] Retravailler l'ensemble du Code BJ en utilisant des classes, des méthodes.... (haute priorité) sur la branche game
 
-    sur la branche blackjack
+    sur la branche game
 
 <br>
 
 ## 2 - [ ] Simuler/collecter des données et les travailler/interpréter (statistiques, dénombrement, combinatoire) (deuxième partie la plus difficile & haute priorité) sur data branch / math branch.
 
-    Voir branche données / blackjack
+    Voir branche data 
 
 ## 3 - [ ] Exporter les résultats dans un fichier CSV (peut-être JSON) pour interprétation et SQL (priorité moyenne) sur la branche data
 
-    Voir la branche des données
+    Voir la branche data
 
 <br>
 
@@ -28,7 +28,7 @@
 
 ## 5 - [ ] Charger et prétraiter des données pour un réseau neuronal avec pandas/TensorFlow (partie la plus difficile) (priorité élevée) sur la branche neural network
 
-    Voir la branche data/neural-network
+    Voir la branche data / neural-network
 
 <br>
 
