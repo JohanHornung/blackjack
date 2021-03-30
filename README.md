@@ -1,89 +1,86 @@
-# **Blackjack project for the end of the year (American Blackjack)**
+# **Projet de blackjack pour la fin de l'année (American Blackjack)**.
 
 <br><br>
 
-# **Detailed structure of the project (simulation / data-science part):**
+# **Structure détaillée du projet (partie simulation / data-science):**.
 
 <br>
 
-## 2 - [ ] Simulating/gathering data and work/interpretate them (statistics, count, combinatorics) (second hardest part & high priority) on data branch / math branch
+## 2 - [ ] Simuler et collecter des données et les travailler/interpréter (statistiques, comptage, combinatoire) (deuxième partie la plus difficile & haute priorité) sur la branche data / branche mathématique.
 
-    2.1 - [ ] Automating/protoclling gameflows
+    2.1 - [x] Automatiser les flux de jeu
 
-        2.1.1 - [ ] Simulation class (in progress)
+        2.1.1 - [x] Créer la classe 'Simulation' 
 
-        2.1.2 - [x] Protocolling Results (while loop): for taking automaticly cards up to n points
+        2.1.2 - [x] Protocoller les résultats (boucle while) : pour prendre automatiquement des cartes jusqu'à n points
 
-        2.1.3 - [x] Protocolling Results (while loop): for automatically double down cards
+        2.1.3 - [x] Protocoller les résultats (boucle while) : pour doubler automatiquement les cartes.
 
-        2.1.4 - [x] Protocolling Blackjacks (for dealer and player(s))
+        2.1.4 - [x] Protocoller les Blackjacks (pour le groupier et le(s) joueur(s))
 
-        2.1.5 - [x] Protoclling wins/loss
+        2.1.5 - [x] Protocoller les nombres de gains/pertes
 
-        2.1.6 - [x] Protoclling the reason of win/lost (bj, overbought, point-win)
+        2.1.6 - [x] Protocoller la raison du gain/de la perte (bj, surachat, comparaison)
 
-        2.1.7 - [x] Protoclling time efficiency for all these operations
-
-    2.2 - [ ] Gathering statistics (statistics Class)
-
-        2.2.1 - [ ] Calculate percentages of the results from 2.1
+        2.1.7 - [x] Protocoller l'efficacité du temps pour toutes ces opérations.
 
 
-    2.3 - [ ] Collect all formulas and mathematical tools
+    2.2 - [ ] Collecter toutes les formules et outils mathématiques
 
-        2.3.1 - [ ] Write them down in functions or Classes in formula.py
-        2.3.2 - [ ] Note for each case/operation which one to use
+        2.2.1 - [x] Les écrire dans des fonctions ou des Classes dans Math.py
+        2.2.2 - [ ] Noter pour chaque cas/opération celle à utiliser
 
-    2.4 - [ ] Decounting/protocolling of cards (dealer and player(s))
+    2.3 - [ ] Comptage des cartes (croupier et joueur(s))
 
-        2.4.1. - [ ] How much numbers/pictures out of the n number of cards ? (goto 2.3)
-        2.4.1. - [ ] Which colors & figures out of these n pictures ? (goto 2.3)
-
-
-    2.5 - [ ] Protocolling number of n won/lost games
-
-            2.5.1 - [ ] How much games lost/won out of n total games ? (dealer and player(s))
-
-            2.5.2 - [ ] How much consecutive games lost/won out of n total games ? (dealer and player(s))
-
-                2.5.2.1 - [ ] Use a BST for representing it
-
-                    2.5.2.1.1 - [ ] Implement BST Class (Node)
-                    2.5.2.1.2 - [ ] Inserting all relevant data
-                    2.5.2.1.3 - [ ] Log all consecutive data for n games ((w, l, w) --> 4)
+        2.3.1 - [ ] Combien de chiffres/figures sur n cartes ? (voir 2.3)
+        2.3.2 - [ ] Quelles couleurs et figures parmi ces n images ? (voir 2.3)
 
 
-    2.6 - [ ] Do the pascale triangle (maybe recursively) for decounting n type of a card out ouf p cards
+    2.4 - [ ] Protocoller le nombre de n parties gagnées/perdues
 
-        2.6.1 - [ ] Choose data structure (probably 2d matrix)
-        2.6.2 - [ ] Solve it recursively or iterative with 0(n^2) time max
+            2.4.1 - [x] Combien de parties gagnées/perdues sur les n parties totales ? (groupier et joueur(s))
 
-    2.7 - [ ] Probabilities (IMPORTANT)
+            2.4.2 - [ ] Combien de parties consécutives gagnées/perdues sur n parties totales ? (groupier et joueur(s))
 
-    2.8 - [ ] Choose data structures from outputs (BT for 2.4.2, set, arrays...)
+                2.4.2.1 - [ ] Utiliser un ABR pour le représenter (en ignorant les égalitées)
 
-        2.8.1 - [x] Set (array of sets for game key) for raw games results from simulations (2.1)
+                    2.4.2.1.1 - [ ] Implémenter une classe ABR (nœud)
+                    2.4.2.1.2 - [ ] Insérer toutes les données pertinentes
+                    2.4.2.1.3 - [ ] Enregistrer toutes les données consécutives pour n parties 
+
+
+    2.6 - [x] Faire le triangle pascal (éventuellement de manière récursive) pour décompter n types de cartes sur p cartes
+
+        2.6.1 - [x] Choisir la structure de données (probablement une matrice 2d)
+        2.6.2 - [x] Résoudre le problème récursivement ou itérativement avec un temps maximum de 0(n^2)
+
+    2.7 - [ ] Probabilités (IMPORTANT)
+
+    2.8 - [x] Choisir les structures de données à partir des outputs (ABR pour 2.4.2, ensemble, tableaux...)
+
+        2.8.1 - [x] Ensemble (tableau d'ensembles pour la clé du jeu) pour les résultats bruts des simulations (2.1).
 
 <br>
 
-## 3 - [ ] Righting the results/stats to a CSV (maybe JSON) file for interpretation and SQL DB (medium-priority)
+## 3 - [ ] Redresser les résultats/stats vers un fichier CSV (peut-être JSON) pour l'interprétation et la DB SQL (priorité moyenne).
 
-    3.1 - [ ] Choose data structure of exports for SQL
+    3.1 - [ ] Choisir la structure de données des exportations pour SQL
 
-        3.1.1 - [x] JSON/CSV for 2.7.1
+        3.1.1 - [x] JSON/CSV pour 2.7.1
 
-    3.1 - [ ] Store data in (multiple?) CSV/JSON files
+    3.1 - [ ] Stocker les données dans des fichiers CSV/JSON (multiples ?)
 
-        - [x] JSON (json.dump(data, file, indent=2) in write mode)
+        - [x] JSON (json.dump(data, file, indent=2) en mode écriture)
 
         - [ ] CSV
 
-            - [ ] Define header-rows (gameId, won, reason, cards, dealer_cards...)
-            - [ ] Delimiter
-            - [ ] Writing to CSV: (https://www.programiz.com/python-programming/writing-csv-files)
+            - [ ] Définir des lignes d'en-tête (gameId, won, reason, cards, dealer_cards...)
+            - [ ] Délimiteur
+            - [ ] Écriture en CSV : (https://www.programiz.com/python-programming/writing-csv-files)
 
-    3.2 - [ ] Exporting to a seperate file and prepare results for SQL
+    3.2 - [ ] Exportation vers un fichier séparé et préparation des résultats pour SQL
 
-        3.2.1 - [ ] How-to: https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
+        3.2.1 - [ ] Comment faire : https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
 
 <br>
+
