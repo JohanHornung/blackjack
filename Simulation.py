@@ -218,6 +218,15 @@ class Simulation:
                 "queens": 0,
                 "kings": 0,
                 "jacks": 0,
+                "ten": 0,
+                "nine": 0,
+                "eight": 0,
+                "seven": 0,
+                "six": 0,
+                "five": 0,
+                "four": 0,
+                "tree": 0,
+                "two": 0,
             }
         }
         # for defining number of wins and additional data
