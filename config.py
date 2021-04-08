@@ -27,4 +27,5 @@ UNIQUE_CARDS = {
     "diamonds": ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"],
     "clubs": ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
 }
-    
+
+TOTAL_CARDS = 52

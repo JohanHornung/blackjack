@@ -10,7 +10,7 @@
 
     2.1 - [x] Automatiser les flux de jeu
 
-        2.1.1 - [x] Créer la classe 'Simulation' 
+        2.1.1 - [x] Créer la classe 'Simulation'
 
         2.1.2 - [x] Protocoller les résultats (boucle while) : pour prendre automatiquement des cartes jusqu'à n points
 
@@ -46,7 +46,7 @@
 
                     2.4.2.1.1 - [ ] Implémenter une classe ABR (nœud)
                     2.4.2.1.2 - [ ] Insérer toutes les données pertinentes
-                    2.4.2.1.3 - [ ] Enregistrer toutes les données consécutives pour n parties 
+                    2.4.2.1.3 - [ ] Enregistrer toutes les données consécutives pour n parties
 
 
     2.6 - [x] Faire le triangle pascal (éventuellement de manière récursive) pour décompter n types de cartes sur p cartes
@@ -83,4 +83,3 @@
         3.2.1 - [ ] Comment faire : https://www.sqlshack.com/importing-and-working-with-csv-files-in-sql-server/
 
 <br>
-
