@@ -132,5 +132,5 @@ dmypy.json
 # All .txt files
 *.txt
 
-# .vscode cache
-.vscode/
+# .vscode interpreter settings
+.vscode/settings.json
