@@ -38,7 +38,7 @@ class Deck:
 
         # class variables for card tracking
         self.tracked_cards = []
-        self.card_id = None # nothing has been drawn yet (condition for cardTack(self))
+        self.card_id = {} # nothing has been drawn yet (condition for cardTack(self))
         self.person = "" # this will be a new key in the copied card id´s set
 
         # a new deck is created when the Class is initialized 
@@ -70,11 +70,11 @@ class Deck:
                 if (person_sum + card_id["value"] > 21): 
                         card_id["value"] = 1
     
-    # method for tracking cards which have been drawned
-    def cardTrack(self, tracking_list:list, element=None):
-        # the goal is to append all drawn cards to an array
-        if element: # if (at least) a card has been drawn
-            tracking_list.append(element)
+    # # method for tracking cards which have been drawned
+    # def cardTrack(self, tracking_list:list, element=None):
+    #     # the goal is to append all drawn cards to an array
+    #     if element: # if (at least) a card has been drawn
+    #         tracking_list.append(element)
 
     # method which lets the player randomly hit a card 
     def hit(self, person:str):
@@ -152,8 +152,7 @@ class Deck:
         # we add the "person" key in the copied set as it is important to know who drawed the card
         self.tracked_card["person"] = self.person
         # we add the copied set to the tracked cards
-        self.cardTrack(self.tracked_cards, self.tracked_card)
-        
+        self.tracked_cards.append(self.tracked_card)
         # the chosen card is beeing added to the hand of player/dealer
         if person.lower() == "player":
             # check if the card is an ace

@@ -20,7 +20,7 @@ class Simulation:
         # plural handeling
         self.plural = "s" if self.played > 1 else ""
         self.auto_game_results = ""
-        self.tracked_cards = []
+        # self.tracked_cards = []
 
     """
     (2.1)  
@@ -44,10 +44,10 @@ class Simulation:
         }
         if (self.double):
             # the results for the games are appended to the games key
-            self.sim_results = self.game.autoDraw(self.played, self.double, self.tracked_cards) 
+            self.sim_results = self.game.autoDraw(self.played, self.double) 
             self.auto_game_results["games"] = self.sim_results
         else:
-            self.sim_results = self.game.autoDraw(self.played, self.double, self.tracked_cards, self.draw_limit)
+            self.sim_results = self.game.autoDraw(self.played, self.double, self.draw_limit)
             self.auto_game_results["games"] = self.sim_results
         
         # return self.auto_game_results
@@ -218,15 +218,15 @@ class Simulation:
                 "queens": 0,
                 "kings": 0,
                 "jacks": 0,
-                "ten": 0,
-                "nine": 0,
-                "eight": 0,
-                "seven": 0,
+                "tens": 0,
+                "nines": 0,
+                "eights": 0,
+                "sevens": 0,
                 "six": 0,
-                "five": 0,
-                "four": 0,
-                "tree": 0,
-                "two": 0,
+                "fives": 0,
+                "fours": 0,
+                "threes": 0,
+                "twos": 0,
             }
         }
         # for defining number of wins and additional data
@@ -245,46 +245,86 @@ class Simulation:
                 return None
         
         # setting the outcome type for now
-        self.categories = ["general", "cards", "figures"]
-        self.param_outcome = "games_played"
-        self.param_keys = ["blackjack", "win", "loss", "draw", "comparison", "bust"]
+        self.categories = ["general", "cards"]
+        self.param_outcome = ["games_played", len(self.game.stat_cards)]
         # function which inserts a caclulated statistic value of given keys
-        def keyFill(category, param_keys:list, param_outcome: str, data):
+        def keyFill(category, total_ref: str, data):
             # if general statistics are filled out
             if category == "general": # filling out general information
-                for key in param_keys:
-                    data[key] = outcomeStatistic(self.data, key, param_outcome)
-            elif category == "cards": # filling out information about cards
-                # cards counter
+                for key in ["blackjack", "win", "loss", "draw", "comparison", "bust"]:
+                    data[key] = outcomeStatistic(self.data, key, total_ref)
+            elif category == "cards": # filling out statistics about cards themselfs
                 pictured_cards = 0
                 numbered_cards = 0
-                pictures = ["Ace", "King", "Queen", "Jack"]
-                numbers = ["Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
-        #         # we iterate through the cards list created in the Deck class
-        #         for card, suit in self.game.game.cards:
-        #             # classification of attributes in statistics
-        #             if card in pictures: # for pictured cards
-        #                 for picture in pictures: # finding out which picture
-        #                     if card == picture:
-        #                         data["cards"][picture] += 1 
-                        
-        #                 data["cards"]["pictured_cards"] += 1
-        #             else:
-        #                 data["cards"]["numbered_cards"] += 1
+                # looking into the drawn cards
+                for card in self.game.stat_cards:
+                    # check the card for beeing an image or a number
+                    # the image has a value of at least 10 (value of ace in id alays == 11)
+                    if (card["value"] >= 10 and card["card"] != "Ten"):
+                        pictured_cards += 1 
+                        # check the images
+                        if (card["card"] == "King"):
+                            data["cards"]["kings"] += 1
+                        elif (card["card"] == "Queen"):
+                            data["cards"]["queens"] += 1
+                        elif (card["card"] == "Ace"):
+                            data["cards"]["aces"] += 1
+                        else:
+                            data["cards"]["jacks"] += 1
+                    else:
+                        numbered_cards += 1
+                        # check the numbers
+                        if (card["card"] == "Ten"):
+                            data["cards"]["tens"] += 1
+                        elif (card["card"] == "Nine"):
+                            data["cards"]["nines"] += 1
+                        elif (card["card"] == "Eight"):
+                            data["cards"]["eights"] += 1
+                        elif (card["card"] == "Seven"):
+                            data["cards"]["sevens"] += 1
+                        elif (card["card"] == "Six"):
+                            data["cards"]["six"] += 1
+                        elif (card["card"] == "Five"):
+                            data["cards"]["fives"] += 1
+                        elif (card["card"] == "Four"):
+                            data["cards"]["fours"] += 1
+                        elif (card["card"] == "Three"):
+                            data["cards"]["threes"] += 1
+                        elif (card["card"] == "Two"):
+                            data["cards"]["twos"] += 1
 
+                    # checking the suits
+                    if (card["suit"] == "hearts"):
+                        data["cards"]["suits"]["hearts"] += 1
+                    elif (card["suit"] == "spades"):
+                        data["cards"]["suits"]["spades"] += 1
+                    elif (card["suit"] == "diamonds"):
+                        data["cards"]["suits"]["diamonds"] += 1
+                    else:
+                        data["cards"]["suits"]["clubs"] += 1
 
-        # # filling out the data from the param_keys array
-        keyFill(self.categories[1], self.param_keys, self.param_outcome, self.data_statistics)
+                # dividing each number by its total
+                for suit in SUITS:
+                    data["cards"]["suits"][suit] = round(data["cards"]["suits"][suit] / total_ref, 3)
+                
+                cards = ["aces", "queens", "kings", "jacks", "tens", "nines", "eights", "sevens", "six", "fives", "fours", "threes", "twos"]
+                for card in cards:
+                    data["cards"][card] = round(data["cards"][card] / total_ref, 3)
+                
 
+                data["cards"]["pictured_cards"] = round(pictured_cards / total_ref, 3)
+                data["cards"]["numbered_cards"] = round(numbered_cards / total_ref, 3)
+                
+        
+        keyFill(self.categories[0], self.param_outcome[0], self.data_statistics) # for general stats
+        keyFill(self.categories[1],self.param_outcome[1], self.data_statistics) # for card stats
 # debugging 
-simulation = Simulation(10000, 1, "auto_draw_up_to_n", 16)
-instructions = ["simulation.collectGameData()",
-"simulation.outcomeCounter()",
-"simulation.toJson('auto-draw-up-to-n/outcomes', simulation.outcomes)"]
-time = simulation.takesTime(instructions)
-print(time)
+simulation = Simulation(1000, 1, "auto_draw_up_to_n", 16)
+simulation.collectGameData()
+simulation.statistics()
+# print(simulation.game.stat_cards)
+simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.statistics()
-# simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
 # simulation.outcomeCounter()
 # simulation.outcomeTypeCounter()
 # simulation.contentToCsv("content-mock") 

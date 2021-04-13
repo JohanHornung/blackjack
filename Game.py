@@ -24,7 +24,7 @@ class Game:
         self.splitted_hand = False 
         self.doubled = False
         # for card tracking
-        self.tracked_cards = []
+        self.stat_cards = []
 
         # all possibles answers to the questions
         self.positive_answers = ["yes", "y", "yessir", "of course", "yes please"]
@@ -128,7 +128,7 @@ class Game:
         target.append(self.result)
     
     # method which draws automatically cards up to n points and returns an array of the results
-    def autoDraw(self, n=1, double=False, tracked_cards=[], value=None):
+    def autoDraw(self, n=1, double=False, value=None, tracked_cards=[]):
         # new data entry is created which will be returned
         self.results = []
         self.game_counter = 0 # for data
@@ -136,9 +136,9 @@ class Game:
             self.game = Deck([], []) # new game w/ new deck
             self.game.deal() # first cards are dealed to the player/dealer
             self.game_flow = True
-            self.tracked_cards = []
+            # self.tracked_cards = []
             self.game_counter += 1
-            
+            print(self.game_counter)
             # the type of auto draw is deciding for further instructions
             if double:
                 # the player doubles automatically each time
@@ -182,7 +182,8 @@ class Game:
                 # add the tracked cards to the result dictionnary
                 self.result["drawn_cards"] = self.game.tracked_cards
                 # tracking cards for data manipulation
-                tracked_cards.append(self.game.tracked_cards)
+                # tracked_cards.append(self.game.tracked_cards)
+                # self.tracked_cards.append(self.game.card_id)
 
             else:
                 while self.game_flow:
@@ -228,12 +229,15 @@ class Game:
                     # default value comparison if nothing happened yet
                     self.winner = self.sumCompare()
                     self.writeResults(self.winner, "comparison", self.game_counter, self.results)        
+                    # tracking cards for data manipulation
+                    # self.tracked_cards.append(self.game.card_id)
                     break
                 
                 # drawn cards are added manually
                 self.result["drawn_cards"] = self.game.tracked_cards
-                # tracking cards for data manipulation
-                tracked_cards.append(self.game.tracked_cards)
+            
+            for card in self.game.tracked_cards:
+                self.stat_cards.append(card)
         
         return self.results
 
