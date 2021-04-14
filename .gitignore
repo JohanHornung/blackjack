@@ -133,4 +133,4 @@ dmypy.json
 *.txt
 
 # .vscode interpreter settings
-.vscode/settings.json
+.vscode
