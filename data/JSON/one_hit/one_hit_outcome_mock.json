@@ -1,0 +1,12 @@
+{
+  "sim_typ": "one_hit",
+  "games_played": 500,
+  "win": 140,
+  "loss": 332,
+  "draw": 28,
+  "draw_limit": null,
+  "player_count": 1,
+  "comparison": 160,
+  "bust": 300,
+  "blackjack": 40
+}

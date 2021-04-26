@@ -14,7 +14,7 @@ class Simulation:
         self.draw_limit = draw_limit
         self.start = StartingScreen() # the player joins the table
         self.game = Game()
-        self.sim_type = sim_type # defaulft is the working simulation for now
+        self.sim_type = sim_type # 3 simulation types for now
         self.player_count = 1 # for now
         self.played = n if n else 1
         # plural handeling
@@ -42,14 +42,19 @@ class Simulation:
             "player_count": self.player_count,
             "games": []
         }
+        # launching the different simulation types
         if (self.double):
             # the results for the games are appended to the games key
-            self.sim_results = self.game.autoDraw(self.played, self.double) 
-            self.auto_game_results["games"] = self.sim_results
-        else:
-            self.sim_results = self.game.autoDraw(self.played, self.double, self.draw_limit)
+            self.sim_results = self.game.autoDraw(self.played, self.sim_type) 
             self.auto_game_results["games"] = self.sim_results
         
+        elif (self.sim_type == "auto_draw_up_to_n"):
+            self.sim_results = self.game.autoDraw(self.played, self.sim_type, self.draw_limit)
+            self.auto_game_results["games"] = self.sim_results
+        
+        elif (self.sim_type == "one_hit"):
+            self.sim_results = self.game.autoDraw(self.played, self.sim_type)
+            self.auto_game_results["games"] = self.sim_results
         # return self.auto_game_results
     
     # 2.1.4
@@ -195,6 +200,7 @@ class Simulation:
 
     # method which caculates all cain of statistics about the simulated game results
     def statistics(self):
+    
         # statistic dictionnary which will be treated on each game
         self.data_statistics = {
             "total_games": self.played,
@@ -320,18 +326,45 @@ class Simulation:
                 for key in ["pictured_cards", "numbered_cards"]:
                     data["cards"][key] = outcomeStatistic(self.data_statistics["cards"], key, total_cards)
                 
+            
+        keyFill(self.categories[0], self.param_outcome[0], self.data_statistics) # for general stats
+        keyFill(self.categories[1],self.param_outcome[1], self.data_statistics) # for card stats
+
+    # method which evaluates the move from the player for the one hit simulation 
+    def evaluate(self):
+        # the correctness is represented by an array of 1's or 0's
+        self.right_decision = []
         
-        keyFill(self.categories[0], self.data_statistics) # for general stats
-        keyFill(self.categories[1], self.data_statistics) # for card stats
+        for game in self.auto_game_results["games"]:
+            self.index = game["game"] - 1 # nth game - 1 for array index
+            if (game["winner"] == "player"):
+                # if the player hits and wins, the hit was a correct decision (C=1) 
+                if game["decision"] == "hit":
+                    self.right_decision[self.index] = 1
+                else:
+                    # if the player stays and wins, the stay was a good decision (C=1) 
+                    self.right_decision[self.index] = 0
+
+            else:
+                # if the player stays and loses, the stay was a good decision (C=1) 
+                if game["decision"] == "stand":
+                    self.right_decision[self.index] = 1
+                # if the player hits and loses, the hit was a bad decision (C=0) 
+                else:
+                    self.right_decision[self.index] = 0
+
+
+
 # debugging 
-simulation = Simulation(1000, 1, "auto_draw_up_to_n", 16)
+simulation = Simulation(10, 1, "one_hit")
 simulation.collectGameData()
-simulation.statistics()
-# print(simulation.game.stat_cards)
-simulation.toJson("statistics/mock-statistics", simulation.data_statistics)
+simulation.outcomeCounter()
+simulation.outcomeTypeCounter()
+simulation.toJson("one_hit/one_hit_mock", simulation.auto_game_results)
 # simulation.statistics()
-# simulation.outcomeCounter()
-# simulation.outcomeTypeCounter()
+# print(simulation.game.stat_cards)
+# print(simulation.data_statistics)
+# simulation.statistics()
 # simulation.contentToCsv("content-mock") 
 # simulation.idToCsv("id-mock-csv")
 # print(simulation.tracked_cards)
