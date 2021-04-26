@@ -138,7 +138,7 @@ class Game:
             self.game_flow = True
             # self.tracked_cards = []
             self.game_counter += 1
-            print(self.game_counter)
+            
             # the type of auto draw is deciding for further instructions
             if double:
                 # the player doubles automatically each time
