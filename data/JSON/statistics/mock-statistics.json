@@ -1,5 +1,6 @@
 {
   "total_games": 1000,
+  "total_cards": 5335,
   "draw_limit": 16,
   "win": 0.35,
   "loss": 0.537,

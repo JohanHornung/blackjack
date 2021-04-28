@@ -204,6 +204,7 @@ class Simulation:
         # statistic dictionnary which will be treated on each game
         self.data_statistics = {
             "total_games": self.played,
+            "total_cards": len(self.game.stat_cards), # param_value
             "draw_limit": self.draw_limit,
             "win": 0,
             "loss": 0,
@@ -237,29 +238,31 @@ class Simulation:
         }
         # for defining number of wins and additional data
         self.outcomes = self.outcomeCounter(self.auto_game_results)
-        self.data = self.outcomeTypeCounter(self.auto_game_results)
+        self.outcome_type = self.outcomeTypeCounter(self.auto_game_results)
         
         # function which returns specific statistical value in relation to a specific parameter
         def outcomeStatistic(data, key, param):
             outcome_value = data.get(key, None)
-            param_value = data.get(param, None)
+            # param_value = data.get(param, None)
             # check for presence of the data
-            if (outcome_value != None and param_value != None):
-                result = round(outcome_value / param_value, 3)
+            if (outcome_value != None and param != None):
+                result = round(outcome_value / param, 3)
                 return result
             else:
                 return None
         
         # setting the outcome type for now
         self.categories = ["general", "cards"]
-        self.param_outcome = ["games_played", len(self.game.stat_cards)]
+        # self.param_outcome = ["games_played"]
         # function which inserts a caclulated statistic value of given keys
-        def keyFill(category, total_ref: str, data):
+        def keyFill(category, data):
             # if general statistics are filled out
             if category == "general": # filling out general information
                 for key in ["blackjack", "win", "loss", "draw", "comparison", "bust"]:
-                    data[key] = outcomeStatistic(self.data, key, total_ref)
+                    data[key] = outcomeStatistic(self.outcome_type, key, self.played)
+            
             elif category == "cards": # filling out statistics about cards themselfs
+                total_cards = len(self.game.stat_cards)
                 pictured_cards = 0
                 numbered_cards = 0
                 # looking into the drawn cards
@@ -309,17 +312,19 @@ class Simulation:
                     else:
                         data["cards"]["suits"]["clubs"] += 1
 
-                # dividing each number by its total
-                for suit in SUITS:
-                    data["cards"]["suits"][suit] = round(data["cards"]["suits"][suit] / total_ref, 3)
+                # filling out
+                for key in SUITS:
+                    data["cards"]["suits"][key] = outcomeStatistic(self.data_statistics["cards"]["suits"], key, total_cards)
+                
+                # for suit in SUITS:
+                #     data["cards"]["suits"][suit] = round(data["cards"]["suits"][suit] / total_cards, 3)
                 
                 cards = ["aces", "queens", "kings", "jacks", "tens", "nines", "eights", "sevens", "six", "fives", "fours", "threes", "twos"]
                 for card in cards:
-                    data["cards"][card] = round(data["cards"][card] / total_ref, 3)
+                    data["cards"][card] = round(data["cards"][card] / total_cards, 3)
                 
-
-                data["cards"]["pictured_cards"] = round(pictured_cards / total_ref, 3)
-                data["cards"]["numbered_cards"] = round(numbered_cards / total_ref, 3)
+                for key in ["pictured_cards", "numbered_cards"]:
+                    data["cards"][key] = outcomeStatistic(self.data_statistics["cards"], key, total_cards)
                 
             
         keyFill(self.categories[0], self.param_outcome[0], self.data_statistics) # for general stats
