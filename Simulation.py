@@ -328,10 +328,11 @@ class Simulation:
     # method which evaluates the move from the player for the one hit simulation 
     def evaluate(self):
         # the correctness is represented by an array of 1's or 0's
-        self.right_decision = []
+        self.right_decision = [None] * self.played
         
         for game in self.auto_game_results["games"]:
             self.index = game["game"] - 1 # nth game - 1 for array index
+            
             if (game["winner"] == "player"):
                 # if the player hits and wins, the hit was a correct decision (C=1) 
                 if game["decision"] == "hit":
@@ -351,11 +352,13 @@ class Simulation:
 
 
 # debugging 
-simulation = Simulation(10, 1, "one_hit")
+simulation = Simulation(100, 1, "one_hit")
 simulation.collectGameData()
 simulation.outcomeCounter()
 simulation.outcomeTypeCounter()
-simulation.toJson("one_hit/one_hit_mock", simulation.auto_game_results)
+simulation.evaluate()
+# print(simulation.right_decision)
+# simulation.toJson("one_hit/one_hit_mock", simulation.auto_game_results)
 # simulation.statistics()
 # print(simulation.game.stat_cards)
 # print(simulation.data_statistics)
