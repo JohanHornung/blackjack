@@ -36,9 +36,9 @@ class Game:
         for i in range(len(temp_list)):
             n = len(temp_list) - i
             self.half_len = int(2**n * 0.5)
-            for rep in range(int(self.sum_array.shape[0] // self.half_len // 2)):
-                self.sum_array[rep * 2**n : rep * 2**n + self.half_len, i] = 1
-                self.sum_array[rep * 2**n + self.half_len : rep * 2**n + self.half_len * 2, i] = 11
+            for rep in range(int(self.sum_array.shape[0] // self.half_len // 2)): # math
+                self.sum_array[rep * 2**n : rep * 2**n + self.half_len, i] = 1 # math
+                self.sum_array[rep * 2**n + self.half_len : rep * 2**n + self.half_len * 2, i] = 11 # math
         # only return unique values that are valid (sum <= 21)
         return list(set([int(elem) for elem in np.sum(self.sum_array, axis=1) if elem <= 21]))
 
