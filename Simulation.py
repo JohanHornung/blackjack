@@ -13,6 +13,7 @@ class Simulation:
         self.dealer_card_result = []
         self.player_card_result = []
         self.player_results = []
+        self.games_played = 0
         self.game = Game() # 20000 staks, 1 player, 1 deck
 
     # method which plays the simulated games 1 by 1
@@ -66,8 +67,7 @@ class Simulation:
                             generate a random value between 0 and 1, if this value is higher than 0.5, 
                             the player hits, else we stay (do nothing). We additionally check for busts.
                             """
-                            while (random.random() >= 0.5) and \
-                                (self.game.total_up(self.players_hands[player]) != 21):
+                            while ((random.random() >= 0.5) and (self.game.total_up(self.players_hands[player]) != 21)):
                                 self.players_hands[player].append(self.cards.pop(0))
                                 
                                 # check for bust again
@@ -102,19 +102,88 @@ class Simulation:
                 self.dealer_card_result.append(self.dealer_hand[0])
                 self.player_card_result.append(self.players_hands)
                 self.player_results.append(list(curr_player_results[0]))
+                self.games_played += 1
                 # print(self.dealer_card_result, self.player_card_result, self.player_results)
 
-                print("player: " + str(self.game.total_up(self.players_hands[player])),
-                     "dealer: " + str(self.game.total_up(self.dealer_hand)),
-                     "result: " + str(curr_player_results[0]), # -1 || 0 || 1 
-                     "\n" 
-                    )    
+                # print("player: " + str(self.game.total_up(self.players_hands[player])),
+                #      "dealer: " + str(self.game.total_up(self.dealer_hand)),
+                #      "result: " + str(curr_player_results[0]), # -1 || 0 || 1 
+                #     )    
+        # print("\nTotal games played: " + str(self.games_played))    
+        # print(self.player_results)
     
-    def evaluate(self):
-        pass            
+    # method which evaluates the results of the simulated games
+    def evaluate(self): 
+        self.wins = self.loses = self.ties = 0
+        for result in self.player_results:
+            if int(result[0]) == 1: # if the player has won
+                self.wins += 1
+            elif int(result[0]) == -1: # if the player has lost
+                self.loses += 1
+            else:
+                self.ties += 1
+        # print(self.wins, self.loses, self.ties)
+        self.stats = {
+            "games_played": self.games_played,
+            "wins": [self.wins, str((round(self.wins / self.games_played * 100, 2))) + " %"], # [<number>, <percentage>]s
+            "loses": [self.loses, str((round(self.loses / self.games_played * 100, 2))) + " %"],
+            "ties": [self.ties, str((round(self.ties / self.games_played * 100, 2))) + " %"],
+        }
+        # print(self.stats)
+
+    def modelisation(self):
+        # defining our data model attributes for modelisationisation
+        
+        # dataframe object (table)
+        self.model_df = pd.DataFrame()
+        # entry with all the dealer cards
+        self.model_df["dealer_card"] = self.dealer_card_result
+        # entry with all total sums of the player for each game
+        self.model_df["player_total_sums"] = [self.game.total_up(sum[0][0:2]) for sum in self.player_card_result]
+        # results of each game (1, 0 or -1)
+        self.model_df["results"] = [result[0] for result in self.player_results]
+
+        # print(self.model_df["dealer_card"])
+        # print(self.model_df["player_total_sums"])
+        # print(self.model_df["results"])
+
+        self.lost = [] # either lost or won (a tie is evaluated as a win)  
+        for result in self.model_df['results']:
+            if result == -1: # dealer win
+                self.lost.append(1)
+            else:
+                self.lost.append(0)
+        # adding the results to a new df attribute
+        self.model_df['lost'] = self.lost
+        
+        # making an array to know if the player had an ace or not
+        self.player_has_ace = []
+        for card in self.player_card_result:
+            # if there is an ace in the tuple of the players cards
+            if ("A" in card[0][0:2]): 
+                self.player_has_ace.append(1) # == true
+            else:
+                self.player_has_ace.append(0) # == false
+        
+        # adding the results to a new df attribute
+        self.model_df['player_has_ace'] = self.player_has_ace
+
+        # array for replacing the ace by his numerical value
+        dealer_card_num = []
+        for card in self.model_df['dealer_card']:
+            if card == "A":
+                dealer_card_num.append(11)
+            else:
+                dealer_card_num.append(card)
+
+        # adding the results to a new df attribute
+        self.model_df['dealer_card_num'] = dealer_card_num
 
 
 
 
-simulation = Simulation(100)
+simulation = Simulation(50)
 simulation.simulation()
+simulation.evaluate()
+simulation.modelisation()
+print(simulation.model_df)
