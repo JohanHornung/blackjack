@@ -1,8 +1,6 @@
-import numpy as np # for advanced ds (arrays, matrices, ...)
-import pandas as pd # data management tools 
-import random
 import matplotlib.pyplot as plt # mathematical tool
-import seaborn as sbn # data visualisation
+import numpy as np # for advanced ds (arrays, matrices, ...)
+import random
 
 
 class Game:

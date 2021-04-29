@@ -67,7 +67,8 @@ class Simulation:
                             generate a random value between 0 and 1, if this value is higher than 0.5, 
                             the player hits, else we stay (do nothing). We additionally check for busts.
                             """
-                            while ((random.random() >= 0.5) and (self.game.total_up(self.players_hands[player]) != 21)):
+                            while ((random.random() >= 0.5) and \
+                                (self.game.total_up(self.players_hands[player]) != 21)):
                                 self.players_hands[player].append(self.cards.pop(0))
                                 
                                 # check for bust again
@@ -169,96 +170,110 @@ class Simulation:
         self.model_df['player_has_ace'] = self.player_has_ace
 
         # array for replacing the ace by his numerical value
-        dealer_card_num = []
+        dealer_card_val = []
         for card in self.model_df['dealer_card']:
             if card == "A":
-                dealer_card_num.append(11)
+                dealer_card_val.append(11)
             else:
-                dealer_card_num.append(card)
+                dealer_card_val.append(card)
 
         # adding the results to a new df attribute
-        self.model_df['dealer_card_num'] = dealer_card_num
+        self.model_df['dealer_card_val'] = dealer_card_val
+        
+        return self.model_df
+    
+    # method which returns a table of the player probability of having an ace or not
+    def has_ace(self):
+        self.aces = (self.model_df.groupby(by ='player_has_ace').sum()['lost'] / 
+                    self.model_df.groupby(by='player_has_ace').count()['lost'])
+        return self.aces
+    
+    """
+    Method which creates a barplot with the probability of winning (or tie) for all the 
+    dealers first cards.
+    NOTE: the player always decides based on the FIRST dealer card
+    """
+    def first_dealer_card_impact(self, df_model: object, xlabel: str, ylabel: str, save_to="images"):
+        # print(pd.DataFrame(self.player_results)[0].value_counts())
+        # grouping data
+        self.data = round(1 - (df_model.groupby(by='dealer_card').sum()['lost'] /           
+        df_model.groupby(by='dealer_card').count()['lost']), 3)
+        # print(self.data.index)
+        # plotting axes for x and y
+        _, ax = plt.subplots(figsize=(10, 6))
+        ax = sbn.barplot(x=self.data.index, # [2, 3, 4, ...] 
+                        y=self.data.values) 
+        # naming labels
+        ax.set_xlabel(xlabel, fontsize=15)
+        ax.set_ylabel(ylabel, fontsize=15)
+        plt.tight_layout()
+        # saving
+        plt.savefig(fname=f'{save_to}/dealer_first_card_probs', dpi=250)
+
+    """
+    Method which creates a barplot with the probability of winning (or tie) for all the 
+    total players hand values.
+    """
+    def player_value_impact(self, df_model: object, x_label: str, y_label: str, save_to="images"):
+        # pretty much the same procedure is done as for the dealers cards
+        self.data = 1 - (df_model.groupby(by='player_total_sums').sum()['lost'] /
+                    df_model.groupby(by='player_total_sums').count()['lost'])
+        # print(self.data)  
+        _, self.axis = plt.subplots(figsize=(10, 6))
+        # obviously the prob of a win or tie is 1 so we ignore it
+        self.axis = sbn.barplot(x=self.data[:-1].index,
+                         y=self.data[:-1].values)
+        self.axis.set_xlabel(x_label, fontsize=15)
+        self.axis.set_ylabel(y_label, fontsize=15)
+
+        plt.tight_layout()
+        plt.savefig(fname=f'{save_to}/player_hand_probs', dpi=150)
+        # print(pd.DataFrame(player_results)[0].value_counts())
+
+    # method which saves a heatmap of the probabilities of the player/dealer cards
+    def heatmap(self, df_model: object, x_label: str, y_label: str, save_to="images"):
+        # pivot_data = model_df[model_df['player_total_initial'] != 21]
+
+        # losses_pivot = pd.pivot_table(pivot_data, values='lose', 
+        #                               index=['dealer_card_num'],
+        #                               columns = ['player_total_initial'],
+        #                               aggfunc = np.sum)
+
+        # games_pivot =  pd.pivot_table(pivot_data, values='lose', 
+        #                               index=['dealer_card_num'],
+        #                               columns = ['player_total_initial'],
+        #                               aggfunc = 'count')
+
+        # heat_data = 1 - losses_pivot.sort_index(ascending=False) / games_pivot.sort_index(ascending=False)
+
+        # fig, ax = plt.subplots(figsize=(16,8))
+        # sbn.heatmap(heat_data, square=False, cmap="PiYG");
+
+        # ax.set_xlabel("Player's Hand Value",fontsize=16)
+        # ax.set_ylabel("Dealer's Card",fontsize=16)
+
+        # plt.savefig(fname='heat_map_random', dpi=150)
 
 
 
 
-simulation = Simulation(50)
+
+
+simulation = Simulation(1000)
 simulation.simulation()
 simulation.evaluate()
 simulation.modelisation()
+# simulation.first_dealer_card_impact(simulation.model_df, "Dealer's first card", "Probability of Tie or Win")
+# simulation.player_value_impact(simulation.model_df, "Player's hand value", "Probability of a tie or win")
+# print(simulation.has_ace())
 print(simulation.model_df)
 
-        # sum(pd.DataFrame(player_results)[0].value_counts())
 
 
 
 
 
-        # pd.DataFrame(player_results)[0].value_counts()
 
-
-
-
-
-        # data = 1 - (self.model_df.groupby(by='dealer_card').sum()['lose'] /           
-        # self.model_df.groupby(by='dealer_card').count()['lose'])
-
-        # fig, ax = plt.subplots(figsize=(10,6))
-        # ax = sbn.barplot(x=data.index, 
-        #                  y=data.values)
-        # ax.set_xlabel("Dealer's Card",fontsize=16)
-        # ax.set_ylabel("Probability of Tie or Win",fontsize=16)
-
-        # plt.tight_layout()
-        # plt.savefig(fname='dealer_card_probs', dpi=150)
-        # second chart
-
-
-
-
-
-# data = 1 - (model_df.groupby(by='player_total_initial').sum()['lose'] /            model_df.groupby(by='player_total_initial').count()['lose'])
-
-# fig, ax = plt.subplots(figsize=(10,6))
-# ax = sbn.barplot(x=data[:-1].index,
-#                  y=data[:-1].values)
-# ax.set_xlabel("Player's Hand Value",fontsize=16)
-# ax.set_ylabel("Probability of Tie or Win",fontsize=16)
-
-# plt.tight_layout()
-# plt.savefig(fname='player_hand_probs', dpi=150)
-
-
-
-
-
-# model_df.groupby(by='has_ace').sum()['lose'] / model_df.groupby(by='has_ace').count()['lose']
-
-
-
-
-
-# pivot_data = model_df[model_df['player_total_initial'] != 21]
-
-# losses_pivot = pd.pivot_table(pivot_data, values='lose', 
-#                               index=['dealer_card_num'],
-#                               columns = ['player_total_initial'],
-#                               aggfunc = np.sum)
-
-# games_pivot =  pd.pivot_table(pivot_data, values='lose', 
-#                               index=['dealer_card_num'],
-#                               columns = ['player_total_initial'],
-#                               aggfunc = 'count')
-
-# heat_data = 1 - losses_pivot.sort_index(ascending=False) / games_pivot.sort_index(ascending=False)
-
-# fig, ax = plt.subplots(figsize=(16,8))
-# sbn.heatmap(heat_data, square=False, cmap="PiYG");
-
-# ax.set_xlabel("Player's Hand Value",fontsize=16)
-# ax.set_ylabel("Dealer's Card",fontsize=16)
-
-# plt.savefig(fname='heat_map_random', dpi=150)
 
 
 
