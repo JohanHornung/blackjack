@@ -62,12 +62,14 @@ class Simulation:
                         
                         else:
                             """
-                            Now, the player has the choice to either hit or stay, if we suppose that
+                            OLD: Now, the player has the choice to either hit or stay, if we suppose that
                             the probability for hitting is the same as for staying, we can at each turn 
                             generate a random value between 0 and 1, if this value is higher than 0.5, 
                             the player hits, else we stay (do nothing). We additionally check for busts.
+                            NEW: As a random hit leads to the same chance of hitting when the player has 20
+                            than standing so a new method has to be written.
                             """
-                            while ((random.random() >= 0.5) and \
+                            while ((self.game.total_up(self.players_hands[player]) <= 11) and  
                                 (self.game.total_up(self.players_hands[player]) != 21)):
                                 self.players_hands[player].append(self.cards.pop(0))
                                 
@@ -252,19 +254,19 @@ class Simulation:
         # ax.set_xlabel("Player's Hand Value",fontsize=16)
         # ax.set_ylabel("Dealer's Card",fontsize=16)
 
-        # plt.savefig(fname='heat_map_random', dpi=150)
+        # plt.savefig(fname=f'{save_to}/heat_map_random', dpi=150)
+        pass
 
 
 
 
 
-
-simulation = Simulation(1000)
+simulation = Simulation(10000)
 simulation.simulation()
 simulation.evaluate()
 simulation.modelisation()
-# simulation.first_dealer_card_impact(simulation.model_df, "Dealer's first card", "Probability of Tie or Win")
-# simulation.player_value_impact(simulation.model_df, "Player's hand value", "Probability of a tie or win")
+simulation.first_dealer_card_impact(simulation.model_df, "Dealer's first card", "Probability of Tie or Win")
+simulation.player_value_impact(simulation.model_df, "Player's hand value", "Probability of a tie or win")
 # print(simulation.has_ace())
 print(simulation.model_df)
 
