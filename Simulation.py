@@ -6,7 +6,8 @@ import seaborn as sbn # data visualisation
 from Game import * # Game class for the blackjack
 
 class Simulation:
-    def __init__(self, stacks, num_players=1, num_decks=1):
+    def __init__(self, stacks, mode="smart", num_players=1, num_decks=1):
+        self.mode = mode
         self.stacks = stacks # number of stacks of 1 or more cards
         self.players = num_players
         self.num_decks = num_decks
@@ -234,41 +235,46 @@ class Simulation:
 
     # method which saves a heatmap of the probabilities of the player/dealer cards
     def heatmap(self, df_model: object, x_label: str, y_label: str, save_to="images"):
-        # pivot_data = model_df[model_df['player_total_initial'] != 21]
+        # creating table without the rows were the player´s sum is above 21
+        self.pivot_data = self.model_df[self.model_df['player_total_sums'] != 21]
+        # creating a table with all the collected losses for a specific dealer first card value (for each player sum)
+        self.losses_pivot = pd.pivot_table(self.pivot_data, values='lost', 
+                                      index=['dealer_card_val'], # row
+                                      columns = ['player_total_sums'],
+                                      aggfunc = np.sum)
+        # creating a table with all the collected losses for a specific dealer first card value (for each player card)
+        self.games_pivot =  pd.pivot_table(self.pivot_data, values='lost', 
+                                      index=['dealer_card_val'],
+                                      columns = ['player_total_sums'],
+                                      aggfunc = 'count')
+        # print(self.games_pivot)
+        # collect probabilities of these results
+        self.heat_data = 1 - self.losses_pivot.sort_index(ascending=False) / self.games_pivot.sort_index(ascending=False)
+        # create plot
+        _, self.axis = plt.subplots(figsize=(16, 8))
+        # creazte heatmap
+        sbn.heatmap(self.heat_data, square=False, cmap="PiYG");
+        # define axis´s
+        self.axis.set_xlabel(x_label, fontsize=16)
+        self.axis.set_ylabel(y_label, fontsize=16)
 
-        # losses_pivot = pd.pivot_table(pivot_data, values='lose', 
-        #                               index=['dealer_card_num'],
-        #                               columns = ['player_total_initial'],
-        #                               aggfunc = np.sum)
+        plt.savefig(fname=f'{save_to}/heat_map_{self.mode}', dpi=150)
 
-        # games_pivot =  pd.pivot_table(pivot_data, values='lose', 
-        #                               index=['dealer_card_num'],
-        #                               columns = ['player_total_initial'],
-        #                               aggfunc = 'count')
-
-        # heat_data = 1 - losses_pivot.sort_index(ascending=False) / games_pivot.sort_index(ascending=False)
-
-        # fig, ax = plt.subplots(figsize=(16,8))
-        # sbn.heatmap(heat_data, square=False, cmap="PiYG");
-
-        # ax.set_xlabel("Player's Hand Value",fontsize=16)
-        # ax.set_ylabel("Dealer's Card",fontsize=16)
-
-        # plt.savefig(fname=f'{save_to}/heat_map_random', dpi=150)
-        pass
+        def model_comparison(self):
+            pass
 
 
 
 
-
-simulation = Simulation(10000)
+simulation = Simulation(1000, "smart")
 simulation.simulation()
 simulation.evaluate()
 simulation.modelisation()
-simulation.first_dealer_card_impact(simulation.model_df, "Dealer's first card", "Probability of Tie or Win")
-simulation.player_value_impact(simulation.model_df, "Player's hand value", "Probability of a tie or win")
+simulation.heatmap(simulation.model_df, "Player's hand value", "Dealer´s first card")
+# simulation.first_dealer_card_impact(simulation.model_df, "Dealer's first card", "Probability of Tie or Win")
+# simulation.player_value_impact(simulation.model_df, "Player's hand value", "Probability of a tie or win")
 # print(simulation.has_ace())
-print(simulation.model_df)
+# print(simulation.model_df)
 
 
 
@@ -277,121 +283,10 @@ print(simulation.model_df)
 
 
 
-
-
-
-
-# self.stacks = 50000
-# self.players = 1
-# self.num_decks = 1
-
-# card_types = ['A',2,3,4,5,6,7,8,9,10,10,10,10]
-
-# self.dealer_card_feature = []
-# self.player_card_feature = []
-# player_results = []
-
-# for stack in range(self.stacks):
-#     blackjack = set(['A',10])
-#     dealer_cards = make_decks(self.num_decks, card_types)
-#     while len(dealer_cards) > 20:
-        
-#         curr_player_results = np.zeros((1,self.players))
-        
-#         dealer_hand = []
-#         player_hands = [[] for player in range(self.players)]
-
-#         # Deal FIRST card
-#         for player, hand in enumerate(player_hands):
-#             player_hands[player].append(dealer_cards.pop(0))
-#         dealer_hand.append(dealer_cards.pop(0))
-#         # Deal SECOND card
-#         for player, hand in enumerate(player_hands):
-#             player_hands[player].append(dealer_cards.pop(0))
-#         dealer_hand.append(dealer_cards.pop(0))
-
-#         # Dealer checks for 21
-#         if set(dealer_hand) == blackjack:
-#             for player in range(self.players):
-#                 if set(player_hands[player]) != blackjack:
-#                     curr_player_results[0,player] = -1
-#                 else:
-#                     curr_player_results[0,player] = 0
-#         else:
-#             for player in range(self.players):
-#                 # self.players check for 21
-#                 if set(player_hands[player]) == blackjack:
-#                     curr_player_results[0,player] = 1
-#                 else:
-#                     # Hit only when we know we will not bust
-#                     while total_up(player_hands[player]) <= 11:
-#                         player_hands[player].append(dealer_cards.pop(0))
-#                         if total_up(player_hands[player]) > 21:
-#                             curr_player_results[0,player] = -1
-#                             break
-        
-#         # Dealer hits based on the rules
-#         while total_up(dealer_hand) < 17:
-#             dealer_hand.append(dealer_cards.pop(0))
-#         # Compare dealer hand to self.players hand but first check if dealer busted
-#         if total_up(dealer_hand) > 21:
-#             for player in range(self.players):
-#                 if curr_player_results[0,player] != -1:
-#                     curr_player_results[0,player] = 1
-#         else:
-#             for player in range(self.players):
-#                 if total_up(player_hands[player]) > total_up(dealer_hand):
-#                     if total_up(player_hands[player]) <= 21:
-#                         curr_player_results[0,player] = 1
-#                 elif total_up(player_hands[player]) == total_up(dealer_hand):
-#                     curr_player_results[0,player] = 0
-#                 else:
-#                     curr_player_results[0,player] = -1
-#         #print('player: ' + str(total_up(player_hands[player])),
-#         #      'dealer: ' + str(total_up(dealer_hand)),
-#         #      'result: ' + str(curr_player_results)
-#         #     )    
-        
-#         # Track features
-#         self.dealer_card_feature.append(dealer_hand[0])
-#         self.player_card_feature.append(player_hands)
-#         player_results.append(list(curr_player_results[0]))
-
-# model_df_smart = pd.DataFrame()
-# model_df_smart['dealer_card'] = self.dealer_card_feature
-# model_df_smart['player_total_initial'] = [total_up(i[0][0:2]) for i in self.player_card_feature]
-# model_df_smart['Y'] = [i[0] for i in player_results]
-
-# lose = []
-# for i in model_df_smart['Y']:
-#     if i == -1:
-#         lose.append(1)
-#     else:
-#         lose.append(0)
-# model_df_smart['lose'] = lose
-
-# has_ace = []
-# for i in self.player_card_feature:
-#     if ('A' in i[0][0:2]):
-#         has_ace.append(1)
-#     else:
-#         has_ace.append(0)
-# model_df_smart['has_ace'] = has_ace
-
-# dealer_card_num = []
-# for i in model_df_smart['dealer_card']:
-#     if i=='A':
-#         dealer_card_num.append(11)
-#     else:
-#         dealer_card_num.append(i)
-# model_df_smart['dealer_card_num'] = dealer_card_num
-
-
-
-
-
-# data_smart = 1 - (model_df_smart.groupby(by='dealer_card_num').sum()['lose'] /                  model_df_smart.groupby(by='dealer_card_num').count()['lose'])
-# data_random = 1 - (model_df.groupby(by='dealer_card_num').sum()['lose'] /                   model_df.groupby(by='dealer_card_num').count()['lose'])
+# data_smart = 1 - (model_df_smart.groupby(by='dealer_card_num').sum()['lose'] /                  
+# model_df_smart.groupby(by='dealer_card_num').count()['lose'])
+# data_random = 1 - (model_df.groupby(by='dealer_card_num').sum()['lose'] /                   
+# model_df.groupby(by='dealer_card_num').count()['lose'])
 
 # data = pd.DataFrame()
 # data['smart'] = data_smart
