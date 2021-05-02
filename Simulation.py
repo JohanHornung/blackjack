@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt # mathematical tool
 import seaborn as sbn # data visualisation
 from Game import * # Game class for the blackjack
 import random
+import json
 
 
 class Simulation:
-    def __init__(self, stacks, mode="smart", num_players=1, num_decks=1):
-        self.mode = mode
+    def __init__(self, stacks, type="smart", num_players=1, num_decks=1):
+        self.type = type
         self.stacks = stacks # number of stacks of 1 or more cards
         self.players = num_players
         self.num_decks = num_decks
@@ -64,7 +65,7 @@ class Simulation:
                         
                         else:
                             # simulating both types 
-                            if (self.mode == "smart"): # smart simulation
+                            if (self.type == "smart"): # smart simulation
                                 while ((self.game.total_up(self.players_hands[player]) <= 11) and  
                                     (self.game.total_up(self.players_hands[player]) != 21)):
                                     self.players_hands[player].append(self.cards.pop(0))
@@ -73,7 +74,7 @@ class Simulation:
                                     if self.game.total_up(self.players_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
-                            elif (self.mode == "smart"): # random simulation
+                            elif (self.type == "random"): # random simulation
                                 while ((random.random() >= 0.5) and # 'coin flip' method  
                                     (self.game.total_up(self.players_hands[player]) != 21)):
                                     self.players_hands[player].append(self.cards.pop(0))
@@ -132,6 +133,7 @@ class Simulation:
                 self.ties += 1
         # print(self.wins, self.loses, self.ties)
         self.stats = {
+            "type": self.type,
             "games_played": self.games_played,
             "wins": [self.wins, str((round(self.wins / self.games_played * 100, 2))) + " %"], # [<number>, <percentage>]s
             "loses": [self.loses, str((round(self.loses / self.games_played * 100, 2))) + " %"],
@@ -215,7 +217,7 @@ class Simulation:
         ax.set_ylabel(ylabel, fontsize=15)
         plt.tight_layout()
         # saving
-        plt.savefig(fname=f'{save_to}/{self.mode}_dealer_card_impact', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_impact', dpi=200)
 
     """
     Method which creates a barplot with the probability of winning (or tie) for all the 
@@ -234,7 +236,7 @@ class Simulation:
         self.axis.set_ylabel(y_label, fontsize=15)
 
         plt.tight_layout()
-        plt.savefig(fname=f'{save_to}/{self.mode}_player_value_impact', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_player_value_impact', dpi=200)
         # print(pd.DataFrame(player_results)[0].value_counts())
 
     # method which saves a heatmap of the probabilities of the player/dealer cards
@@ -262,7 +264,7 @@ class Simulation:
         self.axis.set_xlabel(x_label, fontsize=16)
         self.axis.set_ylabel(y_label, fontsize=16)
 
-        plt.savefig(fname=f'{save_to}/{self.mode}_heat_map', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_heat_map', dpi=200)
 
     # method which returns a barmap comparing 2 types of data frame game results
     def model_comparison(self, first_df, second_df, save_to="images"):
@@ -292,7 +294,7 @@ class Simulation:
         plt.xticks(np.arange(4, 21, 1.0)) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        plt.savefig(fname=f'{save_to}/{self.mode}_player_hand_comparison', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
         
         # for the dealers first card 
         # collecting prob. results for both df´s
@@ -317,8 +319,9 @@ class Simulation:
         plt.xticks(np.arange(2, 11, 1.0)) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        plt.savefig(fname=f'{save_to}/{self.mode}_dealer_card_comparison', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
 
     # method which exports main information about the simulations
     def export_headers(self):
-        pass
+        with open(f"JSON/{self.type}_headers.json", "w", encoding="utf-8") as headers:
+            json.dump(self.stats, headers, indent=2)
