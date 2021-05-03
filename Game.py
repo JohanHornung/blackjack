@@ -14,7 +14,7 @@ class Game:
     def make_decks(self, num_decks, card_types):
         self.new_deck = []
         for _ in range(num_decks):
-            for _ in range(4): # 2 for the player and dealer
+            for _ in range(6): # 6 decks per stack
                 self.new_deck.extend(card_types) # adding the card types (['A', 2, 3, 4, ...])
         random.shuffle(self.new_deck)
         return self.new_deck
@@ -64,7 +64,7 @@ class Game:
         
         # call the function ace_values to produce list of possible values for aces in hand
         ace_value_list = self.ace_values(self.aces)
-        final_totals = [i + self.total for i in ace_value_list if i + self.total<=21]
+        final_totals = [ace + self.total for ace in ace_value_list if ace + self.total <= 21]
         
         if final_totals == []: # if the total sum is higher than 21
             return min(ace_value_list) + self.total
