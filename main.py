@@ -25,7 +25,7 @@ def main(stacks):
     smart_simulation.heatmap("Player´s hand value", "Dealer´s card")
     random_simulation.heatmap("Player´s hand value", "Dealer´s card")
     # comparing
-    smart_simulation.model_comparison(smart_simulation.df_model, random_simulation.df_model)
+    smart_simulation.model_comparison(random_simulation.df_model)
     # exporting headers
     smart_simulation.export_headers()
     random_simulation.export_headers()

@@ -112,12 +112,7 @@ class Simulation:
                 self.player_card_result.append(self.players_hands)
                 self.player_results.append(list(curr_player_results[0]))
                 self.games_played += 1
-                # print(self.dealer_card_result, self.player_card_result, self.player_results)
-
-                # print("player: " + str(self.game.total_up(self.players_hands[player])),
-                #      "dealer: " + str(self.game.total_up(self.dealer_hand)),
-                #      "result: " + str(curr_player_results[0]), # -1 || 0 || 1 
-                #     )    
+    
         # print("\nTotal games played: " + str(self.games_played))    
         # print(self.player_results)
     
@@ -267,56 +262,56 @@ class Simulation:
         plt.savefig(fname=f'{save_to}/{self.type}_heat_map', dpi=200)
 
     # method which returns a barmap comparing 2 types of data frame game results
-    def model_comparison(self, first_df, second_df, save_to="images"):
+    def model_comparison(self, other_df, save_to="images"):
         # helper func
         def setup(df_model: object, column: str, xLabel: str):
             pass
         
         # for the player hand values
         # collecting prob. results for both df´s
-        self.first_data = 1 - (first_df.groupby(by='player_total_sums').sum()['lost'] /                  
-                                first_df.groupby(by='player_total_sums').count()['lost'])
-        self.second_data = 1 - (second_df.groupby(by='player_total_sums').sum()['lost'] /                   
-                                second_df.groupby(by='player_total_sums').count()['lost'])
+        self.first_data = 1 - (self.df_model.groupby(by='player_total_sums').sum()['lost'] /                  
+                                self.df_model.groupby(by='player_total_sums').count()['lost'])
+        self.second_data = 1 - (other_df.groupby(by='player_total_sums').sum()['lost'] /                   
+                                other_df.groupby(by='player_total_sums').count()['lost'])
         # creating new dataframe with both new data
         self.data = pd.DataFrame()
-        self.data[f"{first_df}"] = self.first_data[:-1] # ignore 21 probabilities
-        self.data[f"{second_df}"] = self.second_data[:-1] # ignore 21 probabilities
+        self.data[f"{self.df_model}"] = self.first_data[:-1] # ignore 21 probabilities
+        self.data[f"{other_df}"] = self.second_data[:-1] # ignore 21 probabilities
         # create plot
         _, self.axix = plt.subplots(figsize=(12,6))
         # creating both bars for each value with labels
-        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{first_df}"].values, color='blue', width=0.4, label='smart')
-        self.axix.bar(x=self.data.index+0.2, height=self.data[f"{second_df}"].values, color='red', width=0.4, label='random')
+        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='smart')
+        self.axix.bar(x=self.data.index+0.2, height=self.data[f"{other_df}"].values, color='red', width=0.4, label='random')
         # set labels
         self.axix.set_xlabel("Player's Hand Value", fontsize=16)
         self.axix.set_ylabel("Probability of Tie or Win", fontsize=16)
-        
-        plt.xticks(np.arange(4, 21, 1.0)) # sets the steps between each bar
+        # np.arange(4, 20, 1.0), more performant
+        plt.xticks([i for i in range(4, 22)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
         plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
         
         # for the dealers first card 
         # collecting prob. results for both df´s
-        self.first_data = 1 - (first_df.groupby(by='dealer_card_val').sum()['lost'] /                  
-                                first_df.groupby(by='dealer_card_val').count()['lost'])
-        self.second_data = 1 - (second_df.groupby(by='dealer_card_val').sum()['lost'] /                   
-                                second_df.groupby(by='dealer_card_val').count()['lost'])
+        self.first_data = 1 - (self.df_model.groupby(by='dealer_card_val').sum()['lost'] /                  
+                                self.df_model.groupby(by='dealer_card_val').count()['lost'])
+        self.second_data = 1 - (other_df.groupby(by='dealer_card_val').sum()['lost'] /                   
+                                other_df.groupby(by='dealer_card_val').count()['lost'])
         # creating new dataframe 
         self.data = pd.DataFrame()
         # 
-        self.data[f"{first_df}"] = self.first_data
-        self.data[f"{second_df}"] = self.second_data
+        self.data[f"{self.df_model}"] = self.first_data
+        self.data[f"{other_df}"] = self.second_data
         # create plot
         _, self.axix = plt.subplots(figsize=(12,6))
         # creating both bars for each value with labels
-        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{first_df}"].values, color='blue', width=0.4, label='smart')
-        self.axix.bar(x=self.data.index+0.2, height=self.data[f"{second_df}"].values, color='red', width=0.4, label='random')
+        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='smart')
+        self.axix.bar(x=self.data.index+0.2, height=self.data[f"{other_df}"].values, color='red', width=0.4, label='random')
         # set labels
         self.axix.set_xlabel("Dealers first card", fontsize=16)
         self.axix.set_ylabel("Probability of Tie or Win", fontsize=16)
-        
-        plt.xticks(np.arange(2, 11, 1.0)) # sets the steps between each bar
+        # np.arange(2, 11, 1.0)
+        plt.xticks([i for i in range(2, 12)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
         plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
