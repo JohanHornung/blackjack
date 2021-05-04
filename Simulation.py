@@ -3,26 +3,43 @@ import pandas as pd # data management tools
 import matplotlib.pyplot as plt # mathematical tool
 import seaborn as sbn # data visualisation
 from Game import * # Game class for the blackjack
+from Model import * # Model class for neural network 
 import random
 import json
 
 
 class Simulation:
-    def __init__(self, stacks, type="smart", num_players=1, num_decks=1):
+    def __init__(self, stacks, type="naive", limit=None, num_players=1, num_decks=1):
         self.type = type
         self.stacks = stacks # number of stacks of 1 or more cards
         self.players = num_players
         self.num_decks = num_decks
+        self.limit = limit # only for naive simulation type
         self.dealer_card_result = []
         self.player_card_result = []
         self.player_results = []
         self.games_played = 0
+        self.total_action = []
         self.game = Game() # 20000 staks, 1 player, 1 deck
-
+        self.model = Model()
     # method which plays the simulated games 1 by 1
     def create(self):
-        for _ in range(self.stacks): # iteration through the stacks
+        # preparing the feature variables in case of a smart approach
+        if (self.type == "smart"):
+            # creating a feature list for training up
+            self.not_inculded = ["dealer_card", "results", "lost", "correct_action"]
+            self.feature_list = [column for column in self.df_model.columns if column 
+                                not in self.not_inculded]
+            # print(self.feature_list)
             
+            # adding feature list column for prediction
+            self.train_x = np.array(self.df_model[self.feature_list])
+            self.train_y = np.array(self.df_model["correct_decision"]).reshape(-1, 1)
+            # training up
+            self.model.setup(self.df_model, self.train_x, self.train_y)
+            
+        for _ in range(self.stacks): # iteration through the stacks
+            self.action = 0 # for tracking the player´s decision (1 == hit)
             self.blackjack = set(['A',10]) # {10, "A"} --> all possible blackjacks
             self.cards = self.game.make_decks(self.num_decks, self.game.card_types)
             
@@ -65,25 +82,31 @@ class Simulation:
                         
                         else:
                             # simulating both types 
-                            if (self.type == "smart"): # smart simulation
-                                while ((self.game.total_up(self.players_hands[player]) <= 11) and  
-                                    (self.game.total_up(self.players_hands[player]) != 21)):
+                            if (self.type == "naive"): # naive simulation
+                                while ((self.game.total_up(self.players_hands[player]) <= self.limit) 
+                                    and (self.game.total_up(self.players_hands[player]) != 21)):
                                     self.players_hands[player].append(self.cards.pop(0))
-                                    
+                                    self.action = 1 # hit
                                     # check for bust again
                                     if self.game.total_up(self.players_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
+                            
                             elif (self.type == "random"): # random simulation
                                 while ((random.random() >= 0.5) and # 'coin flip' method  
                                     (self.game.total_up(self.players_hands[player]) != 21)):
                                     self.players_hands[player].append(self.cards.pop(0))
-                                    
+                                    self.action = 1 # hit
                                     # check for bust again
                                     if self.game.total_up(self.players_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
-
+                            
+                            # at this point another type of simulation has been ran as the nn need to exploit previous results
+                            else: # using the neural network to play the game
+                                pass              
+                
+                
                 # dealer hits until 17 or more
                 while self.game.total_up(self.dealer_hand) < 17:    
                     self.dealer_hand.append(self.cards.pop(0))
@@ -104,16 +127,17 @@ class Simulation:
                         
                         elif self.game.total_up(self.players_hands[player]) == self.game.total_up(self.dealer_hand):
                             curr_player_results[0, player] = 0 # tie
-                        else:
+                        else: 
                             curr_player_results[0, player] = -1 # loss
                 
                 # track results for each game
                 self.dealer_card_result.append(self.dealer_hand[0])
                 self.player_card_result.append(self.players_hands)
                 self.player_results.append(list(curr_player_results[0]))
+                self.total_action.append(self.action) # to knwo if the player hits or not 
                 self.games_played += 1
     
-        # print("\nTotal games played: " + str(self.games_played))    
+        # print("\nTotal games played: " + str(self.games_played))   
         # print(self.player_results)
     
     # method which evaluates the results of the simulated games
@@ -147,7 +171,7 @@ class Simulation:
         self.df_model["player_total_sums"] = [self.game.total_up(sum[0][0:2]) for sum in self.player_card_result]
         # results of each game (1, 0 or -1)
         self.df_model["results"] = [result[0] for result in self.player_results]
-
+        self.df_model["hit?"] = self.total_action # tracking the hits
         # print(self.df_model["dealer_card"])
         # print(self.df_model["player_total_sums"])
         # print(self.df_model["results"])
@@ -158,7 +182,7 @@ class Simulation:
                 self.lost.append(1)
             else:
                 self.lost.append(0)
-        # adding the results to a new df attribute
+        # adding the results to a new df column
         self.df_model['lost'] = self.lost
         
         # making an array to know if the player had an ace or not
@@ -170,7 +194,7 @@ class Simulation:
             else:
                 self.player_has_ace.append(0) # == false
         
-        # adding the results to a new df attribute
+        # adding the results to a new df column
         self.df_model['player_has_ace'] = self.player_has_ace
 
         # array for replacing the ace by his numerical value
@@ -181,10 +205,25 @@ class Simulation:
             else:
                 dealer_card_val.append(card)
 
-        # adding the results to a new df attribute
+        # adding the results to a new df column
         self.df_model['dealer_card_val'] = dealer_card_val
         
-        return self.df_model
+        # evaluating the action from the player
+        self.correct_decision = []
+        for index, result in enumerate(self.df_model["lost"]):
+            if result == 1: # if the player hast lost the game
+                if (self.total_action[index] == 1): # if the player hitted
+                    self.correct_decision.append(0) # bad decision
+                else:
+                    self.correct_decision.append(1) # good decision
+            else: # if the player has von the game
+                if (self.total_action[index] == 1):
+                    self.correct_decision.append(1) 
+                else:
+                    self.correct_decision.append(0) 
+        
+        self.df_model["correct_decision"] = self.correct_decision
+        # return self.df_model
     
     # method which returns a table of the player probability of having an ace or not
     def has_ace(self):
@@ -280,7 +319,7 @@ class Simulation:
         # create plot
         _, self.axix = plt.subplots(figsize=(12,6))
         # creating both bars for each value with labels
-        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='smart')
+        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='naive')
         self.axix.bar(x=self.data.index+0.2, height=self.data[f"{other_df}"].values, color='red', width=0.4, label='random')
         # set labels
         self.axix.set_xlabel("Player's Hand Value", fontsize=16)
@@ -305,7 +344,7 @@ class Simulation:
         # create plot
         _, self.axix = plt.subplots(figsize=(12,6))
         # creating both bars for each value with labels
-        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='smart')
+        self.axix.bar(x=self.data.index-0.2, height=self.data[f"{self.df_model}"].values, color='blue', width=0.4, label='naive')
         self.axix.bar(x=self.data.index+0.2, height=self.data[f"{other_df}"].values, color='red', width=0.4, label='random')
         # set labels
         self.axix.set_xlabel("Dealers first card", fontsize=16)
