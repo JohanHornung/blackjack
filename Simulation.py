@@ -1,4 +1,4 @@
-import numpy as np # for advanced ds (arrays, matrices, ...)
+import numpy._globals as np # for advanced ds (arrays, matrices, ...)
 import pandas as pd # data management tools 
 import matplotlib.pyplot as plt # mathematical tool
 import seaborn as sbn # data visualisation
@@ -42,22 +42,22 @@ class Simulation:
                 # the dealers hand
                 self.dealer_hand = []
                 # each list is a player´s hand
-                self.players_hands = [[] for player in range(self.players)]
+                self.player_hands = [[] for player in range(self.players)]
                 # tracking down the players hands value
                 self.live_total = []
                 # deal the first card to player and dealer
-                for player, _ in enumerate(self.players_hands): 
-                    self.players_hands[player].append(self.cards.pop(0)) # first in last out
+                for player, _ in enumerate(self.player_hands): 
+                    self.player_hands[player].append(self.cards.pop(0)) # first in last out
                 
                 self.dealer_hand.append(self.cards.pop(0))
                 
                 # deal the second card to player and dealer
-                for player, _ in enumerate(self.players_hands): 
-                    self.players_hands[player].append(self.cards.pop(0))
+                for player, _ in enumerate(self.player_hands): 
+                    self.player_hands[player].append(self.cards.pop(0))
                 
                 self.dealer_hand.append(self.cards.pop(0))
                 # track down the players hand value
-                self.live_total.append(self.game.total_up(self.players_hands[player]))
+                self.live_total.append(self.game.total_up(self.player_hands[player]))
                 self.action = 0 # for tracking the player´s decision (1 == hit)
 
                 # dealer checks for 21
@@ -65,7 +65,7 @@ class Simulation:
                     
                     for player in range(self.players):
                         # if the player does not have a blackjack he loses
-                        if set(self.players_hands[player]) != self.blackjack: 
+                        if set(self.player_hands[player]) != self.blackjack: 
                             curr_player_results[0, player] = -1 # the corresponding players 0 is replaced by -1
                         else: # tie
                             curr_player_results[0, player] = 0 # tie
@@ -73,35 +73,35 @@ class Simulation:
                     for player in range(self.players): # for each player
                         
                         # players check for 21
-                        if set(self.players_hands[player]) == self.blackjack:
+                        if set(self.player_hands[player]) == self.blackjack:
                             curr_player_results[0, player] = 1 # win
                         
                         else:
                             # simulating both types 
                             if (self.type == "naive"): # naive simulation
-                                while ((self.game.total_up(self.players_hands[player]) <= self.limit) 
-                                    and (self.game.total_up(self.players_hands[player]) != 21)):
-                                    self.players_hands[player].append(self.cards.pop(0))
+                                while ((self.game.total_up(self.player_hands[player]) <= self.limit) 
+                                    and (self.game.total_up(self.player_hands[player]) != 21)):
+                                    self.player_hands[player].append(self.cards.pop(0))
                                     self.action = 1 # hit
                                     # check for bust again
-                                    if self.game.total_up(self.players_hands[player]) > 21:
+                                    if self.game.total_up(self.player_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
                             
                             elif (self.type == "random"): # random simulation
                                 while ((random.random() >= 0.5) and # 'coin flip' method  
-                                    (self.game.total_up(self.players_hands[player]) != 21)):
-                                    self.players_hands[player].append(self.cards.pop(0))
+                                    (self.game.total_up(self.player_hands[player]) != 21)):
+                                    self.player_hands[player].append(self.cards.pop(0))
                                     self.action = 1 # hit
                                     # check for bust again
-                                    if self.game.total_up(self.players_hands[player]) > 21:
+                                    if self.game.total_up(self.player_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
                             
                             # at this point another type of simulation has been ran as the nn need to exploit previous results
                             else: # using the neural network to play the game
                                 # look if the player has an ace
-                                if ("A" in self.players_hands[player][0:2]):
+                                if ("A" in self.player_hands[player][0:2]):
                                     self.ace = 1
                                 else:
                                     self.ace = 0
@@ -110,15 +110,15 @@ class Simulation:
                                     self.dealer_face_card = 11
                                 else:
                                     self.dealer_face_card = self.dealer_hand[0]
-
-                                while ((self.model.prediction(self.df_model, self.game.total_up(self.players_hands[player]), 
-                                        self.ace, self.dealer_face_card)) == 1 and (self.game.total_up(self.player_hands[player]) != 21)):              
+                                
+                                while ((self.model.prediction(self.game.total_up(self.player_hands[player]), self.ace, 
+                                self.dealer_face_card) == 1) and (self.game.total_up(self.player_hands[player]) != 21)):              
                                     # the nn decides to hit
                                     self.player_hands[player].append(self.cards.pop(0))
                                     self.action = 1
-                                    self.live_total.append(self.game.total_up(self.players_hands[player])) # adding live value
+                                    self.live_total.append(self.game.total_up(self.player_hands[player])) # adding live value
                                     # check for bust
-                                    if self.game.total_up(self.players_hands[player]) > 21:
+                                    if self.game.total_up(self.player_hands[player]) > 21:
                                         curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
                 
@@ -135,24 +135,25 @@ class Simulation:
                 else: # nobody busted
                     for player in range(self.players): # for each player 
                         # we compare the values
-                        if (self.game.total_up(self.players_hands[player]) > self.game.total_up(self.dealer_hand)):
+                        if (self.game.total_up(self.player_hands[player]) > self.game.total_up(self.dealer_hand)):
                             # if the player hasn´t already busted
-                            if self.game.total_up(self.players_hands[player]) <= 21: 
+                            if self.game.total_up(self.player_hands[player]) <= 21: 
                                 curr_player_results[0, player] = 1 # win
                         
-                        elif self.game.total_up(self.players_hands[player]) == self.game.total_up(self.dealer_hand):
+                        elif self.game.total_up(self.player_hands[player]) == self.game.total_up(self.dealer_hand):
                             curr_player_results[0, player] = 0 # tie
                         else: 
                             curr_player_results[0, player] = -1 # loss
                 
                 # track results for each game
                 self.dealer_card_result.append(self.dealer_hand[0])
-                self.player_card_result.append(self.players_hands)
+                self.player_card_result.append(self.player_hands)
                 self.player_results.append(list(curr_player_results[0]))
                 self.total_action.append(self.action) # to know if the player hits or not 
                 self.player_live_total.append(self.live_total)
                 self.games_played += 1
-        
+                if self.type == "smart":
+                    print(self.games_played)
         print("\nTotal games played: " + str(self.games_played) + "\n")   
         # print(self.player_results)
     
@@ -330,11 +331,11 @@ class Simulation:
                     # offset = (index // 5) + 0.2 # creating an offset for the bars
                     axis.bar(x=(data.index + offsets[i]), height=data[f"{sim_type}"].values, color=color_pick, width=0.4, label=f'{sim_type}')
             
-            return axis
+            return model_data, axis
 
         # for the player hand values
         # set labels
-        self.axis = collect("player_total_sums")
+        _, self.axis = collect("player_total_sums")
 
         self.axis.set_xlabel("Player's Hand Value", fontsize=16)
         self.axis.set_ylabel("Probability of Tie or Win", fontsize=16)
@@ -342,10 +343,10 @@ class Simulation:
         plt.xticks([i for i in range(4, 21)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
+        # plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
         
         # for the dealers first card 
-        self.axis = collect("dealer_card_val", True) # true for collecting last probability result (for 21)
+        _, self.axis = collect("dealer_card_val", True) # true for collecting last probability result (for 21)
         # set labels
         self.axis.set_xlabel("Dealers first card", fontsize=16)
         self.axis.set_ylabel("Probability of Tie or Win", fontsize=16)
@@ -353,9 +354,18 @@ class Simulation:
         plt.xticks([i for i in range(2, 12)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
+        # plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
 
-    # method which exports main information about the simulations
+        # creating a df for a table with the win/loss rates fot the different sim types 
+        self.player_sum_table, _ = collect("player_total_sums")
+        self.dealer_card_table, _ = collect("dealer_card_val")
+        # print(sum(self.player_sum_table[0].values) / (self.player_sum_table[0].count() - 1))
+        # print(self.player_sum_table[0].count())  
+        # # adding up the probabilities from all simulations
+        # for sim_type in ["random", "naive", "smart"]:
+        #     for outcome in ["win", "tie", "loss"]:
+        #         pass
+    # method which exports main isnformation about the simulations
     def export_headers(self):
         with open(f"JSON/{self.type}_headers.json", "w", encoding="utf-8") as headers:
             json.dump(self.stats, headers, indent=2)
@@ -363,6 +373,7 @@ class Simulation:
     # preparing the feature variables in case of a smart approach
     # method which prepares the training data
     def train(self):
+        print("training...")
         # creating a feature list for training up
         self.not_inculded = ["dealer_card", "results", "lost", "correct_decision"]
         self.feature_list = [column for column in self.df_model.columns if column 
@@ -379,7 +390,7 @@ class Simulation:
     # method which plots a ROC curve
     def roc_eval(self, save_to="images"):
         # calculating the false positive rate / true positive rate
-        self.fpr, self.tpr, self.threshold = metrics.roc_curve(self.model.loss_results, self.model.prediction)        
+        self.fpr, self.tpr, self.threshold = metrics.roc_curve(self.model.loss_results, self.model.prediction_results)        
         self.roc_auc = metrics.auc(self.fpr, self.tpr) # creating the curves
         # creating the plot
         _, self.axis = plt.subplots(figsize=(8, 8))
@@ -398,8 +409,8 @@ class Simulation:
         plt.setp(self.axis.get_legend().get_texts(), fontsize=16)
 
         # saving
-        plt.savefig(fname=f"{save_to}/roc_curve")
-        # plt.show()
+        # plt.savefig(fname=f"{save_to}/roc_curve")
+        plt.show()
 
      # method which evaluates the results of the simulated games
     def evaluate(self):
@@ -421,4 +432,5 @@ class Simulation:
             "loses": [self.loses, str((round(self.loses / self.games_played * 100, 2))) + " %"],
             "ties": [self.ties, str((round(self.ties / self.games_played * 100, 2))) + " %"],
         }
-        # print(self.stats)
+
+        # print(self.stats) 
