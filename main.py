@@ -2,7 +2,6 @@
 from Game import *
 from Simulation import *
 from Model import *
-import numpy
 import pandas as pd
 import time as t
 
@@ -10,37 +9,43 @@ import time as t
 def main(stacks):
     start = t.time()
     models = []
-    # creating a naive simulation
-    random_simulation = Simulation(stacks, "random")
-    # creating a random simulation
-    # random_simulation = Simulation(stacks, "random")
-    # simulating
-    random_simulation.play()
-    # random_simulation.play()
-    # outcome statistics
-    # random_simulation.evaluate()
-    random_simulation.evaluate()
-    # modelizing data frames
-    random_simulation.modelisation()
-    # random_simulation.modelisation()
-    models.append([random_simulation.df_model, f"{random_simulation.type}"])
-    # random_simulation.model_comparison(models)
-    
-    # training model    
-    random_simulation.train()
-    random_simulation.roc_eval()
+    for mode in ["naive", "random"]:
+        # creating a naive simulation
+        simulation = Simulation(stacks, mode, 11)
+        # creating a random simulation
+        # simulation = Simulation(stacks, "random")
+        # simulating
+        simulation.play()
+        # simulation.play()
+        # outcome statistics
+        # simulation.evaluate()
+        simulation.evaluate()
+        # modelizing data frames
+        simulation.modelisation()
+        simulation.export_headers()
+        # simulation.modelisation()
+        models.append([simulation.df_model, f"{simulation.type}"])
+        # simulation.model_comparison(models)
+        
+    # # training model    
+    simulation.train()
+    simulation.roc_eval()
     # # letting play the nn
     # print("Changing type...")
-    random_simulation.type = "smart"
-    smart_simulation = random_simulation
+    simulation.type = "smart"
+    smart_simulation = simulation
+    # reset counter and stacks
+    simulation.stacks = 10000
+    simulation.games_played = 0
     smart_simulation.play()
     smart_simulation.evaluate()
     smart_simulation.modelisation()
     smart_simulation.export_headers()
-    # models.append([smart_simulation.df_model, f"{smart_simulation.type}"])
+    models.append([smart_simulation.df_model, f"{smart_simulation.type}"])
+    simulation.model_comparison(models)
     # outcome statistics
     # naive_simulation.evaluate()
-    # random_simulation.evaluate()
+    # simulation.evaluate()
 
     end = t.time()
     print("Time elapsed: " + str(round(end - start, 2)) + " seconds")

@@ -159,7 +159,7 @@ class Simulation:
     
 
     def modelisation(self):
-        print("modelisating...")
+        print("modeling...")
         # defining our data model attributes for modelisationisation
         
         # dataframe object (table)
@@ -343,7 +343,7 @@ class Simulation:
         plt.xticks([i for i in range(4, 21)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        # plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_player_hand_comparison', dpi=200)
         
         # for the dealers first card 
         _, self.axis = collect("dealer_card_val", True) # true for collecting last probability result (for 21)
@@ -354,7 +354,7 @@ class Simulation:
         plt.xticks([i for i in range(2, 12)]) # sets the steps between each bar
         plt.legend()
         plt.tight_layout()
-        # plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
+        plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
 
         # creating a df for a table with the win/loss rates fot the different sim types 
         self.player_sum_table, _ = collect("player_total_sums")
