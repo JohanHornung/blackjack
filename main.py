@@ -2,7 +2,6 @@
 from Game import *
 from Simulation import *
 from Model import *
-import pandas as pd
 import time as t
 
 # main func
@@ -23,25 +22,25 @@ def main(stacks):
         # modelizing data frames
         simulation.modelisation()
         simulation.export_headers()
+        # simulation.export_headers()
         # simulation.modelisation()
         models.append([simulation.df_model, f"{simulation.type}"])
         # simulation.model_comparison(models)
         
-    # # training model    
+    # training model    
     simulation.train()
     simulation.roc_eval()
-    # # letting play the nn
-    # print("Changing type...")
+    # letting play the nn
+    print("Changing type...")
     simulation.type = "smart"
-    smart_simulation = simulation
-    # reset counter and stacks
-    simulation.stacks = 10000
-    simulation.games_played = 0
-    smart_simulation.play()
-    smart_simulation.evaluate()
-    smart_simulation.modelisation()
-    smart_simulation.export_headers()
-    models.append([smart_simulation.df_model, f"{smart_simulation.type}"])
+    # reset counter and stacks (more vars need to be reset)
+    simulation.reset(10000)
+    simulation.play()
+    simulation.evaluate()
+    simulation.modelisation()
+    simulation.export_headers()
+    models.append([simulation.df_model, f"{simulation.type}"])
+    
     simulation.model_comparison(models)
     # outcome statistics
     # naive_simulation.evaluate()

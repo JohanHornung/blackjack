@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt # mathematical tool
 import numpy as np # for advanced ds (arrays, matrices, ...)
 import random
 
@@ -52,22 +51,22 @@ class Game:
     # print(ace_values(5))
 
     # Total up value of hand
-    def total_up(self, hand):
+    def total(self, hand):
         self.aces = 0
-        self.total = 0
+        self.total_value = 0
         
         for card in hand:
             if card != 'A':
-                self.total += card # the card is the int value itself
+                self.total_value += card # the card is the int value itself
             else:
                 self.aces += 1 # for now 
         
         # call the function ace_values to produce list of possible values for aces in hand
         ace_value_list = self.ace_values(self.aces)
-        final_totals = [ace + self.total for ace in ace_value_list if ace + self.total <= 21]
+        final_totals = [ace + self.total_value for ace in ace_value_list if ace + self.total_value <= 21]
         
         if final_totals == []: # if the total sum is higher than 21
-            return min(ace_value_list) + self.total
+            return min(ace_value_list) + self.total_value
         else:
             return max(final_totals)
 
