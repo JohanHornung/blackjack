@@ -1,0 +1,17 @@
+{
+  "type": "random",
+  "neural-net guessing rate": null,
+  "games_played": 2745177,
+  "wins": [
+    868315,
+    "31.63 %"
+  ],
+  "loses": [
+    1755272,
+    "63.94 %"
+  ],
+  "ties": [
+    121590,
+    "4.43 %"
+  ]
+}

@@ -130,3 +130,5 @@ dmypy.json
 
 # notes and every other txt file
 *.txt
+
+.vscode/
