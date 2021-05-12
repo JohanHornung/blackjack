@@ -443,8 +443,8 @@ class Simulation:
     def reset(self, stacks):
         # make sure the nn is playing
         assert self.type == "smart", "The neural-net has to play!"
-        # counter
         self.stacks = stacks
+        # counter
         self.games_played = 0
         self.dealer_card_result = []
         self.player_card_result = []

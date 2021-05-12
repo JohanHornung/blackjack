@@ -14,7 +14,7 @@ class Model:
         self.activation = "sigmoid" # this function converts raw output to readable ouput
         self.loss = "binary_crossentropy" # good for outputting probabilities
         self.optimizer = "sgd"
-        self.epochs = 150
+        self.epochs = 200
         self.batch_size = 256
         self.verbose = 1
 

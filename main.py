@@ -21,27 +21,28 @@ def main(stacks):
         simulation.evaluate()
         # modelizing data frames
         simulation.modelisation()
+        # simulation.heatmap("Valeur de main", "Première cart du croupier")
         simulation.export_headers()
         # simulation.export_headers()
         # simulation.modelisation()
         models.append([simulation.df_model, f"{simulation.type}"])
         # simulation.model_comparison(models)
-        
-    # training model    
-    simulation.train()
-    simulation.roc_eval()
-    # letting play the nn
-    print("Changing type...")
-    simulation.type = "smart"
-    # reset counter and stacks (more vars need to be reset)
-    simulation.reset(10000)
-    simulation.play()
-    simulation.evaluate()
-    simulation.modelisation()
-    simulation.export_headers()
-    models.append([simulation.df_model, f"{simulation.type}"])
+        print(simulation.df_model)
+    # # training model    
+    # simulation.train()
+    # simulation.roc_eval()
+    # # letting play the nn
+    # print("Changing type...")
+    # simulation.type = "smart"
+    # # reset counter and stacks (more vars need to be reset)
+    # simulation.reset(75000)
+    # simulation.play()
+    # simulation.evaluate()
+    # simulation.modelisation()
+    # simulation.export_headers()
+    # models.append([simulation.df_model, f"{simulation.type}"])
     
-    simulation.model_comparison(models)
+    # simulation.model_comparison(models)
     # outcome statistics
     # naive_simulation.evaluate()
     # simulation.evaluate()
