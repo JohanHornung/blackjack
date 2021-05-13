@@ -152,8 +152,7 @@ class Simulation:
                 self.total_action.append(self.action) # to know if the player hits or not 
                 self.player_live_total.append(self.live_total)
                 self.games_played += 1
-                if self.type == "smart":
-                    print(self.games_played)
+        
         print("\nTotal games played: " + str(self.games_played) + "\n")   
         # print(self.player_results)
     
@@ -301,11 +300,56 @@ class Simulation:
 
         plt.savefig(fname=f'{save_to}/{self.type}_heat_map', dpi=200)
 
+    # method which plots the hit frequency of naive & smart
+    def hit_frequency(self, save_to="images"):
+        # collecting count of the players sums
+        self.sum_count_df = self.df_model.groupby(by=["player_total_sums"]).count()["lost"]
+        self.sum_count = np.array(self.sum_count_df)
+        # collect hit count for player
+        self.hit_count = list(self.df_model[self.df_model["hit?"] == 1].groupby(by=["player_total_sums"]).count()["lost"])
+        self.hit_count.extend([0 for _ in range(len(self.sum_count) - len(self.hit_count))])
+        # creating hit rate df
+        self.hit_rate_df = pd.DataFrame(np.array(self.hit_count) / np.array(self.sum_count), 
+                                        index=self.sum_count_df.index, 
+                                        columns=["nn_hit_freq"])
+        self.hit_rate_df.reset_index(inplace=True)
 
+        # as the naive hit rate is 1 until the limit, we append 1 to a simple list
+        self.naive_hit_rate = []
+        for i in range(4, 22):
+            if i <= self.limit:
+                self.naive_hit_rate.append(1) # 100%
+            else:
+                self.naive_hit_rate.append(0)
+        # adding column
+        self.hit_rate_df["naive_hit_freq"] = self.naive_hit_rate
+        # take data and plot
+        self.data = self.hit_rate_df[["nn_hit_freq", "naive_hit_freq"]]
+        # plotting
+        _, self.axis = plt.subplots(figsize=(12, 6))
 
+        self.axis.bar(x=self.hit_rate_df["player_total_sums"] - 0.2, 
+                    height=self.data["nn_hit_freq"].values, 
+                    color="blue", 
+                    width=0.4, 
+                    label="Neural Net")
 
+        self.axis.bar(x=self.hit_rate_df["player_total_sums"] + 0.2, 
+                    height=self.data["naive_hit_freq"].values, 
+                    color="red", 
+                    width=0.4, 
+                    label="Naive")
+        
+        self.axis.set_xlabel("Valeur de la main du joueur", fontsize=16)
+        self.axis.set_ylabel("Fréquence de hit", fontsize=16)
+        plt.xticks(np.arange(4, 21, 1.0))
+
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(fname=f"{save_to}/hit_frequency", dpi=200)
+        
     # method which returns a barmap comparing 2 types of data frame game results
-    def model_comparison(self, models:list, save_to="images"):
+    def model_comparison(self, models:list, total_stats, save_to="images"):
         print("comparing...")
         # collecting prob. results for all df´s
         # other_dfs has all the models to be compared with
@@ -362,13 +406,32 @@ class Simulation:
         plt.savefig(fname=f'{save_to}/{self.type}_dealer_card_comparison', dpi=200)
 
         # creating a bar plot for the percentages of the outcomes
-        self.percentages = []
-        for key, value in self.stats:
-            # extract the percentages
-            if key in ["wins", "loses", "ties"]:
-                self.percentages.append((value[0] / self.stats["games_played"]) * 100)
-        # creating plot bars
+        # self.percentages = []
+        # self.outcomes = ["wins", "loses", "ties"]
+        # for simulation in total_stats:
+        #     self.percentages.append(
+        #                             [simulation["type"], 
+        #                             (simulation["wins"][0] / simulation["games_played"]) * 100, 
+        #                             (simulation["loses"][0] / simulation["games_played"]) * 100, 
+        #                             (simulation["ties"][0] / simulation["games_played"]) * 100])
         
+        # # creating plot bars
+        # _, self.axis = plt.subplots(figsize=(12, 6))
+        # for simulation in self.percentages:
+        #     pass
+
+
+        # self.axis.set_xticks([1, 2, 3])
+        # self.axis.set_xticklabels(self.outcomes)
+        # for key, value in self.stats:
+        #     # extract the percentages
+        #     if key in self.outcomes:
+        #         self.percentages.append((value[0] / self.stats["games_played"]) * 100)
+        # self.color_pick = random.shuffle([255, 0, 0]) # red, green or blue   
+        # for i, percentage in enumerate(self.percentages):
+        #         self.axis.bar(x=(i), height=percentage, color=self.color_pick, width=0.4, label=f"{self.outcomes[i]}")
+
+
     # method which exports main isnformation about the simulations
     def export_headers(self):
         with open(f"JSON/{self.type}_headers.json", "w", encoding="utf-8") as headers:
@@ -403,10 +466,10 @@ class Simulation:
         plt.plot(self.fpr, self.tpr, label=(self.label))
         plt.legend(loc="lower right") # sets location of the legend
         # setting axis limits
-        self.limit = [0, 1]
-        plt.plot(self.limit, self.limit, "r--")
-        plt.xlim(self.limit)
-        plt.ylim(self.limit)
+        self.limits = [0, 1]
+        plt.plot(self.limits, self.limits, "r--")
+        plt.xlim(self.limits)
+        plt.ylim(self.limits)
         # naming
         self.axis.set_xlabel("False positive rate", fontsize=14)
         self.axis.set_ylabel("True positive rate", fontsize=14)
@@ -414,7 +477,7 @@ class Simulation:
 
         # saving
         plt.savefig(fname=f"{save_to}/roc_curve")
-        plt.show()
+        # plt.show()
 
     # method which evaluates the results of the simulated games
     def evaluate(self):

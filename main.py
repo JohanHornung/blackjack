@@ -8,7 +8,8 @@ import time as t
 def main(stacks):
     start = t.time()
     models = []
-    for mode in ["naive", "random"]:
+    total_stats = []
+    for mode in ["naive"]:
         # creating a naive simulation
         simulation = Simulation(stacks, mode, 11)
         # creating a random simulation
@@ -22,30 +23,30 @@ def main(stacks):
         # modelizing data frames
         simulation.modelisation()
         # simulation.heatmap("Valeur de main", "Première cart du croupier")
-        simulation.export_headers()
+        # simulation.export_headers()
+        total_stats.append(simulation.stats)
         # simulation.export_headers()
         # simulation.modelisation()
         models.append([simulation.df_model, f"{simulation.type}"])
         # simulation.model_comparison(models)
-        print(simulation.df_model)
-    # # training model    
-    # simulation.train()
-    # simulation.roc_eval()
-    # # letting play the nn
-    # print("Changing type...")
-    # simulation.type = "smart"
-    # # reset counter and stacks (more vars need to be reset)
-    # simulation.reset(75000)
-    # simulation.play()
-    # simulation.evaluate()
-    # simulation.modelisation()
+        # print(simulation.df_model)
+    # training model    
+    simulation.train()
+    simulation.roc_eval()
+    # letting play the nn
+    print("Changing type...")
+    simulation.type = "smart"
+    # reset counter and stacks (more vars need to be reset)
+    simulation.reset(100)
+    simulation.play()
+    simulation.evaluate()
+    simulation.modelisation()
     # simulation.export_headers()
-    # models.append([simulation.df_model, f"{simulation.type}"])
-    
-    # simulation.model_comparison(models)
-    # outcome statistics
-    # naive_simulation.evaluate()
-    # simulation.evaluate()
+    models.append([simulation.df_model, f"{simulation.type}"])
+    total_stats.append(simulation.stats)    
+    # comparing
+    simulation.hit_frequency()
+    # simulation.model_comparison(models, total_stats)
 
     end = t.time()
     print("Time elapsed: " + str(round(end - start, 2)) + " seconds")
