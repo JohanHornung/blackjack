@@ -1,8 +1,19 @@
 {
   "type": "naive",
+  "limit": 11,
+  "player_num": 1,
   "neural-net guessing rate": null,
-  "games_played": 2931556,
-  "wins": [1216704, "41.5 %"],
-  "loses": [1523341, "51.96 %"],
-  "ties": [191511, "6.53 %"]
+  "games_played": 879437,
+  "wins": [
+    364046,
+    "41.4 %"
+  ],
+  "loses": [
+    457750,
+    "52.05 %"
+  ],
+  "ties": [
+    57641,
+    "6.55 %"
+  ]
 }

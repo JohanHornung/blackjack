@@ -1,17 +1,10 @@
 {
   "type": "smart",
-  "neural-net guessing rate": 0.7577541571836984,
-  "games_played": 107126,
-  "wins": [
-    44683,
-    "41.71 %"
-  ],
-  "loses": [
-    52349,
-    "48.87 %"
-  ],
-  "ties": [
-    10094,
-    "9.42 %"
-  ]
+  "limit": 11,
+  "player_num": 1,
+  "neural-net guessing rate": 0.7165887123334083,
+  "games_played": 786876,
+  "wins": [323343, "41.09 %"],
+  "loses": [389989, "49.56 %"],
+  "ties": [73544, "9.35 %"]
 }
