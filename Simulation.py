@@ -152,7 +152,9 @@ class Simulation:
                 self.total_action.append(self.action) # to know if the player hits or not 
                 self.player_live_total.append(self.live_total)
                 self.games_played += 1
-        
+                if (self.type == "smart"):
+                    print(self.games_played)
+
         print("\nTotal games played: " + str(self.games_played) + "\n")   
         # print(self.player_results)
     
@@ -493,6 +495,8 @@ class Simulation:
         # print(self.wins, self.loses, self.ties)
         self.stats = {
             "type": self.type,
+            "limit": self.limit,
+            "player_num": self.players,
             "neural-net guessing rate": self.roc_auc,
             "games_played": self.games_played,
             "wins": [self.wins, str((round(self.wins / self.games_played * 100, 2))) + " %"], # [<number>, <percentage>]

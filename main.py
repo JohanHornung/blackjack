@@ -23,7 +23,7 @@ def main(stacks):
         # modelizing data frames
         simulation.modelisation()
         # simulation.heatmap("Valeur de main", "Première cart du croupier")
-        # simulation.export_headers()
+        simulation.export_headers()
         total_stats.append(simulation.stats)
         # simulation.export_headers()
         # simulation.modelisation()
@@ -37,11 +37,11 @@ def main(stacks):
     print("Changing type...")
     simulation.type = "smart"
     # reset counter and stacks (more vars need to be reset)
-    simulation.reset(100)
+    simulation.reset(75000)
     simulation.play()
     simulation.evaluate()
     simulation.modelisation()
-    # simulation.export_headers()
+    simulation.export_headers()
     models.append([simulation.df_model, f"{simulation.type}"])
     total_stats.append(simulation.stats)    
     # comparing
