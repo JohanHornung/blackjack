@@ -434,8 +434,8 @@ class Simulation:
 
 
     # method which exports main isnformation about the simulations
-    def export_headers(self):
-        with open(f"JSON/{self.type}_headers.json", "w", encoding="utf-8") as headers:
+    def export_headers(self, save_to="JSON"):
+        with open(f"{save_to}/{self.type}_headers.json", "w", encoding="utf-8") as headers:
             json.dump(self.stats, headers, indent=2)
 
     # preparing the feature variables in case of a smart approach
