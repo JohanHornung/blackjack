@@ -1,4 +1,4 @@
-import numpy._globals as np # for advanced ds (arrays, matrices, ...)
+import numpy as np # for advanced ds (arrays, matrices, ...)
 import pandas as pd # data management tools 
 import matplotlib.pyplot as plt # mathematical tool
 import seaborn as sbn # data visualisation
@@ -113,11 +113,10 @@ class Simulation:
                                 
                                 while ((self.model.prediction(self.game.total(self.player_hands[player]), self.ace, 
                                 self.dealer_face_card) == 1) and (self.game.total(self.player_hands[player]) != 21)):              
-                                    # the nn decides to hit
+                                    # the nn decided to hit
                                     self.player_hands[player].append(self.cards.pop(0))
                                     self.action = 1
-                                    self.live_total.append(self.game.total(self.player_hands[player])) # adding live value
-                                    # check for bust
+                                    self.live_total.append(self.game.total(self.player_hands[player])) # adding player hand value                                    # check for bust
                                     if self.game.total(self.player_hands[player]) > 21:
                                         self.curr_player_results[0,player] = -1 # loss
                                         break # game over for this player
@@ -241,8 +240,8 @@ class Simulation:
     def first_dealer_card_impact(self, xlabel: str, ylabel: str, save_to="images"):
         # print(pd.DataFrame(self.player_results)[0].value_counts())
         # grouping data
-        self.data = round(1 - (self.df_model.groupby(by='dealer_card').sum()['lost'] /           
-        self.df_model.groupby(by='dealer_card').count()['lost']), 3)
+        self.data = 1 - (self.df_model.groupby(by='dealer_card_val').sum()['lost'] /           
+                        self.df_model.groupby(by='dealer_card_val').count()['lost'])
         # print(self.data.index)
         # plotting axes for x and y
         _, ax = plt.subplots(figsize=(10, 6))
@@ -262,9 +261,9 @@ class Simulation:
     def player_value_impact(self, x_label: str, y_label: str, save_to="images"):
         # pretty much the same procedure is done as for the dealers cards
         self.data = 1 - (self.df_model.groupby(by='player_total_sums').sum()['lost'] /
-                    self.df_model.groupby(by='player_total_sums').count()['lost'])
+                        self.df_model.groupby(by='player_total_sums').count()['lost'])
         # print(self.data)  
-        _, self.axis = plt.subplots(figsize=(10, 6),)
+        _, self.axis = plt.subplots(figsize=(10, 6))
         # obviously the prob of a win or tie is 1 so we ignore it
         self.axis = sbn.barplot(x=self.data[:-1].index,
                          y=self.data[:-1].values)
