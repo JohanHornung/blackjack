@@ -5,7 +5,7 @@ from keras.layers import Dense
 from keras.utils.generic_utils import *
 
 class Model:
-    def __init__(self):
+    def __init__(self, epochs):
         # creating the nn model for later
         self.model = Sequential() 
         # 5 layers of neurons for this one
@@ -14,7 +14,7 @@ class Model:
         self.activation = "sigmoid" # this function converts raw output to readable ouput
         self.loss = "binary_crossentropy" # good for outputting probabilities
         self.optimizer = "sgd"
-        self.epochs = 200
+        self.epochs = epochs
         self.batch_size = 256
         self.verbose = 1
 

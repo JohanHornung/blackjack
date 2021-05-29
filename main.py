@@ -5,13 +5,13 @@ from Model import *
 import time as t
 
 # main func
-def main(stacks):
+def main(stacks, num_epochs, coeff):
     start = t.time()
     models = []
     total_stats = []
     for mode in ["naive"]:
         # creating a naive simulation
-        simulation = Simulation(stacks, mode, 11)
+        simulation = Simulation(stacks, coeff, num_epochs, mode, 11)
         # creating a random simulation
         # simulation = Simulation(stacks, "random")
         # simulating
@@ -55,48 +55,8 @@ def main(stacks):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     stacks = int(input("How many stacks?\n"))
-    main(stacks)
+    num_epochs = int(input("How many epochs for training?\n"))
+    coeff = float(input("Minimum prediction accuracy?\n"))
+    main(stacks, num_epochs, coeff)
