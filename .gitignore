@@ -127,8 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# notes and every other txt file
-*.txt
-
+# vscode cache
 .vscode/
