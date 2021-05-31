@@ -1,0 +1,4 @@
+- New type of simulation: take played data from a source like web
+- Card counting (online)
+- Try different conditional coefficients for hitting a card (sp=0.52)
+

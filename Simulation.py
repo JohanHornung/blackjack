@@ -10,16 +10,18 @@ import json
 
 
 class Simulation:
-    def __init__(self, stacks, type="naive", limit=None, num_players=1, num_decks=1):
+    def __init__(self, stacks, coeff, epochs, type="naive", limit=None, num_players=1, num_decks=1):
         # params
         self.type = type
         self.stacks = stacks # number of stacks of 1 or more cards
         self.players = num_players
         self.num_decks = num_decks
         self.limit = limit # only for naive simulation type
+        self.coeff = coeff # minimum condition for hitting a card (nn right prediction)
+        self.epochs = epochs # training epochs for nn
         # simulation vars
         self.game = Game() # 20000 staks, 1 player, 1 deck
-        self.model = Model() # for nn prediction
+        self.model = Model(self.epochs) # creating a convolutional neural-network
         self.dealer_card_result = []
         self.player_card_result = []
         self.player_results = []
@@ -28,6 +30,7 @@ class Simulation:
         self.player_live_total = [] # tracking down the players live sums
         self.models = [] # collecting simulaated models for comparison
         self.roc_auc = None
+    
     # method which plays the simulated games 1 by 1
     def play(self):
         print("playing...")
@@ -110,10 +113,11 @@ class Simulation:
                                     self.dealer_face_card = 11
                                 else:
                                     self.dealer_face_card = self.dealer_hand[0]
-                                
+                                # print(self.epochs, self.coeff)
                                 while ((self.model.prediction(self.game.total(self.player_hands[player]), self.ace, 
-                                self.dealer_face_card) == 1) and (self.game.total(self.player_hands[player]) != 21)):              
-                                    # the nn decided to hit
+                                                              self.dealer_face_card, self.coeff) == 1) and (self.game.total(self.player_hands[player]) != 21)):              
+                                    # the nn decides to hit
+
                                     self.player_hands[player].append(self.cards.pop(0))
                                     self.action = 1
                                     self.live_total.append(self.game.total(self.player_hands[player])) # adding player hand value                                    # check for bust
@@ -477,8 +481,8 @@ class Simulation:
         plt.setp(self.axis.get_legend().get_texts(), fontsize=16)
 
         # saving
-        plt.savefig(fname=f"{save_to}/roc_curve")
-        # plt.show()
+        # plt.savefig(fname=f"{save_to}/roc_curve")
+        plt.show()
 
     # method which evaluates the results of the simulated games
     def evaluate(self):
@@ -518,3 +522,4 @@ class Simulation:
         self.player_live_total = []
         self.player_results = []
         # self.df_model = pd.DataFrame()
+                                                        
