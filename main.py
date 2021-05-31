@@ -11,7 +11,9 @@ def main(stacks, num_epochs, coeff):
     total_stats = []
     for mode in ["naive"]:
         # creating a naive simulation
+        
         simulation = Simulation(stacks, coeff, num_epochs, mode, 11)
+
         # creating a random simulation
         # simulation = Simulation(stacks, "random")
         # simulating
@@ -23,7 +25,9 @@ def main(stacks, num_epochs, coeff):
         # modelizing data frames
         simulation.modelisation()
         # simulation.heatmap("Valeur de main", "Première cart du croupier")
-        simulation.export_headers()
+        simulation.export_headers("mocks")
+        simulation.player_value_impact("Player Hand", "Probability of tie or win", "mocks")
+        simulation.first_dealer_card_impact("Dealer first card", "Probability of tie or win", "mocks")
         total_stats.append(simulation.stats)
         # simulation.export_headers()
         # simulation.modelisation()
@@ -31,21 +35,21 @@ def main(stacks, num_epochs, coeff):
         # simulation.model_comparison(models)
         # print(simulation.df_model)
     # training model    
-    simulation.train()
-    simulation.roc_eval()
-    # letting play the nn
-    print("Changing type...")
-    simulation.type = "smart"
-    # reset counter and stacks (more vars need to be reset)
-    simulation.reset(75000)
-    simulation.play()
-    simulation.evaluate()
-    simulation.modelisation()
-    simulation.export_headers()
-    models.append([simulation.df_model, f"{simulation.type}"])
-    total_stats.append(simulation.stats)    
-    # comparing
-    simulation.hit_frequency()
+    # simulation.train()
+    # simulation.roc_eval()
+    # # letting play the nn
+    # print("Changing type...")
+    # simulation.type = "smart"
+    # # reset counter and stacks (more vars need to be reset)
+    # simulation.reset(75000)
+    # simulation.play()
+    # simulation.evaluate()
+    # simulation.modelisation()
+    # simulation.export_headers()
+    # models.append([simulation.df_model, f"{simulation.type}"])
+    # total_stats.append(simulation.stats)    
+    # # comparing
+    # simulation.hit_frequency()
     # simulation.model_comparison(models, total_stats)
 
     end = t.time()
