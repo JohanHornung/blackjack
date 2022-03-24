@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 # vscode cache
 .vscode/
+.DS_Store/
