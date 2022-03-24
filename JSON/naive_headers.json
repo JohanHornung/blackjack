@@ -3,17 +3,17 @@
   "limit": 11,
   "player_num": 1,
   "neural-net guessing rate": null,
-  "games_played": 586403,
+  "games_played": 58596,
   "wins": [
-    242863,
-    "41.42 %"
+    24320,
+    "41.5 %"
   ],
   "loses": [
-    305282,
-    "52.06 %"
+    30429,
+    "51.93 %"
   ],
   "ties": [
-    38258,
-    "6.52 %"
+    3847,
+    "6.57 %"
   ]
 }
